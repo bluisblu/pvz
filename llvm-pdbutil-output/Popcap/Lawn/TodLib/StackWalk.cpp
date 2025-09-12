@@ -1,0 +1,94 @@
+# Original PDB path: c:\Popcap\Lawn\TodLib\StackWalk.cpp
+# Module: c:\Popcap\Lawn\releasebeta\StackWalk.obj
+# 4 | S_OBJNAME [size = 52] sig=3883098683, `c:\Popcap\Lawn\ReleaseBeta\StackWalk.obj`
+# 56 | S_COMPILE2 [size = 956]
+# Extra Strings:
+#   cwd: c:\Popcap\Lawn
+#   cl: C:\Program Files\Microsoft Visual Studio 8\VC\bin\cl.exe
+#   cmd: -Ox -Ob2 -Oi -Ic:\Popcap\Lawn\TodLib -Ic:\Popcap -I"C:\Program Files\Microsoft DirectX SDK (August 2006)\Include" -DBETA_BUILD -DWIN32 -DNDEBUG -D_WINDOWS -D_CRT_SECURE_NO_DEPRECATE -D_VC80_UPGRADE=0x0700 -D_MBCS -GF -FD -EHs -EHc -MT -GS- -Gy -GR- -YuPrecompile.h -Fpc:\Popcap\Lawn\ReleaseBeta\PlantsVsZombies.pch -Foc:\Popcap\Lawn\ReleaseBeta\ -Fdc:\Popcap\Lawn\ReleaseBeta\ -W4 -WX -c -Zi -TP -nologo -errorreport:prompt -I"C:\Program Files\Microsoft Visual Studio 8\VC\include" -I"C:\Program Files\Microsoft Visual Studio 8\VC\atlmfc\include" -I"C:\Program Files\Microsoft Visual Studio 8\VC\PlatformSDK\include" -I"C:\Program Files\Microsoft Visual Studio 8\SDK\v2.0\include" -I"C:\Program Files\Microsoft DirectX SDK (August 2007)\Include" -X
+#   src: .\TodLib\StackWalk.cpp
+# Symbols:
+#   1012 | S_CONSTANT [size = 20] `_BUF_SIZE`
+#   1032 | S_UDT [size = 20] `value_type`
+#   1052 | S_UDT [size = 20] `value_type`
+#   1072 | S_UDT [size = 36] `_Checked_iterator_base_type`
+#   1108 | S_UDT [size = 36] `_Checked_iterator_base_type`
+#   1144 | S_UDT [size = 20] `value_type`
+#   1164 | S_UDT [size = 20] `value_type`
+#   1184 | S_UDT [size = 16] `_Myt`
+#   1200 | S_UDT [size = 16] `_Myt`
+#   1216 | S_GPROC32 [size = 60] `StackWalkInitialize`
+#   1276 | S_FRAMEPROC [size = 32]
+#   1308 | S_CALLSITEINFO [size = 16]
+#   1324 | S_CALLSITEINFO [size = 16]
+#   1340 | S_CALLSITEINFO [size = 16]
+#   1356 | S_CALLSITEINFO [size = 16]
+#   1372 | S_CALLSITEINFO [size = 16]
+#   1388 | S_CALLSITEINFO [size = 16]
+#   1404 | S_CALLSITEINFO [size = 16]
+#   1420 | S_CALLSITEINFO [size = 16]
+#   1436 | S_CALLSITEINFO [size = 16]
+#   1452 | S_CALLSITEINFO [size = 16]
+#   1468 | S_CALLSITEINFO [size = 16]
+#   1484 | S_END [size = 4]
+#   1488 | S_LPROC32 [size = 60] `sStackWalkTraceOrLog`
+#   1548 | S_FRAMEPROC [size = 32]
+#   1580 | S_BPREL32 [size = 36] `theLogInsteadOfTrace`
+#   1616 | S_REGISTER [size = 28] `theUseExcelFormat`
+#   1644 | S_BPREL32 [size = 24] `theFormat`
+#   1668 | S_BPREL32 [size = 20] `aBuffer`
+#   1688 | S_CALLSITEINFO [size = 16]
+#   1704 | S_END [size = 4]
+#   1708 | S_GPROC32 [size = 64] `StackWalkShowMiniStack`
+#   1772 | S_FRAMEPROC [size = 32]
+#   1804 | S_BPREL32 [size = 28] `theMiniStack`
+#   1832 | S_BPREL32 [size = 36] `theLogInsteadOfTrace`
+#   1868 | S_BPREL32 [size = 32] `theUseExcelFormat`
+#   1900 | S_BPREL32 [size = 32] `aOffsetFromSmybol`
+#   1932 | S_BPREL32 [size = 28] `aDisplacement`
+#   1960 | S_BPREL32 [size = 24] `aUndName`
+#   1984 | S_BPREL32 [size = 20] `aBuffer`
+#   2004 | S_BPREL32 [size = 20] `aLine`
+#   2024 | S_CALLSITEINFO [size = 16]
+#   2040 | S_CALLSITEINFO [size = 16]
+#   2056 | S_CALLSITEINFO [size = 16]
+#   2072 | S_CALLSITEINFO [size = 16]
+#   2088 | S_CALLSITEINFO [size = 16]
+#   2104 | S_CALLSITEINFO [size = 16]
+#   2120 | S_CALLSITEINFO [size = 16]
+#   2136 | S_CALLSITEINFO [size = 16]
+#   2152 | S_CALLSITEINFO [size = 16]
+#   2168 | S_END [size = 4]
+#   2172 | S_LPROC32 [size = 76] `sStackWalkCaptureMiniStackContext`
+#   2248 | S_FRAMEPROC [size = 32]
+#   2280 | S_BPREL32 [size = 28] `theMiniStack`
+#   2308 | S_REGISTER [size = 24] `theContext`
+#   2332 | S_BPREL32 [size = 28] `theSkipFrames`
+#   2360 | S_BPREL32 [size = 24] `aProcess`
+#   2384 | S_BPREL32 [size = 20] `aThread`
+#   2404 | S_BPREL32 [size = 24] `aStackFrame`
+#   2428 | S_CALLSITEINFO [size = 16]
+#   2444 | S_CALLSITEINFO [size = 16]
+#   2460 | S_CALLSITEINFO [size = 16]
+#   2476 | S_END [size = 4]
+#   2480 | S_GPROC32 [size = 68] `StackWalkLogExceptionStack`
+#   2548 | S_FRAMEPROC [size = 32]
+#   2580 | S_BPREL32 [size = 32] `theExceptionInfo`
+#   2612 | S_BPREL32 [size = 24] `aMiniStack`
+#   2636 | S_END [size = 4]
+#   2640 | S_GPROC32 [size = 48] `MiniDump`
+#   2688 | S_FRAMEPROC [size = 32]
+#   2720 | S_BPREL32 [size = 28] `pExceptionInfo`
+#   2748 | S_BPREL32 [size = 20] `theName`
+#   2768 | S_BPREL32 [size = 28] `aDumpFileName`
+#   2796 | S_BPREL32 [size = 20] `ExInfo`
+#   2816 | S_CALLSITEINFO [size = 16]
+#   2832 | S_CALLSITEINFO [size = 16]
+#   2848 | S_CALLSITEINFO [size = 16]
+#   2864 | S_CALLSITEINFO [size = 16]
+#   2880 | S_CALLSITEINFO [size = 16]
+#   2896 | S_CALLSITEINFO [size = 16]
+#   2912 | S_CALLSITEINFO [size = 16]
+#   2928 | S_CALLSITEINFO [size = 16]
+#   2944 | S_CALLSITEINFO [size = 16]
+#   2960 | S_END [size = 4]

@@ -1,0 +1,685 @@
+{
+  "custom_make": "python",
+  "custom_args": [
+    "./scripts/build.py",
+    "--build-type=objdiffbuild",
+    "--object-name"
+  ],
+  "target_dir": "build/objdiff/orig",
+  "base_dir": "build/objdiff/reimpl",
+  "build_base": true,
+  "build_target": false,
+  "watch_patterns": [
+    "*.c",
+    "*.cpp",
+    "*.h",
+    "*.hpp"
+  ],
+  "units": [
+    {
+      "name": "Almanac",
+      "target_path": "build/objdiff/orig/Almanac.obj",
+      "base_path": "build/objdiff/reimpl/Almanac.obj",
+      "reverse_fn_order": false
+    },
+    {
+      "name": "Attachment",
+      "target_path": "build/objdiff/orig/Attachment.obj",
+      "base_path": "build/objdiff/reimpl/Attachment.obj",
+      "reverse_fn_order": false
+    },
+    {
+      "name": "AwardScreen",
+      "target_path": "build/objdiff/orig/AwardScreen.obj",
+      "base_path": "build/objdiff/reimpl/AwardScreen.obj",
+      "reverse_fn_order": false
+    },
+    {
+      "name": "Board",
+      "target_path": "build/objdiff/orig/Board.obj",
+      "base_path": "build/objdiff/reimpl/Board.obj",
+      "reverse_fn_order": false
+    },
+    {
+      "name": "Challenge",
+      "target_path": "build/objdiff/orig/Challenge.obj",
+      "base_path": "build/objdiff/reimpl/Challenge.obj",
+      "reverse_fn_order": false
+    },
+    {
+      "name": "ChallengeScreen",
+      "target_path": "build/objdiff/orig/ChallengeScreen.obj",
+      "base_path": "build/objdiff/reimpl/ChallengeScreen.obj",
+      "reverse_fn_order": false
+    },
+    {
+      "name": "CheatDialog",
+      "target_path": "build/objdiff/orig/CheatDialog.obj",
+      "base_path": "build/objdiff/reimpl/CheatDialog.obj",
+      "reverse_fn_order": false
+    },
+    {
+      "name": "Coin",
+      "target_path": "build/objdiff/orig/Coin.obj",
+      "base_path": "build/objdiff/reimpl/Coin.obj",
+      "reverse_fn_order": false
+    },
+    {
+      "name": "ContinueDialog",
+      "target_path": "build/objdiff/orig/ContinueDialog.obj",
+      "base_path": "build/objdiff/reimpl/ContinueDialog.obj",
+      "reverse_fn_order": false
+    },
+    {
+      "name": "CreditScreen",
+      "target_path": "build/objdiff/orig/CreditScreen.obj",
+      "base_path": "build/objdiff/reimpl/CreditScreen.obj",
+      "reverse_fn_order": false
+    },
+    {
+      "name": "CursorObject",
+      "target_path": "build/objdiff/orig/CursorObject.obj",
+      "base_path": "build/objdiff/reimpl/CursorObject.obj",
+      "reverse_fn_order": false
+    },
+    {
+      "name": "CursorPreview",
+      "target_path": "build/objdiff/orig/CursorPreview.obj",
+      "base_path": "build/objdiff/reimpl/CursorPreview.obj",
+      "reverse_fn_order": false
+    },
+    {
+      "name": "CutScene",
+      "target_path": "build/objdiff/orig/CutScene.obj",
+      "base_path": "build/objdiff/reimpl/CutScene.obj",
+      "reverse_fn_order": false
+    },
+    {
+      "name": "DataReader",
+      "target_path": "build/objdiff/orig/DataReader.obj",
+      "base_path": "build/objdiff/reimpl/DataReader.obj",
+      "reverse_fn_order": false
+    },
+    {
+      "name": "DataSync",
+      "target_path": "build/objdiff/orig/DataSync.obj",
+      "base_path": "build/objdiff/reimpl/DataSync.obj",
+      "reverse_fn_order": false
+    },
+    {
+      "name": "DataWriter",
+      "target_path": "build/objdiff/orig/DataWriter.obj",
+      "base_path": "build/objdiff/reimpl/DataWriter.obj",
+      "reverse_fn_order": false
+    },
+    {
+      "name": "Definition",
+      "target_path": "build/objdiff/orig/Definition.obj",
+      "base_path": "build/objdiff/reimpl/Definition.obj",
+      "reverse_fn_order": false
+    },
+    {
+      "name": "EffectSystem",
+      "target_path": "build/objdiff/orig/EffectSystem.obj",
+      "base_path": "build/objdiff/reimpl/EffectSystem.obj",
+      "reverse_fn_order": false
+    },
+    {
+      "name": "GameButton",
+      "target_path": "build/objdiff/orig/GameButton.obj",
+      "base_path": "build/objdiff/reimpl/GameButton.obj",
+      "reverse_fn_order": false
+    },
+    {
+      "name": "GameObject",
+      "target_path": "build/objdiff/orig/GameObject.obj",
+      "base_path": "build/objdiff/reimpl/GameObject.obj",
+      "reverse_fn_order": false
+    },
+    {
+      "name": "GameSelector",
+      "target_path": "build/objdiff/orig/GameSelector.obj",
+      "base_path": "build/objdiff/reimpl/GameSelector.obj",
+      "reverse_fn_order": false
+    },
+    {
+      "name": "GridItem",
+      "target_path": "build/objdiff/orig/GridItem.obj",
+      "base_path": "build/objdiff/reimpl/GridItem.obj",
+      "reverse_fn_order": false
+    },
+    {
+      "name": "LawnApp",
+      "target_path": "build/objdiff/orig/LawnApp.obj",
+      "base_path": "build/objdiff/reimpl/LawnApp.obj",
+      "reverse_fn_order": false
+    },
+    {
+      "name": "LawnCommon",
+      "target_path": "build/objdiff/orig/LawnCommon.obj",
+      "base_path": "build/objdiff/reimpl/LawnCommon.obj",
+      "reverse_fn_order": false
+    },
+    {
+      "name": "LawnDialog",
+      "target_path": "build/objdiff/orig/LawnDialog.obj",
+      "base_path": "build/objdiff/reimpl/LawnDialog.obj",
+      "reverse_fn_order": false
+    },
+    {
+      "name": "LawnMower",
+      "target_path": "build/objdiff/orig/LawnMower.obj",
+      "base_path": "build/objdiff/reimpl/LawnMower.obj",
+      "reverse_fn_order": false
+    },
+    {
+      "name": "MessageWidget",
+      "target_path": "build/objdiff/orig/MessageWidget.obj",
+      "base_path": "build/objdiff/reimpl/MessageWidget.obj",
+      "reverse_fn_order": false
+    },
+    {
+      "name": "Music",
+      "target_path": "build/objdiff/orig/Music.obj",
+      "base_path": "build/objdiff/reimpl/Music.obj",
+      "reverse_fn_order": false
+    },
+    {
+      "name": "NewOptionsDialog",
+      "target_path": "build/objdiff/orig/NewOptionsDialog.obj",
+      "base_path": "build/objdiff/reimpl/NewOptionsDialog.obj",
+      "reverse_fn_order": false
+    },
+    {
+      "name": "NewUserDialog",
+      "target_path": "build/objdiff/orig/NewUserDialog.obj",
+      "base_path": "build/objdiff/reimpl/NewUserDialog.obj",
+      "reverse_fn_order": false
+    },
+    {
+      "name": "Plant",
+      "target_path": "build/objdiff/orig/Plant.obj",
+      "base_path": "build/objdiff/reimpl/Plant.obj",
+      "reverse_fn_order": false
+    },
+    {
+      "name": "PlayerInfo",
+      "target_path": "build/objdiff/orig/PlayerInfo.obj",
+      "base_path": "build/objdiff/reimpl/PlayerInfo.obj",
+      "reverse_fn_order": false
+    },
+    {
+      "name": "PoolEffect",
+      "target_path": "build/objdiff/orig/PoolEffect.obj",
+      "base_path": "build/objdiff/reimpl/PoolEffect.obj",
+      "reverse_fn_order": false
+    },
+    {
+      "name": "ProfileMgr",
+      "target_path": "build/objdiff/orig/ProfileMgr.obj",
+      "base_path": "build/objdiff/reimpl/ProfileMgr.obj",
+      "reverse_fn_order": false
+    },
+    {
+      "name": "Projectile",
+      "target_path": "build/objdiff/orig/Projectile.obj",
+      "base_path": "build/objdiff/reimpl/Projectile.obj",
+      "reverse_fn_order": false
+    },
+    {
+      "name": "ReanimationLawn",
+      "target_path": "build/objdiff/orig/ReanimationLawn.obj",
+      "base_path": "build/objdiff/reimpl/ReanimationLawn.obj",
+      "reverse_fn_order": false
+    },
+    {
+      "name": "ReanimAtlas",
+      "target_path": "build/objdiff/orig/ReanimAtlas.obj",
+      "base_path": "build/objdiff/reimpl/ReanimAtlas.obj",
+      "reverse_fn_order": false
+    },
+    {
+      "name": "Reanimator",
+      "target_path": "build/objdiff/orig/Reanimator.obj",
+      "base_path": "build/objdiff/reimpl/Reanimator.obj",
+      "reverse_fn_order": false
+    },
+    {
+      "name": "SaveGame",
+      "target_path": "build/objdiff/orig/SaveGame.obj",
+      "base_path": "build/objdiff/reimpl/SaveGame.obj",
+      "reverse_fn_order": false
+    },
+    {
+      "name": "SeedChooserScreen",
+      "target_path": "build/objdiff/orig/SeedChooserScreen.obj",
+      "base_path": "build/objdiff/reimpl/SeedChooserScreen.obj",
+      "reverse_fn_order": false
+    },
+    {
+      "name": "SeedPacket",
+      "target_path": "build/objdiff/orig/SeedPacket.obj",
+      "base_path": "build/objdiff/reimpl/SeedPacket.obj",
+      "reverse_fn_order": false
+    },
+    {
+      "name": "SexyAppFramework/AutoCrit",
+      "target_path": "build/objdiff/orig/SexyAppFramework/AutoCrit.obj",
+      "base_path": "build/objdiff/reimpl/SexyAppFramework/AutoCrit.obj",
+      "reverse_fn_order": false
+    },
+    {
+      "name": "SexyAppFramework/BassLoader",
+      "target_path": "build/objdiff/orig/SexyAppFramework/BassLoader.obj",
+      "base_path": "build/objdiff/reimpl/SexyAppFramework/BassLoader.obj",
+      "reverse_fn_order": false
+    },
+    {
+      "name": "SexyAppFramework/BassMusicInterface",
+      "target_path": "build/objdiff/orig/SexyAppFramework/BassMusicInterface.obj",
+      "base_path": "build/objdiff/reimpl/SexyAppFramework/BassMusicInterface.obj",
+      "reverse_fn_order": false
+    },
+    {
+      "name": "SexyAppFramework/BetaSupport",
+      "target_path": "build/objdiff/orig/SexyAppFramework/BetaSupport.obj",
+      "base_path": "build/objdiff/reimpl/SexyAppFramework/BetaSupport.obj"
+    },
+    {
+      "name": "SexyAppFramework/Buffer",
+      "target_path": "build/objdiff/orig/SexyAppFramework/Buffer.obj",
+      "base_path": "build/objdiff/reimpl/SexyAppFramework/Buffer.obj",
+      "reverse_fn_order": false
+    },
+    {
+      "name": "SexyAppFramework/ButtonListener",
+      "target_path": "build/objdiff/orig/SexyAppFramework/ButtonListener.obj",
+      "base_path": "build/objdiff/reimpl/SexyAppFramework/ButtonListener.obj",
+      "reverse_fn_order": false
+    },
+    {
+      "name": "SexyAppFramework/ButtonWidget",
+      "target_path": "build/objdiff/orig/SexyAppFramework/ButtonWidget.obj",
+      "base_path": "build/objdiff/reimpl/SexyAppFramework/ButtonWidget.obj",
+      "reverse_fn_order": false
+    },
+    {
+      "name": "SexyAppFramework/Checkbox",
+      "target_path": "build/objdiff/orig/SexyAppFramework/Checkbox.obj",
+      "base_path": "build/objdiff/reimpl/SexyAppFramework/Checkbox.obj",
+      "reverse_fn_order": false
+    },
+    {
+      "name": "SexyAppFramework/CheckboxListener",
+      "target_path": "build/objdiff/orig/SexyAppFramework/CheckboxListener.obj",
+      "base_path": "build/objdiff/reimpl/SexyAppFramework/CheckboxListener.obj",
+      "reverse_fn_order": false
+    },
+    {
+      "name": "SexyAppFramework/Color",
+      "target_path": "build/objdiff/orig/SexyAppFramework/Color.obj",
+      "base_path": "build/objdiff/reimpl/SexyAppFramework/Color.obj",
+      "reverse_fn_order": false
+    },
+    {
+      "name": "SexyAppFramework/CritSect",
+      "target_path": "build/objdiff/orig/SexyAppFramework/CritSect.obj",
+      "base_path": "build/objdiff/reimpl/SexyAppFramework/CritSect.obj",
+      "reverse_fn_order": false
+    },
+    {
+      "name": "SexyAppFramework/D3DInterface",
+      "target_path": "build/objdiff/orig/SexyAppFramework/D3DInterface.obj",
+      "base_path": "build/objdiff/reimpl/SexyAppFramework/D3DInterface.obj",
+      "reverse_fn_order": false
+    },
+    {
+      "name": "SexyAppFramework/D3DTester",
+      "target_path": "build/objdiff/orig/SexyAppFramework/D3DTester.obj",
+      "base_path": "build/objdiff/reimpl/SexyAppFramework/D3DTester.obj",
+      "reverse_fn_order": false
+    },
+    {
+      "name": "SexyAppFramework/DDImage",
+      "target_path": "build/objdiff/orig/SexyAppFramework/DDImage.obj",
+      "base_path": "build/objdiff/reimpl/SexyAppFramework/DDImage.obj",
+      "reverse_fn_order": false
+    },
+    {
+      "name": "SexyAppFramework/DDInterface",
+      "target_path": "build/objdiff/orig/SexyAppFramework/DDInterface.obj",
+      "base_path": "build/objdiff/reimpl/SexyAppFramework/DDInterface.obj",
+      "reverse_fn_order": false
+    },
+    {
+      "name": "SexyAppFramework/DescParser",
+      "target_path": "build/objdiff/orig/SexyAppFramework/DescParser.obj",
+      "base_path": "build/objdiff/reimpl/SexyAppFramework/DescParser.obj",
+      "reverse_fn_order": false
+    },
+    {
+      "name": "SexyAppFramework/Dialog",
+      "target_path": "build/objdiff/orig/SexyAppFramework/Dialog.obj",
+      "base_path": "build/objdiff/reimpl/SexyAppFramework/Dialog.obj",
+      "reverse_fn_order": false
+    },
+    {
+      "name": "SexyAppFramework/DialogButton",
+      "target_path": "build/objdiff/orig/SexyAppFramework/DialogButton.obj",
+      "base_path": "build/objdiff/reimpl/SexyAppFramework/DialogButton.obj",
+      "reverse_fn_order": false
+    },
+    {
+      "name": "SexyAppFramework/DSoundInstance",
+      "target_path": "build/objdiff/orig/SexyAppFramework/DSoundInstance.obj",
+      "base_path": "build/objdiff/reimpl/SexyAppFramework/DSoundInstance.obj",
+      "reverse_fn_order": false
+    },
+    {
+      "name": "SexyAppFramework/DSoundManager",
+      "target_path": "build/objdiff/orig/SexyAppFramework/DSoundManager.obj",
+      "base_path": "build/objdiff/reimpl/SexyAppFramework/DSoundManager.obj",
+      "reverse_fn_order": false
+    },
+    {
+      "name": "SexyAppFramework/EditListener",
+      "target_path": "build/objdiff/orig/SexyAppFramework/EditListener.obj",
+      "base_path": "build/objdiff/reimpl/SexyAppFramework/EditListener.obj",
+      "reverse_fn_order": false
+    },
+    {
+      "name": "SexyAppFramework/EditWidget",
+      "target_path": "build/objdiff/orig/SexyAppFramework/EditWidget.obj",
+      "base_path": "build/objdiff/reimpl/SexyAppFramework/EditWidget.obj",
+      "reverse_fn_order": false
+    },
+    {
+      "name": "SexyAppFramework/Flags",
+      "target_path": "build/objdiff/orig/SexyAppFramework/Flags.obj",
+      "base_path": "build/objdiff/reimpl/SexyAppFramework/Flags.obj",
+      "reverse_fn_order": false
+    },
+    {
+      "name": "SexyAppFramework/FModLoader",
+      "target_path": "build/objdiff/orig/SexyAppFramework/FModLoader.obj",
+      "base_path": "build/objdiff/reimpl/SexyAppFramework/FModLoader.obj",
+      "reverse_fn_order": false
+    },
+    {
+      "name": "SexyAppFramework/FModMusicInterface",
+      "target_path": "build/objdiff/orig/SexyAppFramework/FModMusicInterface.obj",
+      "base_path": "build/objdiff/reimpl/SexyAppFramework/FModMusicInterface.obj",
+      "reverse_fn_order": false
+    },
+    {
+      "name": "SexyAppFramework/Font",
+      "target_path": "build/objdiff/orig/SexyAppFramework/Font.obj",
+      "base_path": "build/objdiff/reimpl/SexyAppFramework/Font.obj",
+      "reverse_fn_order": false
+    },
+    {
+      "name": "SexyAppFramework/Graphics",
+      "target_path": "build/objdiff/orig/SexyAppFramework/Graphics.obj",
+      "base_path": "build/objdiff/reimpl/SexyAppFramework/Graphics.obj",
+      "reverse_fn_order": false
+    },
+    {
+      "name": "SexyAppFramework/HTTPTransfer",
+      "target_path": "build/objdiff/orig/SexyAppFramework/HTTPTransfer.obj",
+      "base_path": "build/objdiff/reimpl/SexyAppFramework/HTTPTransfer.obj",
+      "reverse_fn_order": false
+    },
+    {
+      "name": "SexyAppFramework/HyperlinkWidget",
+      "target_path": "build/objdiff/orig/SexyAppFramework/HyperlinkWidget.obj",
+      "base_path": "build/objdiff/reimpl/SexyAppFramework/HyperlinkWidget.obj",
+      "reverse_fn_order": false
+    },
+    {
+      "name": "SexyAppFramework/Image",
+      "target_path": "build/objdiff/orig/SexyAppFramework/Image.obj",
+      "base_path": "build/objdiff/reimpl/SexyAppFramework/Image.obj",
+      "reverse_fn_order": false
+    },
+    {
+      "name": "SexyAppFramework/ImageFont",
+      "target_path": "build/objdiff/orig/SexyAppFramework/ImageFont.obj",
+      "base_path": "build/objdiff/reimpl/SexyAppFramework/ImageFont.obj",
+      "reverse_fn_order": false
+    },
+    {
+      "name": "SexyAppFramework/ListListener",
+      "target_path": "build/objdiff/orig/SexyAppFramework/ListListener.obj",
+      "base_path": "build/objdiff/reimpl/SexyAppFramework/ListListener.obj",
+      "reverse_fn_order": false
+    },
+    {
+      "name": "SexyAppFramework/ListWidget",
+      "target_path": "build/objdiff/orig/SexyAppFramework/ListWidget.obj",
+      "base_path": "build/objdiff/reimpl/SexyAppFramework/ListWidget.obj",
+      "reverse_fn_order": false
+    },
+    {
+      "name": "SexyAppFramework/MemoryImage",
+      "target_path": "build/objdiff/orig/SexyAppFramework/MemoryImage.obj",
+      "base_path": "build/objdiff/reimpl/SexyAppFramework/MemoryImage.obj",
+      "reverse_fn_order": false
+    },
+    {
+      "name": "SexyAppFramework/MTRand",
+      "target_path": "build/objdiff/orig/SexyAppFramework/MTRand.obj",
+      "base_path": "build/objdiff/reimpl/SexyAppFramework/MTRand.obj",
+      "reverse_fn_order": false
+    },
+    {
+      "name": "SexyAppFramework/MusicInterface",
+      "target_path": "build/objdiff/orig/SexyAppFramework/MusicInterface.obj",
+      "base_path": "build/objdiff/reimpl/SexyAppFramework/MusicInterface.obj",
+      "reverse_fn_order": false
+    },
+    {
+      "name": "SexyAppFramework/NativeDisplay",
+      "target_path": "build/objdiff/orig/SexyAppFramework/NativeDisplay.obj",
+      "base_path": "build/objdiff/reimpl/SexyAppFramework/NativeDisplay.obj",
+      "reverse_fn_order": false
+    },
+    {
+      "name": "SexyAppFramework/PerfTimer",
+      "target_path": "build/objdiff/orig/SexyAppFramework/PerfTimer.obj",
+      "base_path": "build/objdiff/reimpl/SexyAppFramework/PerfTimer.obj",
+      "reverse_fn_order": false
+    },
+    {
+      "name": "SexyAppFramework/PropertiesParser",
+      "target_path": "build/objdiff/orig/SexyAppFramework/PropertiesParser.obj",
+      "base_path": "build/objdiff/reimpl/SexyAppFramework/PropertiesParser.obj",
+      "reverse_fn_order": false
+    },
+    {
+      "name": "SexyAppFramework/Ratio",
+      "target_path": "build/objdiff/orig/SexyAppFramework/Ratio.obj",
+      "base_path": "build/objdiff/reimpl/SexyAppFramework/Ratio.obj",
+      "reverse_fn_order": false
+    },
+    {
+      "name": "SexyAppFramework/ResourceManager",
+      "target_path": "build/objdiff/orig/SexyAppFramework/ResourceManager.obj",
+      "base_path": "build/objdiff/reimpl/SexyAppFramework/ResourceManager.obj",
+      "reverse_fn_order": false
+    },
+    {
+      "name": "SexyAppFramework/SEHCatcher",
+      "target_path": "build/objdiff/orig/SexyAppFramework/SEHCatcher.obj",
+      "base_path": "build/objdiff/reimpl/SexyAppFramework/SEHCatcher.obj",
+      "reverse_fn_order": false
+    },
+    {
+      "name": "SexyAppFramework/SexyApp",
+      "target_path": "build/objdiff/orig/SexyAppFramework/SexyApp.obj",
+      "base_path": "build/objdiff/reimpl/SexyAppFramework/SexyApp.obj",
+      "reverse_fn_order": false
+    },
+    {
+      "name": "SexyAppFramework/SexyAppBase",
+      "target_path": "build/objdiff/orig/SexyAppFramework/SexyAppBase.obj",
+      "base_path": "build/objdiff/reimpl/SexyAppFramework/SexyAppBase.obj",
+      "reverse_fn_order": false
+    },
+    {
+      "name": "SexyAppFramework/SexyCache",
+      "target_path": "build/objdiff/orig/SexyAppFramework/SexyCache.obj",
+      "base_path": "build/objdiff/reimpl/SexyAppFramework/SexyCache.obj",
+      "reverse_fn_order": false
+    },
+    {
+      "name": "SexyAppFramework/SexyMatrix",
+      "target_path": "build/objdiff/orig/SexyAppFramework/SexyMatrix.obj",
+      "base_path": "build/objdiff/reimpl/SexyAppFramework/SexyMatrix.obj",
+      "reverse_fn_order": false
+    },
+    {
+      "name": "SexyAppFramework/SexyVector",
+      "target_path": "build/objdiff/orig/SexyAppFramework/SexyVector.obj",
+      "base_path": "build/objdiff/reimpl/SexyAppFramework/SexyVector.obj",
+      "reverse_fn_order": false
+    },
+    {
+      "name": "SexyAppFramework/SharedImage",
+      "target_path": "build/objdiff/orig/SexyAppFramework/SharedImage.obj",
+      "base_path": "build/objdiff/reimpl/SexyAppFramework/SharedImage.obj",
+      "reverse_fn_order": false
+    },
+    {
+      "name": "SexyAppFramework/Slider",
+      "target_path": "build/objdiff/orig/SexyAppFramework/Slider.obj",
+      "base_path": "build/objdiff/reimpl/SexyAppFramework/Slider.obj",
+      "reverse_fn_order": false
+    },
+    {
+      "name": "SexyAppFramework/SoundInstance",
+      "target_path": "build/objdiff/orig/SexyAppFramework/SoundInstance.obj",
+      "base_path": "build/objdiff/reimpl/SexyAppFramework/SoundInstance.obj",
+      "reverse_fn_order": false
+    },
+    {
+      "name": "SexyAppFramework/SoundManager",
+      "target_path": "build/objdiff/orig/SexyAppFramework/SoundManager.obj",
+      "base_path": "build/objdiff/reimpl/SexyAppFramework/SoundManager.obj",
+      "reverse_fn_order": false
+    },
+    {
+      "name": "SexyAppFramework/SWTri",
+      "target_path": "build/objdiff/orig/SexyAppFramework/SWTri.obj",
+      "base_path": "build/objdiff/reimpl/SexyAppFramework/SWTri.obj",
+      "reverse_fn_order": false
+    },
+    {
+      "name": "SexyAppFramework/SysFont",
+      "target_path": "build/objdiff/orig/SexyAppFramework/SysFont.obj",
+      "base_path": "build/objdiff/reimpl/SexyAppFramework/SysFont.obj",
+      "reverse_fn_order": false
+    },
+    {
+      "name": "SexyAppFramework/TriVertex",
+      "target_path": "build/objdiff/orig/SexyAppFramework/TriVertex.obj",
+      "base_path": "build/objdiff/reimpl/SexyAppFramework/TriVertex.obj",
+      "reverse_fn_order": false
+    },
+    {
+      "name": "SexyAppFramework/Widget",
+      "target_path": "build/objdiff/orig/SexyAppFramework/Widget.obj",
+      "base_path": "build/objdiff/reimpl/SexyAppFramework/Widget.obj",
+      "reverse_fn_order": false
+    },
+    {
+      "name": "SexyAppFramework/WidgetContainer",
+      "target_path": "build/objdiff/orig/SexyAppFramework/WidgetContainer.obj",
+      "base_path": "build/objdiff/reimpl/SexyAppFramework/WidgetContainer.obj",
+      "reverse_fn_order": false
+    },
+    {
+      "name": "SexyAppFramework/WidgetManager",
+      "target_path": "build/objdiff/orig/SexyAppFramework/WidgetManager.obj",
+      "base_path": "build/objdiff/reimpl/SexyAppFramework/WidgetManager.obj",
+      "reverse_fn_order": false
+    },
+    {
+      "name": "SexyAppFramework/XMLParser",
+      "target_path": "build/objdiff/orig/SexyAppFramework/XMLParser.obj",
+      "base_path": "build/objdiff/reimpl/SexyAppFramework/XMLParser.obj",
+      "reverse_fn_order": false
+    },
+    {
+      "name": "StoreScreen",
+      "target_path": "build/objdiff/orig/StoreScreen.obj",
+      "base_path": "build/objdiff/reimpl/StoreScreen.obj",
+      "reverse_fn_order": false
+    },
+    {
+      "name": "TitleScreen",
+      "target_path": "build/objdiff/orig/TitleScreen.obj",
+      "base_path": "build/objdiff/reimpl/TitleScreen.obj",
+      "reverse_fn_order": false
+    },
+    {
+      "name": "TodCommon",
+      "target_path": "build/objdiff/orig/TodCommon.obj",
+      "base_path": "build/objdiff/reimpl/TodCommon.obj",
+      "reverse_fn_order": false
+    },
+    {
+      "name": "TodDebug",
+      "target_path": "build/objdiff/orig/TodDebug.obj",
+      "base_path": "build/objdiff/reimpl/TodDebug.obj",
+      "reverse_fn_order": false
+    },
+    {
+      "name": "TodFoley",
+      "target_path": "build/objdiff/orig/TodFoley.obj",
+      "base_path": "build/objdiff/reimpl/TodFoley.obj",
+      "reverse_fn_order": false
+    },
+    {
+      "name": "TodParticle",
+      "target_path": "build/objdiff/orig/TodParticle.obj",
+      "base_path": "build/objdiff/reimpl/TodParticle.obj",
+      "reverse_fn_order": false
+    },
+    {
+      "name": "ToolTipWidget",
+      "target_path": "build/objdiff/orig/ToolTipWidget.obj",
+      "base_path": "build/objdiff/reimpl/ToolTipWidget.obj",
+      "reverse_fn_order": false
+    },
+    {
+      "name": "Trail",
+      "target_path": "build/objdiff/orig/Trail.obj",
+      "base_path": "build/objdiff/reimpl/Trail.obj",
+      "reverse_fn_order": false
+    },
+    {
+      "name": "TypingCheck",
+      "target_path": "build/objdiff/orig/TypingCheck.obj",
+      "base_path": "build/objdiff/reimpl/TypingCheck.obj",
+      "reverse_fn_order": false
+    },
+    {
+      "name": "UserDialog",
+      "target_path": "build/objdiff/orig/UserDialog.obj",
+      "base_path": "build/objdiff/reimpl/UserDialog.obj",
+      "reverse_fn_order": false
+    },
+    {
+      "name": "ZenGarden",
+      "target_path": "build/objdiff/orig/ZenGarden.obj",
+      "base_path": "build/objdiff/reimpl/ZenGarden.obj",
+      "reverse_fn_order": false
+    },
+    {
+      "name": "Zombie",
+      "target_path": "build/objdiff/orig/Zombie.obj",
+      "base_path": "build/objdiff/reimpl/Zombie.obj",
+      "reverse_fn_order": false
+    }
+  ]
+}
