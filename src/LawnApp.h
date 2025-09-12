@@ -15,6 +15,7 @@
 #include "SexyAppFramework/Image.h"
 
 #include "Board.h"
+#include "GameSelector.h"
 #include "PlayerInfo.h"
 #include "Reanimator.h"
 #include "SeedChooserScreen.h"
