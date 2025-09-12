@@ -1,0 +1,3 @@
+Diagnostics:
+  Suppress:
+    - member_function_call_bad_type
