@@ -1,5 +1,5 @@
 Almanac,AlmanacDialog
-Attachment,Attachment,AttachmentHolder,AttachmentUpdateAndSetMatrix,AttachmentUpdateAndMove,AttachmentOverrideColor,AttachmentPropogateColor,AttachmentOverrideScale,AttachmentCrossFade,AttachmentReanimTypeDie,AttachmentDetachCrossFadeParticleType,AttachmentDraw,AttachmentDie,AttachmentDetach
+TodLib/Attachment,Attachment,AttachmentHolder,AttachmentUpdateAndSetMatrix,AttachmentUpdateAndMove,AttachmentOverrideColor,AttachmentPropogateColor,AttachmentOverrideScale,AttachmentCrossFade,AttachmentReanimTypeDie,AttachmentDetachCrossFadeParticleType,AttachmentDraw,AttachmentDie,AttachmentDetach
 AwardScreen,AwardScreen,LevelStats
 Board,Board
 Challenge,Challenge
@@ -14,8 +14,8 @@ CutScene,CutScene
 DataReader,DataReader,DataReaderException
 DataSync,DataSync
 DataWriter,DataWriter
-Definition,TodAllocator
-EffectSystem,EffectSystem,TodTriangleGroup
+TodLib/Definition,TodAllocator
+TodLib/EffectSystem,EffectSystem,TodTriangleGroup
 GameButton,GameButton,LawnStoneButton,NewLawnButton
 GameObject,GameObject
 GameSelector,GameSelector,GameSelectorOverlay
@@ -33,9 +33,9 @@ PlayerInfo,PlayerInfo,
 PoolEffect,PoolEffect
 ProfileMgr,ProfileMgr
 Projectile,Projectile
-ReanimAtlas,ReanimAtlas
+TodLib/ReanimAtlas,ReanimAtlas
 ReanimationLawn,ReanimatorCache
-Reanimator,ReanimatorTransform,ReanimatorDefinition,ReanimatorTrackInstance,Reanimation,ReanimationHolder,AttacherInfo,
+TodLib/Reanimator,ReanimatorTransform,ReanimatorDefinition,ReanimatorTrackInstance,Reanimation,ReanimationHolder,AttacherInfo,
 SaveGame,SaveGameContext
 SeedChooserScreen,SeedChooserScreen,ImitaterDialog
 SeedPacket,SeedPacket,SeedBank
@@ -99,12 +99,12 @@ SexyAppFramework/WidgetManager,Sexy::WidgetManager,Sexy::PreModalInfo
 SexyAppFramework/XMLParser,Sexy::XMLParser,Sexy::XMLElement
 StoreScreen,StoreScreen,StoreScreenOverlay
 TitleScreen,TitleScreen
-TodCommon,TodResourceManager
-TodDebug,TodHesitationBracket
-TodFoley,TodFoley,FoleyTypeData
-TodParticle,TodParticleDefinition,TodParticleEmitter,TodParticleHolder,TodParticleSystem,
+TodLib/TodCommon,TodResourceManager
+TodLib/TodDebug,TodHesitationBracket
+TodLib/TodFoley,TodFoley,FoleyTypeData
+TodLib/TodParticle,TodParticleDefinition,TodParticleEmitter,TodParticleHolder,TodParticleSystem,
 ToolTipWidget,ToolTipWidget
-Trail,Trail,TrailDefinition,TrailHolder
+TodLib/Trail,Trail,TrailDefinition,TrailHolder
 TypingCheck,TypingCheck
 UserDialog,UserDialog
 ZenGarden,ZenGarden

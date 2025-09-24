@@ -164,8 +164,7 @@ MagnetItem *Plant::GetFreeMagnetItem()
 
 bool Plant::IsAGoldMagnetAboutToSuck()
 {
-    Plant *aPlant = NULL;
-    while (mBoard->IteratePlants(aPlant))
+    for (Plant *aPlant = NULL; mBoard->IteratePlants(aPlant);)
     {
         if (aPlant->mState == STATE_MAGNETSHROOM_SUCKING)
         {

@@ -17,252 +17,6 @@
   ],
   "units": [
     {
-      "name": "Almanac",
-      "target_path": "build/objdiff/orig/Almanac.obj",
-      "base_path": "build/objdiff/reimpl/Almanac.obj",
-      "reverse_fn_order": false
-    },
-    {
-      "name": "Attachment",
-      "target_path": "build/objdiff/orig/Attachment.obj",
-      "base_path": "build/objdiff/reimpl/Attachment.obj",
-      "reverse_fn_order": false
-    },
-    {
-      "name": "AwardScreen",
-      "target_path": "build/objdiff/orig/AwardScreen.obj",
-      "base_path": "build/objdiff/reimpl/AwardScreen.obj",
-      "reverse_fn_order": false
-    },
-    {
-      "name": "Board",
-      "target_path": "build/objdiff/orig/Board.obj",
-      "base_path": "build/objdiff/reimpl/Board.obj",
-      "reverse_fn_order": false
-    },
-    {
-      "name": "Challenge",
-      "target_path": "build/objdiff/orig/Challenge.obj",
-      "base_path": "build/objdiff/reimpl/Challenge.obj",
-      "reverse_fn_order": false
-    },
-    {
-      "name": "ChallengeScreen",
-      "target_path": "build/objdiff/orig/ChallengeScreen.obj",
-      "base_path": "build/objdiff/reimpl/ChallengeScreen.obj",
-      "reverse_fn_order": false
-    },
-    {
-      "name": "CheatDialog",
-      "target_path": "build/objdiff/orig/CheatDialog.obj",
-      "base_path": "build/objdiff/reimpl/CheatDialog.obj",
-      "reverse_fn_order": false
-    },
-    {
-      "name": "Coin",
-      "target_path": "build/objdiff/orig/Coin.obj",
-      "base_path": "build/objdiff/reimpl/Coin.obj",
-      "reverse_fn_order": false
-    },
-    {
-      "name": "ContinueDialog",
-      "target_path": "build/objdiff/orig/ContinueDialog.obj",
-      "base_path": "build/objdiff/reimpl/ContinueDialog.obj",
-      "reverse_fn_order": false
-    },
-    {
-      "name": "CreditScreen",
-      "target_path": "build/objdiff/orig/CreditScreen.obj",
-      "base_path": "build/objdiff/reimpl/CreditScreen.obj",
-      "reverse_fn_order": false
-    },
-    {
-      "name": "CursorObject",
-      "target_path": "build/objdiff/orig/CursorObject.obj",
-      "base_path": "build/objdiff/reimpl/CursorObject.obj",
-      "reverse_fn_order": false
-    },
-    {
-      "name": "CursorPreview",
-      "target_path": "build/objdiff/orig/CursorPreview.obj",
-      "base_path": "build/objdiff/reimpl/CursorPreview.obj",
-      "reverse_fn_order": false
-    },
-    {
-      "name": "CutScene",
-      "target_path": "build/objdiff/orig/CutScene.obj",
-      "base_path": "build/objdiff/reimpl/CutScene.obj",
-      "reverse_fn_order": false
-    },
-    {
-      "name": "DataReader",
-      "target_path": "build/objdiff/orig/DataReader.obj",
-      "base_path": "build/objdiff/reimpl/DataReader.obj",
-      "reverse_fn_order": false
-    },
-    {
-      "name": "DataSync",
-      "target_path": "build/objdiff/orig/DataSync.obj",
-      "base_path": "build/objdiff/reimpl/DataSync.obj",
-      "reverse_fn_order": false
-    },
-    {
-      "name": "DataWriter",
-      "target_path": "build/objdiff/orig/DataWriter.obj",
-      "base_path": "build/objdiff/reimpl/DataWriter.obj",
-      "reverse_fn_order": false
-    },
-    {
-      "name": "Definition",
-      "target_path": "build/objdiff/orig/Definition.obj",
-      "base_path": "build/objdiff/reimpl/Definition.obj",
-      "reverse_fn_order": false
-    },
-    {
-      "name": "EffectSystem",
-      "target_path": "build/objdiff/orig/EffectSystem.obj",
-      "base_path": "build/objdiff/reimpl/EffectSystem.obj",
-      "reverse_fn_order": false
-    },
-    {
-      "name": "GameButton",
-      "target_path": "build/objdiff/orig/GameButton.obj",
-      "base_path": "build/objdiff/reimpl/GameButton.obj",
-      "reverse_fn_order": false
-    },
-    {
-      "name": "GameObject",
-      "target_path": "build/objdiff/orig/GameObject.obj",
-      "base_path": "build/objdiff/reimpl/GameObject.obj",
-      "reverse_fn_order": false
-    },
-    {
-      "name": "GameSelector",
-      "target_path": "build/objdiff/orig/GameSelector.obj",
-      "base_path": "build/objdiff/reimpl/GameSelector.obj",
-      "reverse_fn_order": false
-    },
-    {
-      "name": "GridItem",
-      "target_path": "build/objdiff/orig/GridItem.obj",
-      "base_path": "build/objdiff/reimpl/GridItem.obj",
-      "reverse_fn_order": false
-    },
-    {
-      "name": "LawnApp",
-      "target_path": "build/objdiff/orig/LawnApp.obj",
-      "base_path": "build/objdiff/reimpl/LawnApp.obj",
-      "reverse_fn_order": false
-    },
-    {
-      "name": "LawnCommon",
-      "target_path": "build/objdiff/orig/LawnCommon.obj",
-      "base_path": "build/objdiff/reimpl/LawnCommon.obj",
-      "reverse_fn_order": false
-    },
-    {
-      "name": "LawnDialog",
-      "target_path": "build/objdiff/orig/LawnDialog.obj",
-      "base_path": "build/objdiff/reimpl/LawnDialog.obj",
-      "reverse_fn_order": false
-    },
-    {
-      "name": "LawnMower",
-      "target_path": "build/objdiff/orig/LawnMower.obj",
-      "base_path": "build/objdiff/reimpl/LawnMower.obj",
-      "reverse_fn_order": false
-    },
-    {
-      "name": "MessageWidget",
-      "target_path": "build/objdiff/orig/MessageWidget.obj",
-      "base_path": "build/objdiff/reimpl/MessageWidget.obj",
-      "reverse_fn_order": false
-    },
-    {
-      "name": "Music",
-      "target_path": "build/objdiff/orig/Music.obj",
-      "base_path": "build/objdiff/reimpl/Music.obj",
-      "reverse_fn_order": false
-    },
-    {
-      "name": "NewOptionsDialog",
-      "target_path": "build/objdiff/orig/NewOptionsDialog.obj",
-      "base_path": "build/objdiff/reimpl/NewOptionsDialog.obj",
-      "reverse_fn_order": false
-    },
-    {
-      "name": "NewUserDialog",
-      "target_path": "build/objdiff/orig/NewUserDialog.obj",
-      "base_path": "build/objdiff/reimpl/NewUserDialog.obj",
-      "reverse_fn_order": false
-    },
-    {
-      "name": "Plant",
-      "target_path": "build/objdiff/orig/Plant.obj",
-      "base_path": "build/objdiff/reimpl/Plant.obj",
-      "reverse_fn_order": false
-    },
-    {
-      "name": "PlayerInfo",
-      "target_path": "build/objdiff/orig/PlayerInfo.obj",
-      "base_path": "build/objdiff/reimpl/PlayerInfo.obj",
-      "reverse_fn_order": false
-    },
-    {
-      "name": "PoolEffect",
-      "target_path": "build/objdiff/orig/PoolEffect.obj",
-      "base_path": "build/objdiff/reimpl/PoolEffect.obj",
-      "reverse_fn_order": false
-    },
-    {
-      "name": "ProfileMgr",
-      "target_path": "build/objdiff/orig/ProfileMgr.obj",
-      "base_path": "build/objdiff/reimpl/ProfileMgr.obj",
-      "reverse_fn_order": false
-    },
-    {
-      "name": "Projectile",
-      "target_path": "build/objdiff/orig/Projectile.obj",
-      "base_path": "build/objdiff/reimpl/Projectile.obj",
-      "reverse_fn_order": false
-    },
-    {
-      "name": "ReanimationLawn",
-      "target_path": "build/objdiff/orig/ReanimationLawn.obj",
-      "base_path": "build/objdiff/reimpl/ReanimationLawn.obj",
-      "reverse_fn_order": false
-    },
-    {
-      "name": "ReanimAtlas",
-      "target_path": "build/objdiff/orig/ReanimAtlas.obj",
-      "base_path": "build/objdiff/reimpl/ReanimAtlas.obj",
-      "reverse_fn_order": false
-    },
-    {
-      "name": "Reanimator",
-      "target_path": "build/objdiff/orig/Reanimator.obj",
-      "base_path": "build/objdiff/reimpl/Reanimator.obj",
-      "reverse_fn_order": false
-    },
-    {
-      "name": "SaveGame",
-      "target_path": "build/objdiff/orig/SaveGame.obj",
-      "base_path": "build/objdiff/reimpl/SaveGame.obj",
-      "reverse_fn_order": false
-    },
-    {
-      "name": "SeedChooserScreen",
-      "target_path": "build/objdiff/orig/SeedChooserScreen.obj",
-      "base_path": "build/objdiff/reimpl/SeedChooserScreen.obj",
-      "reverse_fn_order": false
-    },
-    {
-      "name": "SeedPacket",
-      "target_path": "build/objdiff/orig/SeedPacket.obj",
-      "base_path": "build/objdiff/reimpl/SeedPacket.obj",
-      "reverse_fn_order": false
-    },
-    {
       "name": "SexyAppFramework/AutoCrit",
       "target_path": "build/objdiff/orig/SexyAppFramework/AutoCrit.obj",
       "base_path": "build/objdiff/reimpl/SexyAppFramework/AutoCrit.obj",
@@ -610,6 +364,282 @@
       "reverse_fn_order": false
     },
     {
+      "name": "TodLib/Attachment",
+      "target_path": "build/objdiff/orig/TodLib/Attachment.obj",
+      "base_path": "build/objdiff/reimpl/TodLib/Attachment.obj",
+      "reverse_fn_order": false
+    },
+    {
+      "name": "TodLib/Definition",
+      "target_path": "build/objdiff/orig/TodLib/Definition.obj",
+      "base_path": "build/objdiff/reimpl/TodLib/Definition.obj",
+      "reverse_fn_order": false
+    },
+    {
+      "name": "TodLib/EffectSystem",
+      "target_path": "build/objdiff/orig/TodLib/EffectSystem.obj",
+      "base_path": "build/objdiff/reimpl/TodLib/EffectSystem.obj",
+      "reverse_fn_order": false
+    },
+    {
+      "name": "TodLib/ReanimAtlas",
+      "target_path": "build/objdiff/orig/TodLib/ReanimAtlas.obj",
+      "base_path": "build/objdiff/reimpl/TodLib/ReanimAtlas.obj",
+      "reverse_fn_order": false
+    },
+    {
+      "name": "TodLib/Reanimator",
+      "target_path": "build/objdiff/orig/TodLib/Reanimator.obj",
+      "base_path": "build/objdiff/reimpl/TodLib/Reanimator.obj",
+      "reverse_fn_order": false
+    },
+    {
+      "name": "TodLib/TodCommon",
+      "target_path": "build/objdiff/orig/TodLib/TodCommon.obj",
+      "base_path": "build/objdiff/reimpl/TodLib/TodCommon.obj",
+      "reverse_fn_order": false
+    },
+    {
+      "name": "TodLib/TodDebug",
+      "target_path": "build/objdiff/orig/TodLib/TodDebug.obj",
+      "base_path": "build/objdiff/reimpl/TodLib/TodDebug.obj",
+      "reverse_fn_order": false
+    },
+    {
+      "name": "TodLib/TodFoley",
+      "target_path": "build/objdiff/orig/TodLib/TodFoley.obj",
+      "base_path": "build/objdiff/reimpl/TodLib/TodFoley.obj",
+      "reverse_fn_order": false
+    },
+    {
+      "name": "TodLib/TodParticle",
+      "target_path": "build/objdiff/orig/TodLib/TodParticle.obj",
+      "base_path": "build/objdiff/reimpl/TodLib/TodParticle.obj",
+      "reverse_fn_order": false
+    },
+    {
+      "name": "TodLib/Trail",
+      "target_path": "build/objdiff/orig/TodLib/Trail.obj",
+      "base_path": "build/objdiff/reimpl/TodLib/Trail.obj",
+      "reverse_fn_order": false
+    },
+    {
+      "name": "Almanac",
+      "target_path": "build/objdiff/orig/Almanac.obj",
+      "base_path": "build/objdiff/reimpl/Almanac.obj",
+      "reverse_fn_order": false
+    },
+    {
+      "name": "AwardScreen",
+      "target_path": "build/objdiff/orig/AwardScreen.obj",
+      "base_path": "build/objdiff/reimpl/AwardScreen.obj",
+      "reverse_fn_order": false
+    },
+    {
+      "name": "Board",
+      "target_path": "build/objdiff/orig/Board.obj",
+      "base_path": "build/objdiff/reimpl/Board.obj",
+      "reverse_fn_order": false
+    },
+    {
+      "name": "Challenge",
+      "target_path": "build/objdiff/orig/Challenge.obj",
+      "base_path": "build/objdiff/reimpl/Challenge.obj",
+      "reverse_fn_order": false
+    },
+    {
+      "name": "ChallengeScreen",
+      "target_path": "build/objdiff/orig/ChallengeScreen.obj",
+      "base_path": "build/objdiff/reimpl/ChallengeScreen.obj",
+      "reverse_fn_order": false
+    },
+    {
+      "name": "CheatDialog",
+      "target_path": "build/objdiff/orig/CheatDialog.obj",
+      "base_path": "build/objdiff/reimpl/CheatDialog.obj",
+      "reverse_fn_order": false
+    },
+    {
+      "name": "Coin",
+      "target_path": "build/objdiff/orig/Coin.obj",
+      "base_path": "build/objdiff/reimpl/Coin.obj",
+      "reverse_fn_order": false
+    },
+    {
+      "name": "ContinueDialog",
+      "target_path": "build/objdiff/orig/ContinueDialog.obj",
+      "base_path": "build/objdiff/reimpl/ContinueDialog.obj",
+      "reverse_fn_order": false
+    },
+    {
+      "name": "CreditScreen",
+      "target_path": "build/objdiff/orig/CreditScreen.obj",
+      "base_path": "build/objdiff/reimpl/CreditScreen.obj",
+      "reverse_fn_order": false
+    },
+    {
+      "name": "CursorObject",
+      "target_path": "build/objdiff/orig/CursorObject.obj",
+      "base_path": "build/objdiff/reimpl/CursorObject.obj",
+      "reverse_fn_order": false
+    },
+    {
+      "name": "CursorPreview",
+      "target_path": "build/objdiff/orig/CursorPreview.obj",
+      "base_path": "build/objdiff/reimpl/CursorPreview.obj",
+      "reverse_fn_order": false
+    },
+    {
+      "name": "CutScene",
+      "target_path": "build/objdiff/orig/CutScene.obj",
+      "base_path": "build/objdiff/reimpl/CutScene.obj",
+      "reverse_fn_order": false
+    },
+    {
+      "name": "DataReader",
+      "target_path": "build/objdiff/orig/DataReader.obj",
+      "base_path": "build/objdiff/reimpl/DataReader.obj",
+      "reverse_fn_order": false
+    },
+    {
+      "name": "DataSync",
+      "target_path": "build/objdiff/orig/DataSync.obj",
+      "base_path": "build/objdiff/reimpl/DataSync.obj",
+      "reverse_fn_order": false
+    },
+    {
+      "name": "DataWriter",
+      "target_path": "build/objdiff/orig/DataWriter.obj",
+      "base_path": "build/objdiff/reimpl/DataWriter.obj",
+      "reverse_fn_order": false
+    },
+    {
+      "name": "GameButton",
+      "target_path": "build/objdiff/orig/GameButton.obj",
+      "base_path": "build/objdiff/reimpl/GameButton.obj",
+      "reverse_fn_order": false
+    },
+    {
+      "name": "GameObject",
+      "target_path": "build/objdiff/orig/GameObject.obj",
+      "base_path": "build/objdiff/reimpl/GameObject.obj",
+      "reverse_fn_order": false
+    },
+    {
+      "name": "GameSelector",
+      "target_path": "build/objdiff/orig/GameSelector.obj",
+      "base_path": "build/objdiff/reimpl/GameSelector.obj",
+      "reverse_fn_order": false
+    },
+    {
+      "name": "GridItem",
+      "target_path": "build/objdiff/orig/GridItem.obj",
+      "base_path": "build/objdiff/reimpl/GridItem.obj",
+      "reverse_fn_order": false
+    },
+    {
+      "name": "LawnApp",
+      "target_path": "build/objdiff/orig/LawnApp.obj",
+      "base_path": "build/objdiff/reimpl/LawnApp.obj",
+      "reverse_fn_order": false
+    },
+    {
+      "name": "LawnCommon",
+      "target_path": "build/objdiff/orig/LawnCommon.obj",
+      "base_path": "build/objdiff/reimpl/LawnCommon.obj",
+      "reverse_fn_order": false
+    },
+    {
+      "name": "LawnDialog",
+      "target_path": "build/objdiff/orig/LawnDialog.obj",
+      "base_path": "build/objdiff/reimpl/LawnDialog.obj",
+      "reverse_fn_order": false
+    },
+    {
+      "name": "LawnMower",
+      "target_path": "build/objdiff/orig/LawnMower.obj",
+      "base_path": "build/objdiff/reimpl/LawnMower.obj",
+      "reverse_fn_order": false
+    },
+    {
+      "name": "MessageWidget",
+      "target_path": "build/objdiff/orig/MessageWidget.obj",
+      "base_path": "build/objdiff/reimpl/MessageWidget.obj",
+      "reverse_fn_order": false
+    },
+    {
+      "name": "Music",
+      "target_path": "build/objdiff/orig/Music.obj",
+      "base_path": "build/objdiff/reimpl/Music.obj",
+      "reverse_fn_order": false
+    },
+    {
+      "name": "NewOptionsDialog",
+      "target_path": "build/objdiff/orig/NewOptionsDialog.obj",
+      "base_path": "build/objdiff/reimpl/NewOptionsDialog.obj",
+      "reverse_fn_order": false
+    },
+    {
+      "name": "NewUserDialog",
+      "target_path": "build/objdiff/orig/NewUserDialog.obj",
+      "base_path": "build/objdiff/reimpl/NewUserDialog.obj",
+      "reverse_fn_order": false
+    },
+    {
+      "name": "Plant",
+      "target_path": "build/objdiff/orig/Plant.obj",
+      "base_path": "build/objdiff/reimpl/Plant.obj",
+      "reverse_fn_order": false
+    },
+    {
+      "name": "PlayerInfo",
+      "target_path": "build/objdiff/orig/PlayerInfo.obj",
+      "base_path": "build/objdiff/reimpl/PlayerInfo.obj",
+      "reverse_fn_order": false
+    },
+    {
+      "name": "PoolEffect",
+      "target_path": "build/objdiff/orig/PoolEffect.obj",
+      "base_path": "build/objdiff/reimpl/PoolEffect.obj",
+      "reverse_fn_order": false
+    },
+    {
+      "name": "ProfileMgr",
+      "target_path": "build/objdiff/orig/ProfileMgr.obj",
+      "base_path": "build/objdiff/reimpl/ProfileMgr.obj",
+      "reverse_fn_order": false
+    },
+    {
+      "name": "Projectile",
+      "target_path": "build/objdiff/orig/Projectile.obj",
+      "base_path": "build/objdiff/reimpl/Projectile.obj",
+      "reverse_fn_order": false
+    },
+    {
+      "name": "ReanimationLawn",
+      "target_path": "build/objdiff/orig/ReanimationLawn.obj",
+      "base_path": "build/objdiff/reimpl/ReanimationLawn.obj",
+      "reverse_fn_order": false
+    },
+    {
+      "name": "SaveGame",
+      "target_path": "build/objdiff/orig/SaveGame.obj",
+      "base_path": "build/objdiff/reimpl/SaveGame.obj",
+      "reverse_fn_order": false
+    },
+    {
+      "name": "SeedChooserScreen",
+      "target_path": "build/objdiff/orig/SeedChooserScreen.obj",
+      "base_path": "build/objdiff/reimpl/SeedChooserScreen.obj",
+      "reverse_fn_order": false
+    },
+    {
+      "name": "SeedPacket",
+      "target_path": "build/objdiff/orig/SeedPacket.obj",
+      "base_path": "build/objdiff/reimpl/SeedPacket.obj",
+      "reverse_fn_order": false
+    },
+    {
       "name": "StoreScreen",
       "target_path": "build/objdiff/orig/StoreScreen.obj",
       "base_path": "build/objdiff/reimpl/StoreScreen.obj",
@@ -622,39 +652,9 @@
       "reverse_fn_order": false
     },
     {
-      "name": "TodCommon",
-      "target_path": "build/objdiff/orig/TodCommon.obj",
-      "base_path": "build/objdiff/reimpl/TodCommon.obj",
-      "reverse_fn_order": false
-    },
-    {
-      "name": "TodDebug",
-      "target_path": "build/objdiff/orig/TodDebug.obj",
-      "base_path": "build/objdiff/reimpl/TodDebug.obj",
-      "reverse_fn_order": false
-    },
-    {
-      "name": "TodFoley",
-      "target_path": "build/objdiff/orig/TodFoley.obj",
-      "base_path": "build/objdiff/reimpl/TodFoley.obj",
-      "reverse_fn_order": false
-    },
-    {
-      "name": "TodParticle",
-      "target_path": "build/objdiff/orig/TodParticle.obj",
-      "base_path": "build/objdiff/reimpl/TodParticle.obj",
-      "reverse_fn_order": false
-    },
-    {
       "name": "ToolTipWidget",
       "target_path": "build/objdiff/orig/ToolTipWidget.obj",
       "base_path": "build/objdiff/reimpl/ToolTipWidget.obj",
-      "reverse_fn_order": false
-    },
-    {
-      "name": "Trail",
-      "target_path": "build/objdiff/orig/Trail.obj",
-      "base_path": "build/objdiff/reimpl/Trail.obj",
       "reverse_fn_order": false
     },
     {
