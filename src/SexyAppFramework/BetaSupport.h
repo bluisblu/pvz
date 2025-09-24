@@ -30,37 +30,37 @@ class WinInetHTTPTransfer
         RESULT_INTERNAL_ERROR = 0x000b,
     };
   /* 0x0004 */ private:
-    std::basic_string<char, std::char_traits<char>, std::allocator<char>> mSpecifiedBaseURL;
+    std::string mSpecifiedBaseURL;
   /* 0x0020 */ private:
-    std::basic_string<char, std::char_traits<char>, std::allocator<char>> mSpecifiedRelURL;
+    std::string mSpecifiedRelURL;
   /* 0x003c */ private:
-    std::basic_string<char, std::char_traits<char>, std::allocator<char>> mURL;
+    std::string mURL;
   /* 0x0058 */ private:
-    std::basic_string<char, std::char_traits<char>, std::allocator<char>> mProto;
+    std::string mProto;
   /* 0x0074 */ private:
-    std::basic_string<char, std::char_traits<char>, std::allocator<char>> mUserName;
+    std::string mUserName;
   /* 0x0090 */ private:
-    std::basic_string<char, std::char_traits<char>, std::allocator<char>> mUserPass;
+    std::string mUserPass;
   /* 0x00ac */ private:
-    std::basic_string<char, std::char_traits<char>, std::allocator<char>> mHost;
+    std::string mHost;
   /* 0x00c8 */ private:
     int mPort;
   /* 0x00cc */ private:
-    std::basic_string<char, std::char_traits<char>, std::allocator<char>> mPath;
+    std::string mPath;
   /* 0x00e8 */ private:
-    std::basic_string<char, std::char_traits<char>, std::allocator<char>> mAction;
+    std::string mAction;
   /* 0x0104 */ private:
-    std::basic_string<char, std::char_traits<char>, std::allocator<char>> mUserAgent;
+    std::string mUserAgent;
   /* 0x0120 */ private:
-    std::basic_string<char, std::char_traits<char>, std::allocator<char>> mPostContentType;
+    std::string mPostContentType;
   /* 0x013c */ private:
-    std::basic_string<char, std::char_traits<char>, std::allocator<char>> mPostData;
+    std::string mPostData;
   /* 0x0158 */ private:
     _iobuf *mFP;
   /* 0x015c */ private:
     bool mUsingFile;
   /* 0x0160 */ private:
-    std::basic_string<char, std::char_traits<char>, std::allocator<char>> mContent;
+    std::string mContent;
   /* 0x017c */ private:
     int mContentLength;
   /* 0x0180 */ private:
@@ -94,34 +94,25 @@ class WinInetHTTPTransfer
     bool SetOutputFile(const std::basic_string<wchar_t, std::char_traits<wchar_t>, std::allocator<wchar_t>> &);
 
   public:
-    bool SetOutputFile(const std::basic_string<char, std::char_traits<char>, std::allocator<char>> &);
+    bool SetOutputFile(const std::string &);
 
   public:
-    void Get(const std::basic_string<char, std::char_traits<char>, std::allocator<char>> &,
-             const std::basic_string<char, std::char_traits<char>, std::allocator<char>> &);
+    void Get(const std::string &, const std::string &);
 
   public:
-    void Get(const std::basic_string<char, std::char_traits<char>, std::allocator<char>> &);
+    void Get(const std::string &);
 
   public:
-    void Post(const std::basic_string<char, std::char_traits<char>, std::allocator<char>> &,
-              const std::basic_string<char, std::char_traits<char>, std::allocator<char>> &,
-              const std::basic_string<char, std::char_traits<char>, std::allocator<char>> &);
+    void Post(const std::string &, const std::string &, const std::string &);
 
   public:
-    void Post(const std::basic_string<char, std::char_traits<char>, std::allocator<char>> &,
-              const std::basic_string<char, std::char_traits<char>, std::allocator<char>> &);
+    void Post(const std::string &, const std::string &);
 
   public:
-    void PostMultiPart(const std::basic_string<char, std::char_traits<char>, std::allocator<char>> &,
-                       const std::basic_string<char, std::char_traits<char>, std::allocator<char>> &,
-                       const std::basic_string<char, std::char_traits<char>, std::allocator<char>> &,
-                       const std::basic_string<char, std::char_traits<char>, std::allocator<char>> &);
+    void PostMultiPart(const std::string &, const std::string &, const std::string &, const std::string &);
 
   public:
-    void PostMultiPart(const std::basic_string<char, std::char_traits<char>, std::allocator<char>> &,
-                       const std::basic_string<char, std::char_traits<char>, std::allocator<char>> &,
-                       const std::basic_string<char, std::char_traits<char>, std::allocator<char>> &);
+    void PostMultiPart(const std::string &, const std::string &, const std::string &);
 
   public:
     void Reset();
@@ -136,22 +127,19 @@ class WinInetHTTPTransfer
     Sexy::WinInetHTTPTransfer::EResult GetResultCode() const;
 
   public:
-    std::basic_string<char, std::char_traits<char>, std::allocator<char>> GetContent();
+    std::string GetContent();
 
   protected:
-    std::basic_string<char, std::char_traits<char>, std::allocator<char>> GetAbsURL(
-        const std::basic_string<char, std::char_traits<char>, std::allocator<char>> &,
-        const std::basic_string<char, std::char_traits<char>, std::allocator<char>> &);
+    std::string GetAbsURL(const std::string &, const std::string &);
 
   protected:
-    void GetHelper(const std::basic_string<char, std::char_traits<char>, std::allocator<char>> &);
+    void GetHelper(const std::string &);
 
   protected:
-    void PostHelper(const std::basic_string<char, std::char_traits<char>, std::allocator<char>> &,
-                    const std::basic_string<char, std::char_traits<char>, std::allocator<char>> &, const char *);
+    void PostHelper(const std::string &, const std::string &, const char *);
 
   protected:
-    void PrepareTransfer(const std::basic_string<char, std::char_traits<char>, std::allocator<char>> &);
+    void PrepareTransfer(const std::string &);
 
   protected:
     void StartTransfer();
@@ -199,20 +187,18 @@ class BetaSupport
   /* 0x01cd */ public:
     bool mDialogClosed;
   /* 0x01d0 */ public:
-    std::basic_string<char, std::char_traits<char>, std::allocator<char>> mBetaCommentURL;
+    std::string mBetaCommentURL;
   /* 0x01ec */ public:
-    std::basic_string<char, std::char_traits<char>, std::allocator<char>> mDemoUploadFile;
+    std::string mDemoUploadFile;
   /* 0x0208 */ public:
-    std::basic_string<char, std::char_traits<char>, std::allocator<char>> mName;
+    std::string mName;
   /* 0x0224 */ public:
-    std::basic_string<char, std::char_traits<char>, std::allocator<char>> mPassword;
+    std::string mPassword;
   /* 0x0240 */ public:
     bool mValidated;
   /* 0x0244 */ public:
-    std::map<std::basic_string<char, std::char_traits<char>, std::allocator<char>>, Sexy::Buffer,
-             std::less<std::basic_string<char, std::char_traits<char>, std::allocator<char>>>,
-             std::allocator<
-                 std::pair<std::basic_string<char, std::char_traits<char>, std::allocator<char>> const, Sexy::Buffer>>>
+    std::map<std::string, Sexy::Buffer, std::less<std::string>,
+             std::allocator<std::pair<std::string const, Sexy::Buffer>>>
         mDataLogs;
 
   protected:
@@ -222,7 +208,7 @@ class BetaSupport
     void WaitForDialogClose();
 
   protected:
-    std::basic_string<char, std::char_traits<char>, std::allocator<char>> GetBetaSiteDomainName();
+    std::string GetBetaSiteDomainName();
 
   protected:
     bool GetLoginInfo();
@@ -261,8 +247,7 @@ class BetaSupport
     bool RequestComments();
 
   public:
-    void StoreDataLog(const std::basic_string<char, std::char_traits<char>, std::allocator<char>> &,
-                      const Sexy::Buffer &);
+    void StoreDataLog(const std::string &, const Sexy::Buffer &);
 
   public:
     Sexy::BetaSupport &operator=(const Sexy::BetaSupport &);

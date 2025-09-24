@@ -328,7 +328,7 @@ class SexyAppBase : public ButtonListener, public DialogListener
 
     LONG mOldWndProc;
 
-  protected:
+  public:
     void RehupFocus();
     void ClearKeysDown();
     bool ProcessDeferredMessages(bool singleMessage);

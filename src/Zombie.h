@@ -221,6 +221,137 @@ enum ZombieType : int
 };
 #endif
 
+#ifndef E_ZOMBIE_ID
+#define E_ZOMBIE_ID
+enum ZombieID : int
+{
+    ZOMBIEID_NULL = 0x0000,
+};
+#endif
+
+#ifndef E_REANIMATION_ID
+#define E_REANIMATION_ID
+enum ReanimationID : int
+{
+    REANIMATIONID_NULL = 0x0000,
+};
+#endif
+
+#ifndef E_PARTICLE_EFFECT
+#define E_PARTICLE_EFFECT
+enum ParticleEffect : int
+{
+    PARTICLE_NONE = -1,
+    PARTICLE_MELONSPLASH = 0x0000,
+    PARTICLE_WINTERMELON = 0x0001,
+    PARTICLE_FUMECLOUD = 0x0002,
+    PARTICLE_POPCORNSPLASH = 0x0003,
+    PARTICLE_POWIE = 0x0004,
+    PARTICLE_JACKEXPLODE = 0x0005,
+    PARTICLE_ZOMBIE_HEAD = 0x0006,
+    PARTICLE_ZOMBIE_ARM = 0x0007,
+    PARTICLE_ZOMBIE_TRAFFIC_CONE = 0x0008,
+    PARTICLE_ZOMBIE_PAIL = 0x0009,
+    PARTICLE_ZOMBIE_HELMET = 0x000a,
+    PARTICLE_ZOMBIE_FLAG = 0x000b,
+    PARTICLE_ZOMBIE_DOOR = 0x000c,
+    PARTICLE_ZOMBIE_NEWSPAPER = 0x000d,
+    PARTICLE_ZOMBIE_HEADLIGHT = 0x000e,
+    PARTICLE_POW = 0x000f,
+    PARTICLE_ZOMBIE_POGO = 0x0010,
+    PARTICLE_ZOMBIE_NEWSPAPER_HEAD = 0x0011,
+    PARTICLE_ZOMBIE_BALLOON_HEAD = 0x0012,
+    PARTICLE_SOD_ROLL = 0x0013,
+    PARTICLE_GRAVE_STONE_RISE = 0x0014,
+    PARTICLE_PLANTING = 0x0015,
+    PARTICLE_PLANTING_POOL = 0x0016,
+    PARTICLE_ZOMBIE_RISE = 0x0017,
+    PARTICLE_GRAVE_BUSTER = 0x0018,
+    PARTICLE_GRAVE_BUSTER_DIE = 0x0019,
+    PARTICLE_POOL_SPLASH = 0x001a,
+    PARTICLE_ICE_SPARKLE = 0x001b,
+    PARTICLE_SEED_PACKET = 0x001c,
+    PARTICLE_TALL_NUT_BLOCK = 0x001d,
+    PARTICLE_DOOM = 0x001e,
+    PARTICLE_DIGGER_RISE = 0x001f,
+    PARTICLE_DIGGER_TUNNEL = 0x0020,
+    PARTICLE_DANCER_RISE = 0x0021,
+    PARTICLE_POOL_SPARKLY = 0x0022,
+    PARTICLE_WALLNUT_EAT_SMALL = 0x0023,
+    PARTICLE_WALLNUT_EAT_LARGE = 0x0024,
+    PARTICLE_PEA_SPLAT = 0x0025,
+    PARTICLE_SPIKE_SPLAT = 0x0026,
+    PARTICLE_BUTTER_SPLAT = 0x0027,
+    PARTICLE_CABBAGE_SPLAT = 0x0028,
+    PARTICLE_PUFF_SPLAT = 0x0029,
+    PARTICLE_STAR_SPLAT = 0x002a,
+    PARTICLE_ICE_TRAP = 0x002b,
+    PARTICLE_SNOWPEA_SPLAT = 0x002c,
+    PARTICLE_SNOWPEA_PUFF = 0x002d,
+    PARTICLE_SNOWPEA_TRAIL = 0x002e,
+    PARTICLE_LANTERN_SHINE = 0x002f,
+    PARTICLE_SEED_PACKET_PICKUP = 0x0030,
+    PARTICLE_POTATO_MINE = 0x0031,
+    PARTICLE_POTATO_MINE_RISE = 0x0032,
+    PARTICLE_PUFFSHROOM_TRAIL = 0x0033,
+    PARTICLE_PUFFSHROOM_MUZZLE = 0x0034,
+    PARTICLE_SEED_PACKET_FLASH = 0x0035,
+    PARTICLE_WHACK_A_ZOMBIE_RISE = 0x0036,
+    PARTICLE_ZOMBIE_LADDER = 0x0037,
+    PARTICLE_UMBRELLA_REFLECT = 0x0038,
+    PARTICLE_SEED_PACKET_PICK = 0x0039,
+    PARTICLE_ICE_TRAP_ZOMBIE = 0x003a,
+    PARTICLE_ICE_TRAP_RELEASE = 0x003b,
+    PARTICLE_ZAMBONI_SMOKE = 0x003c,
+    PARTICLE_GLOOMCLOUD = 0x003d,
+    PARTICLE_ZOMBIE_POGO_HEAD = 0x003e,
+    PARTICLE_ZAMBONI_TIRE = 0x003f,
+    PARTICLE_ZAMBONI_EXPLOSION = 0x0040,
+    PARTICLE_ZAMBONI_EXPLOSION2 = 0x0041,
+    PARTICLE_CATAPULT_EXPLOSION = 0x0042,
+    PARTICLE_MOWER_CLOUD = 0x0043,
+    PARTICLE_BOSS_ICE_BALL = 0x0044,
+    PARTICLE_BLASTMARK = 0x0045,
+    PARTICLE_COIN_PICKUP_ARROW = 0x0046,
+    PARTICLE_PRESENT_PICKUP = 0x0047,
+    PARTICLE_IMITATER_MORPH = 0x0048,
+    PARTICLE_MOWERED_ZOMBIE_HEAD = 0x0049,
+    PARTICLE_MOWERED_ZOMBIE_ARM = 0x004a,
+    PARTICLE_ZOMBIE_HEAD_POOL = 0x004b,
+    PARTICLE_ZOMBIE_BOSS_FIREBALL = 0x004c,
+    PARTICLE_FIREBALL_DEATH = 0x004d,
+    PARTICLE_ICEBALL_DEATH = 0x004e,
+    PARTICLE_ICEBALL_TRAIL = 0x004f,
+    PARTICLE_FIREBALL_TRAIL = 0x0050,
+    PARTICLE_BOSS_EXPLOSION = 0x0051,
+    PARTICLE_SCREEN_FLASH = 0x0052,
+    PARTICLE_TROPHY_SPARKLE = 0x0053,
+    PARTICLE_PORTAL_CIRCLE = 0x0054,
+    PARTICLE_PORTAL_SQUARE = 0x0055,
+    PARTICLE_POTTED_PLANT_GLOW = 0x0056,
+    PARTICLE_POTTED_WATER_PLANT_GLOW = 0x0057,
+    PARTICLE_POTTED_ZEN_GLOW = 0x0058,
+    PARTICLE_MIND_CONTROL = 0x0059,
+    PARTICLE_VASE_SHATTER = 0x005a,
+    PARTICLE_VASE_SHATTER_LEAF = 0x005b,
+    PARTICLE_VASE_SHATTER_ZOMBIE = 0x005c,
+    PARTICLE_AWARD_PICKUP_ARROW = 0x005d,
+    PARTICLE_ZOMBIE_SEAWEED = 0x005e,
+    PARTICLE_ZOMBIE_MUSTACHE = 0x005f,
+    PARTICLE_ZOMBIE_FUTURE_GLASSES = 0x0060,
+    PARTICLE_PINATA = 0x0061,
+    PARTICLE_DUST_SQUASH = 0x0062,
+    PARTICLE_DUST_FOOT = 0x0063,
+    PARTICLE_DAISY = 0x0064,
+    PARTICLE_CREDIT_STROBE = 0x0065,
+    PARTICLE_CREDITS_RAYSWIPE = 0x0066,
+    PARTICLE_CREDITS_ZOMBIEHEADWIPE = 0x0067,
+    PARTICLE_STARBURST = 0x0068,
+    PARTICLE_CREDITS_FOG = 0x0069,
+    NUM_PARTICLES = 0x006a,
+};
+#endif
+
 class Zombie : public GameObject
 {   /* Size=0x158 */
     /* 0x0000: fields for GameObject */
@@ -250,6 +381,7 @@ class Zombie : public GameObject
     bool mVariant;
   /* 0x0051 */ public:
     bool mIsEating;
+    char pad_0x52[2];
   /* 0x0054 */ public:
     int mJustGotShotCounter;
   /* 0x0058 */ public:
@@ -266,10 +398,12 @@ class Zombie : public GameObject
     int mFromWave;
   /* 0x0070 */ public:
     bool mDroppedLoot;
+    char pad_0x71[3];
   /* 0x0074 */ public:
     int mZombieFade;
   /* 0x0078 */ public:
     bool mFlatTires;
+    char pad_0x79[3];
   /* 0x007c */ public:
     int mUseLadderCol;
   /* 0x0080 */ public:
@@ -278,6 +412,7 @@ class Zombie : public GameObject
     float mAltitude;
   /* 0x0088 */ public:
     bool mHitUmbrella;
+    char pad_0x89[3];
   /* 0x008c */ public:
     Sexy::TRect<int> mZombieRect;
   /* 0x009c */ public:
@@ -328,12 +463,14 @@ class Zombie : public GameObject
     int mFlyingMaxHealth;
   /* 0x00ec */ public:
     bool mDead;
+    char pad_0xed[3];
   /* 0x00f0 */ public:
     ZombieID mRelatedZombieID;
   /* 0x00f4 */ public:
     ZombieID mFollowerZombieID[4];
   /* 0x0104 */ public:
     bool mPlayingSong;
+    char pad_0x105[3];
   /* 0x0108 */ public:
     int mParticleOffsetX;
   /* 0x010c */ public:
@@ -370,6 +507,7 @@ class Zombie : public GameObject
     int mFireballRow;
   /* 0x014c */ public:
     bool mIsFireBall;
+    char pad_0x14d[3];
   /* 0x0150 */ public:
     ReanimationID mMoweredReanimID;
   /* 0x0154 */ public:
@@ -1027,10 +1165,10 @@ class Zombie : public GameObject
     // void *__vecDelDtor(unsigned int);
 
   public:
-    static void SetupDoorArms(/* Reanimation * */ int, bool);
+    static void SetupDoorArms(Reanimation *, bool);
 
   public:
-    static void SetupReanimLayers(/* Reanimation * */ int, ZombieType);
+    static void SetupReanimLayers(Reanimation *, ZombieType);
 
   public:
     static void PreloadZombieResources(ZombieType);

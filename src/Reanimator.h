@@ -40,6 +40,12 @@ enum AttachmentID : int
 };
 #endif
 
+enum
+{
+    RENDER_GROUP_HIDDEN = -1,
+    RENDER_GROUP_NORMAL = 0
+};
+
 #ifndef E_REANIMATION_TYPE
 #define E_REANIMATION_TYPE
 enum ReanimationType : int

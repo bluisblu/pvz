@@ -68,6 +68,7 @@ class GameObject
     /* 0x0010 */ int mWidth;
     /* 0x0014 */ int mHeight;
     /* 0x0018 */ bool mVisible;
+    // char pad_0x19[3];
     /* 0x001c */ int mRow;
     /* 0x0020 */ int mRenderOrder;
 

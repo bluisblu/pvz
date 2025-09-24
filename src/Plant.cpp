@@ -1,3 +1,4 @@
+#include "Reanimator.h"
 #include "SexyAppFramework/Common.h"
 
 #include "Challenge.h"
@@ -62,17 +63,15 @@ int Plant::GetDamageRangeFlags(PlantWeapon thePlantWeapon)
 
 bool Plant::IsOnHighGround()
 {
-    Board *board = mBoard;
-    int gridType = board->mGridSquareType[mPlantCol][mRow];
-
-    bool isHighGround = (gridType == GRIDSQUARE_HIGH_GROUND);
-
-    if (board == NULL)
+    if (mBoard == NULL)
     {
         return false;
     }
 
-    return isHighGround;
+    if (mBoard->mGridSquareType[mPlantCol][mRow] == GRIDSQUARE_HIGH_GROUND)
+        return true;
+
+    return false;
 }
 
 bool Plant::MakesSun()
@@ -83,6 +82,40 @@ bool Plant::MakesSun()
         return true;
     }
     return false;
+}
+
+void Plant::PlayBodyReanim(const char *theTrackName, ReanimLoopType theLoopType, int theBlendTime, float theAnimRate)
+{
+    Reanimation *aBodyReanim = mApp->ReanimationGet(mBodyReanimID);
+
+    if (theBlendTime > 0)
+        aBodyReanim->StartBlend(theBlendTime);
+    if (theAnimRate > 0.0f)
+        aBodyReanim->mAnimRate = theAnimRate;
+
+    aBodyReanim->mLoopType = theLoopType;
+    aBodyReanim->mLoopCount = 0;
+    aBodyReanim->SetFramesForLayer(theTrackName);
+}
+
+void Plant::UpdateDoomShroom()
+{
+    if (mIsAsleep || mState == PlantState::STATE_DOINGSPECIAL)
+        return;
+
+    mState = PlantState::STATE_DOINGSPECIAL;
+    mDoSpecialCountdown = 100;
+
+    Reanimation *aBodyReanim = mApp->ReanimationTryToGet(mBodyReanimID);
+    // TOD_ASSERT(aBodyReanim);
+
+    aBodyReanim->SetFramesForLayer("anim_explode");
+    aBodyReanim->mAnimRate = 23.0f;
+    aBodyReanim->mLoopType = ReanimLoopType::REANIM_PLAY_ONCE_AND_HOLD;
+    aBodyReanim->SetShakeOverride("DoomShroom_head1", 1.0f);
+    aBodyReanim->SetShakeOverride("DoomShroom_head2", 2.0f);
+    aBodyReanim->SetShakeOverride("DoomShroom_head3", 2.0f);
+    mApp->PlayFoley(FoleyType::FOLEY_REVERSE_EXPLOSION);
 }
 
 void Plant::UpdateIceShroom()
@@ -109,6 +142,42 @@ void Plant::UpdateLilypad()
         mState = STATE_NOTREADY;
     }
     return;
+}
+
+MagnetItem *Plant::GetFreeMagnetItem()
+{
+    if (mSeedType == SeedType::SEED_GOLD_MAGNET)
+    {
+        for (int i = 0; i < MAX_MAGNET_ITEMS; i++)
+        {
+            if (mMagnetItems[i].mItemType == MagnetItemType::MAGNET_ITEM_NONE)
+            {
+                return &mMagnetItems[i];
+            }
+        }
+
+        return NULL;
+    }
+
+    return &mMagnetItems[0];
+}
+
+bool Plant::IsAGoldMagnetAboutToSuck()
+{
+    Plant *aPlant = NULL;
+    while (mBoard->IteratePlants(aPlant))
+    {
+        if (aPlant->mState == STATE_MAGNETSHROOM_SUCKING)
+        {
+            Reanimation *aBodyReanim = mApp->ReanimationGet(aPlant->mBodyReanimID);
+            if (aBodyReanim->mAnimTime < 0.5f)
+            {
+                return true;
+            }
+        }
+    }
+
+    return false;
 }
 
 void Plant::RemoveEffects()
@@ -186,6 +255,77 @@ bool Plant::NotOnGround()
         return true;
 
     return false;
+}
+
+void Plant::EndBlink()
+{
+    if (mBlinkReanimID != REANIMATIONID_NULL)
+    {
+        mApp->RemoveReanimation(mBlinkReanimID);
+        mBlinkReanimID = REANIMATIONID_NULL;
+
+        Reanimation *aBodyReanim = mApp->ReanimationTryToGet(mBodyReanimID);
+        if (aBodyReanim)
+        {
+            aBodyReanim->AssignRenderGroupToPrefix("anim_eye", RENDER_GROUP_NORMAL);
+        }
+    }
+}
+
+void Plant::GetPeaHeadOffset(int &theOffsetX, int &theOffsetY)
+{
+    Reanimation *aBodyReanim = mApp->ReanimationTryToGet(mBodyReanimID);
+
+    int aTrackIndex = 0;
+    if (aBodyReanim->TrackExists("anim_stem"))
+    {
+        aTrackIndex = aBodyReanim->FindTrackIndex("anim_stem");
+    }
+    else if (aBodyReanim->TrackExists("anim_idle"))
+    {
+        aTrackIndex = aBodyReanim->FindTrackIndex("anim_idle");
+    }
+
+    ReanimatorTransform aTransform;
+    aBodyReanim->GetCurrentTransform(aTrackIndex, &aTransform);
+    theOffsetX = aTransform.mTransX; // * aBodyReanim->mOverlayMatrix.m00;
+    theOffsetY = aTransform.mTransY; // * aBodyReanim->mOverlayMatrix.m11;
+}
+
+void Plant::BurnRow(int theRow)
+{
+    int aDamageRangeFlags = GetDamageRangeFlags(PlantWeapon::WEAPON_PRIMARY);
+
+    Zombie *aZombie = NULL;
+    while (mBoard->IterateZombies(aZombie))
+    {
+        if ((aZombie->mZombieType == ZombieType::ZOMBIE_BOSS || aZombie->mRow == theRow) &&
+            aZombie->EffectedByDamage(aDamageRangeFlags))
+        {
+            aZombie->RemoveColdEffects();
+            aZombie->ApplyBurn();
+        }
+    }
+
+    /*GridItem* aGridItem = NULL;
+    while (mBoard->IterateGridItems(aGridItem))
+    {
+        if (aGridItem->mGridY == theRow && aGridItem->mGridItemType == GridItemType::GRIDITEM_LADDER)
+        {
+            aGridItem->GridItemDie();
+        }
+    }*/
+
+    Zombie *aBossZombie = NULL;
+    while (mBoard->IterateZombies(aBossZombie))
+    {
+        if (aBossZombie->mZombieType == ZOMBIE_BOSS && aBossZombie->mFireballRow == theRow)
+        {
+            // 注：原版中将 Zombie::BossDestroyIceballInRow(int) 函数改为了
+            // Zombie::BossDestroyIceball()，冰球是否位于目标行的判断则移动至此处进行
+            aBossZombie->BossDestroyIceballInRow(theRow);
+        }
+    }
 }
 
 int Plant::GetCost(SeedType theSeedType, SeedType theImitaterType)
@@ -304,6 +444,25 @@ bool Plant::IsUpgrade(SeedType theSeedtype)
         theSeedtype == SEED_GLOOMSHROOM || theSeedtype == SEED_CATTAIL)
         return true;
     return false;
+}
+
+void Plant::PlayIdleAnim(float theRate)
+{
+    Reanimation *aBodyReanim = mApp->ReanimationTryToGet(mBodyReanimID);
+    if (aBodyReanim)
+    {
+        Reanimation *aTrackAnim = mApp->ReanimationGet(mBodyReanimID);
+        aTrackAnim->StartBlend(20);
+        if (theRate > 0.0)
+            aTrackAnim->mAnimRate = theRate;
+        aTrackAnim->mLoopType = REANIM_LOOP;
+        aTrackAnim->mLoopCount = 0;
+        aTrackAnim->SetFramesForLayer("anim_idle");
+        if (mApp->IsIZombieLevel())
+        {
+            aBodyReanim->mAnimRate = 0.0f;
+        }
+    }
 }
 
 int Plant::CalcRenderOrder()
@@ -434,6 +593,23 @@ void Plant::SetSleeping(bool theIsAsleep)
     if (reanim->mAnimRate < 2.0f && IsInPlay())
     {
         reanim->mAnimRate = RandRangeFloat(10.0f, 15.0f);
+    }
+}
+
+void Plant::LaunchStarFruit()
+{
+
+    if (FindStarFruitTarget())
+    {
+        // PlayBodyReanim() (inlined)
+        Reanimation *aBodyReanim = mApp->ReanimationGet(mBodyReanimID);
+        aBodyReanim->StartBlend(20);
+        aBodyReanim->mAnimRate = 28.0;
+        aBodyReanim->mLoopType = REANIM_PLAY_ONCE_AND_HOLD;
+        aBodyReanim->mLoopCount = 0;
+        aBodyReanim->SetFramesForLayer("anim_shoot");
+        //
+        mShootingCounter = 40;
     }
 }
 

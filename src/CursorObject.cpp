@@ -38,26 +38,27 @@ CursorObject::CursorObject()
 
 void CursorObject::Update()
 {
-    if (mApp->mGameScene != SCENE_PLAYING)
+    if (mApp->mGameScene != GameScenes::SCENE_PLAYING && !mBoard->mCutScene->IsInShovelTutorial())
     {
-        if (mBoard->mCutScene->IsInShovelTutorial())
-        {
-            mVisible = false;
-        }
+        mVisible = false;
+        return;
     }
-    // TODO: implement SexyApp
-    if ((mApp + 0x320 + 0xdc) != NULL)
+
+    if (!mApp->mWidgetManager->mMouseIn)
     {
-        Reanimation *r = mApp->ReanimationTryToGet(mReanimCursorID);
-        if (r != NULL)
-        {
-            r->Update();
-        }
-        mVisible = true;
-        mX = mApp->unk_0[0x320 + 0xe0 - 0x19];
-        mY = mApp->unk_0[0x320 + 0xe4 - 0x23];
+        mVisible = false;
+        return;
     }
-    mVisible = false;
+
+    Reanimation *aCursorReanim = mApp->ReanimationTryToGet(mReanimCursorID);
+    if (aCursorReanim)
+    {
+        aCursorReanim->Update();
+    }
+
+    mVisible = true;
+    mX = mApp->mWidgetManager->mLastMouseX - 25;
+    mY = mApp->mWidgetManager->mLastMouseY - 35;
 }
 
 void CursorObject::Draw(Sexy::Graphics *g)

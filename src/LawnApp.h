@@ -1,19 +1,13 @@
 #pragma once
 
-#include "SexyAppFramework/SexyApp.h"
 #ifndef __LAWNAPP_H__
 #define __LAWNAPP_H__
 
-#include <list>
-#include <map>
-#include <memory>
-#include <string>
-#include <utility>
-#include <vector>
-
 #include "SexyAppFramework/Graphics.h"
 #include "SexyAppFramework/Image.h"
+#include "SexyAppFramework/SexyApp.h"
 
+#include "AwardScreen.h"
 #include "Board.h"
 #include "GameSelector.h"
 #include "PlayerInfo.h"
@@ -21,7 +15,9 @@
 #include "SeedChooserScreen.h"
 #include "ZenGarden.h"
 
+class AwardScreen;
 class Board;
+class GameSelector;
 
 namespace Sexy
 {
@@ -38,6 +34,8 @@ Sexy::Image *IMAGE_TREEFOOD;
 Sexy::Image *IMAGE_ZEN_WHEELBARROW;
 Sexy::Image *IMAGE_COBCANNON_TARGET;
 Sexy::Image *IMAGE_ZEN_MONEYSIGN;
+int SOUND_SEEDLIFT;
+int SOUND_DIAMOND;
 } // namespace Sexy
 
 #ifndef E_ZOMBIE_TYPE
@@ -82,11 +80,14 @@ enum ZombieType : int
 };
 #endif
 
+#ifndef E_AWARD_TYPE
+#define E_AWARD_TYPE
 enum AwardType : int
 {
     AWARD_FOR_LEVEL = 0x0000,
     AWARD_CREDITS_ZOMBIE_NOTE = 0x0001,
 };
+#endif
 
 enum FoleyType : int
 {
@@ -705,7 +706,7 @@ class LawnApp : public Sexy::SexyApp
   /* 0x0774 */ public:
     SeedChooserScreen *mSeedChooserScreen;
   /* 0x0778 */ public:
-    /* AwardScreen * */ int mAwardScreen;
+    AwardScreen *mAwardScreen;
   /* 0x077c */ public:
     /* CreditScreen * */ int mCreditScreen;
   /* 0x0780 */ public:
@@ -719,15 +720,16 @@ class LawnApp : public Sexy::SexyApp
     // std::list<Sexy::Image *, std::allocator<Sexy::Image *>> mCreatedImageList;
     char unk_794[0xc];
   /* 0x07a0 */ public:
-    std::basic_string<char, std::char_traits<char>, std::allocator<char>> mReferId;
+    std::string mReferId;
   /* 0x07bc */ public:
-    std::basic_string<char, std::char_traits<char>, std::allocator<char>> mRegisterLink;
+    std::string mRegisterLink;
   /* 0x07d8 */ public:
-    std::basic_string<char, std::char_traits<char>, std::allocator<char>> mMod;
+    std::string mMod;
   /* 0x07f4 */ public:
     bool mRegisterResourcesLoaded;
   /* 0x07f5 */ public:
     bool mTodCheatKeys;
+    char pad_0x7f6[2];
   /* 0x07f8 */ public:
     GameMode mGameMode;
   /* 0x07fc */ public:
@@ -736,6 +738,7 @@ class LawnApp : public Sexy::SexyApp
     bool mLoadingZombiesThreadCompleted;
   /* 0x0801 */ public:
     bool mFirstTimeGameSelector;
+    char pad_0x802[2];
   /* 0x0804 */ public:
     int mGamesPlayed;
   /* 0x0808 */ public:
@@ -746,6 +749,7 @@ class LawnApp : public Sexy::SexyApp
     int mMaxTime;
   /* 0x0814 */ public:
     bool mEasyPlantingCheat;
+    char pad_0x815[3];
   /* 0x0818 */ public:
     /* PoolEffect * */ int mPoolEffect;
   /* 0x081c */ public:
@@ -762,6 +766,7 @@ class LawnApp : public Sexy::SexyApp
     /* LevelStats * */ int mLastLevelStats;
   /* 0x0834 */ public:
     bool mCloseRequest;
+    char pad_0x835[3];
   /* 0x0838 */ public:
     int mAppCounter;
   /* 0x083c */ public:
@@ -777,7 +782,7 @@ class LawnApp : public Sexy::SexyApp
   /* 0x0850 */ public:
     int mCrazyDaveMessageIndex;
   /* 0x0854 */ public:
-    std::basic_string<char, std::char_traits<char>, std::allocator<char>> mCrazyDaveMessageText;
+    std::string mCrazyDaveMessageText;
   /* 0x0870 */ public:
     int mAppRandSeed;
   /* 0x0874 */ public:
@@ -794,6 +799,7 @@ class LawnApp : public Sexy::SexyApp
     BoardResult mBoardResult;
   /* 0x088c */ public:
     bool mKilledYetiAndRestarted;
+    char pad_0x88d[3];
   /* 0x0890 */ public:
     /* TypingCheck * */ int mKonamiCheck;
   /* 0x0894 */ public:
@@ -824,6 +830,7 @@ class LawnApp : public Sexy::SexyApp
     bool mDaisyMode;
   /* 0x08b9 */ public:
     bool mSukhbirMode;
+    char pad_0x8ba[6];
 
   public:
     LawnApp(const LawnApp &);
@@ -862,20 +869,19 @@ class LawnApp : public Sexy::SexyApp
     virtual void LoadingThreadCompleted();
 
   public:
-    virtual void URLOpenFailed(const std::basic_string<char, std::char_traits<char>, std::allocator<char>> &);
+    virtual void URLOpenFailed(const std::string &);
 
   public:
-    virtual void URLOpenSucceeded(const std::basic_string<char, std::char_traits<char>, std::allocator<char>> &);
+    virtual void URLOpenSucceeded(const std::string &);
 
   public:
-    virtual bool OpenURL(const std::basic_string<char, std::char_traits<char>, std::allocator<char>> &, bool);
+    virtual bool OpenURL(const std::string &, bool);
 
   public:
     virtual bool DebugKeyDown(int);
 
   public:
-    virtual void HandleCmdLineParam(const std::basic_string<char, std::char_traits<char>, std::allocator<char>> &,
-                                    const std::basic_string<char, std::char_traits<char>, std::allocator<char>> &);
+    virtual void HandleCmdLineParam(const std::string &, const std::string &);
 
   public:
     void ConfirmQuit();
@@ -905,13 +911,13 @@ class LawnApp : public Sexy::SexyApp
     void FinishCreateUserDialog(bool);
 
   public:
-    void DoConfirmDeleteUserDialog(const std::basic_string<char, std::char_traits<char>, std::allocator<char>> &);
+    void DoConfirmDeleteUserDialog(const std::string &);
 
   public:
     void FinishConfirmDeleteUserDialog(bool);
 
   public:
-    void DoRenameUserDialog(const std::basic_string<char, std::char_traits<char>, std::allocator<char>> &);
+    void DoRenameUserDialog(const std::string &);
 
   public:
     void FinishRenameUserDialog(bool);
@@ -923,10 +929,10 @@ class LawnApp : public Sexy::SexyApp
     void FinishRestartConfirmDialog();
 
   public:
-    void DoConfirmSellDialog(const std::basic_string<char, std::char_traits<char>, std::allocator<char>> &);
+    void DoConfirmSellDialog(const std::string &);
 
   public:
-    void DoConfirmPurchaseDialog(const std::basic_string<char, std::char_traits<char>, std::allocator<char>> &);
+    void DoConfirmPurchaseDialog(const std::string &);
 
   public:
     void FinishTimesUpDialog();
@@ -1004,16 +1010,10 @@ class LawnApp : public Sexy::SexyApp
     void FinishModelessDialogs();
 
   public:
-    virtual Sexy::Dialog *DoDialog(int, bool,
-                                   const std::basic_string<char, std::char_traits<char>, std::allocator<char>> &,
-                                   const std::basic_string<char, std::char_traits<char>, std::allocator<char>> &,
-                                   const std::basic_string<char, std::char_traits<char>, std::allocator<char>> &, int);
+    virtual Sexy::Dialog *DoDialog(int, bool, const std::string &, const std::string &, const std::string &, int);
 
   public:
-    Sexy::Dialog *DoDialogDelay(int, bool,
-                                const std::basic_string<char, std::char_traits<char>, std::allocator<char>> &,
-                                const std::basic_string<char, std::char_traits<char>, std::allocator<char>> &,
-                                const std::basic_string<char, std::char_traits<char>, std::allocator<char>> &, int);
+    Sexy::Dialog *DoDialogDelay(int, bool, const std::string &, const std::string &, const std::string &, int);
 
   public:
     virtual void Shutdown();
@@ -1025,10 +1025,7 @@ class LawnApp : public Sexy::SexyApp
     virtual void Start();
 
   public:
-    virtual Sexy::Dialog *NewDialog(int, bool,
-                                    const std::basic_string<char, std::char_traits<char>, std::allocator<char>> &,
-                                    const std::basic_string<char, std::char_traits<char>, std::allocator<char>> &,
-                                    const std::basic_string<char, std::char_traits<char>, std::allocator<char>> &, int);
+    virtual Sexy::Dialog *NewDialog(int, bool, const std::string &, const std::string &, const std::string &, int);
 
   public:
     virtual bool KillDialog(int);
@@ -1094,7 +1091,7 @@ class LawnApp : public Sexy::SexyApp
     void FastLoad(GameMode);
 
   public:
-    std::basic_string<char, std::char_traits<char>, std::allocator<char>> GetStageString(int);
+    std::string GetStageString(int);
 
   public:
     void KillChallengeScreen();
@@ -1196,7 +1193,7 @@ class LawnApp : public Sexy::SexyApp
     SeedType GetAwardSeedForLevel(int);
 
   public:
-    std::basic_string<char, std::char_traits<char>, std::allocator<char>> GetCrazyDaveText(int);
+    std::string GetCrazyDaveText(int);
 
   public:
     bool CanShowAlmanac();
@@ -1241,7 +1238,7 @@ class LawnApp : public Sexy::SexyApp
     void CrazyDaveTalkIndex(int);
 
   public:
-    void CrazyDaveTalkMessage(const std::basic_string<char, std::char_traits<char>, std::allocator<char>> &);
+    void CrazyDaveTalkMessage(const std::string &);
 
   public:
     void CrazyDaveLeave();
@@ -1274,7 +1271,7 @@ class LawnApp : public Sexy::SexyApp
     void KillCreditScreen();
 
   public:
-    std::basic_string<char, std::char_traits<char>, std::allocator<char>> Pluralize(int, const char *, const char *);
+    std::string Pluralize(int, const char *, const char *);
 
   public:
     int GetNumTrophies(ChallengePage);
@@ -1307,7 +1304,7 @@ class LawnApp : public Sexy::SexyApp
     bool CanShowZenGarden();
 
   public:
-    std::basic_string<char, std::char_traits<char>, std::allocator<char>> GetMoneyString(int);
+    std::string GetMoneyString(int);
 
   public:
     bool AdvanceCrazyDaveText();
@@ -1325,10 +1322,7 @@ class LawnApp : public Sexy::SexyApp
     void UpdatePlayTimeStats();
 
   public:
-    void BetaAddFile(std::list<std::basic_string<char, std::char_traits<char>, std::allocator<char>>,
-                               std::allocator<std::basic_string<char, std::char_traits<char>, std::allocator<char>>>> &,
-                     std::basic_string<char, std::char_traits<char>, std::allocator<char>>,
-                     std::basic_string<char, std::char_traits<char>, std::allocator<char>>);
+    void BetaAddFile(std::list<std::string, std::allocator<std::string>> &, std::string, std::string);
 
   public:
     bool CanPauseNow();
@@ -1346,7 +1340,7 @@ class LawnApp : public Sexy::SexyApp
     void CrazyDaveDoneHanding();
 
   public:
-    std::basic_string<char, std::char_traits<char>, std::allocator<char>> GetCurrentLevelName();
+    std::string GetCurrentLevelName();
 
   public:
     int TrophiesNeedForGoldSunflower();
