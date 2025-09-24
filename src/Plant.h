@@ -11,8 +11,12 @@
 #include <vector>
 
 #include "GameObject.h"
+#include "Zombie.h"
+
+#define MAX_MAGNET_ITEMS 5
 
 class GameObject;
+class Zombie;
 
 enum MagnetItemType : int
 {
@@ -392,10 +396,13 @@ enum ReanimationID : int
 };
 #endif
 
+#ifndef E_ZOMBIE_ID
+#define E_ZOMBIE_ID
 enum ZombieID : int
 {
     ZOMBIEID_NULL = 0x0000,
 };
+#endif
 
 #ifndef E_PARTICLE_EFFECT
 #define E_PARTICLE_EFFECT
@@ -557,6 +564,7 @@ class Plant : public GameObject
     int mAnimCounter;
   /* 0x0030 */ public:
     bool mAnimPing;
+    char pad_0x31[3];
   /* 0x0034 */ public:
     int mFrame;
   /* 0x0038 */ public:
@@ -569,6 +577,7 @@ class Plant : public GameObject
     bool mDead;
   /* 0x0045 */ public:
     bool mSquished;
+    char pad_0x46[2];
   /* 0x0048 */ public:
     int mPlantHealth;
   /* 0x004c */ public:
@@ -665,10 +674,10 @@ class Plant : public GameObject
     void DoSpecial();
 
   public:
-    void Fire(/* Zombie * */ int, int, PlantWeapon);
+    void Fire(Zombie *, int, PlantWeapon);
 
   public:
-    /* Zombie * */ int FindTargetZombie(int, PlantWeapon);
+    Zombie *FindTargetZombie(int, PlantWeapon);
 
   public:
     void Die();
@@ -704,7 +713,7 @@ class Plant : public GameObject
     /* Sexy::TRect<int> */ int GetPlantAttackRect(PlantWeapon);
 
   public:
-    /* Zombie * */ int FindSquashTarget();
+    Zombie *FindSquashTarget();
 
   public:
     void UpdateSquash();
@@ -806,7 +815,7 @@ class Plant : public GameObject
     void UpdateSpikeweed();
 
   public:
-    void MagnetShroomAttactItem(/* Zombie * */ int);
+    void MagnetShroomAttactItem(Zombie *);
 
   public:
     void UpdateSunShroom();
@@ -926,10 +935,10 @@ class Plant : public GameObject
     static int GetCost(SeedType, SeedType);
 
   public:
-    static std::basic_string<char, std::char_traits<char>, std::allocator<char>> GetNameString(SeedType, SeedType);
+    static std::string GetNameString(SeedType, SeedType);
 
   public:
-    static std::basic_string<char, std::char_traits<char>, std::allocator<char>> GetToolTip(SeedType);
+    static std::string GetToolTip(SeedType);
 
   public:
     static int GetRefreshTime(SeedType, SeedType);
@@ -951,6 +960,71 @@ class Plant : public GameObject
 
   public:
     static void PreloadPlantResources(SeedType);
+};
+
+enum GardenType : int
+{
+    GARDEN_MAIN = 0x0000,
+    GARDEN_MUSHROOM = 0x0001,
+    GARDEN_WHEELBARROW = 0x0002,
+    GARDEN_AQUARIUM = 0x0003,
+};
+
+enum PottedPlantAge : int
+{
+    PLANTAGE_SPROUT = 0x0000,
+    PLANTAGE_SMALL = 0x0001,
+    PLANTAGE_MEDIUM = 0x0002,
+    PLANTAGE_FULL = 0x0003,
+};
+
+enum PottedPlantNeed : int
+{
+    PLANTNEED_NONE = 0x0000,
+    PLANTNEED_WATER = 0x0001,
+    PLANTNEED_FERTILIZER = 0x0002,
+    PLANTNEED_BUGSPRAY = 0x0003,
+    PLANTNEED_PHONOGRAPH = 0x0004,
+};
+
+class PottedPlant
+{ /* Size=0x58 */
+  /* 0x0000 */ public:
+    SeedType mSeedType;
+  /* 0x0004 */ public:
+    GardenType mWhichZenGarden;
+  /* 0x0008 */ public:
+    int mX;
+  /* 0x000c */ public:
+    int mY;
+  /* 0x0010 */ public:
+    int mFacing;
+    // char pad_0x14[4];
+  /* 0x0018 */ public:
+    long long mLastWateredTime;
+  /* 0x0020 */ public:
+    DrawVariation mDrawVariation;
+  /* 0x0024 */ public:
+    PottedPlantAge mPlantAge;
+  /* 0x0028 */ public:
+    int mTimesFed;
+  /* 0x002c */ public:
+    int mFeedingsPerGrow;
+  /* 0x0030 */ public:
+    PottedPlantNeed mPlantNeed;
+    // char pad_0x34[4];
+  /* 0x0038 */ public:
+    long long mLastNeedFulfilledTime;
+  /* 0x0040 */ public:
+    long long mLastFertilizedTime;
+  /* 0x0048 */ public:
+    long long mLastChocolateTime;
+  /* 0x0050 */ public:
+    int mFutureAttribute[1];
+    char pad_0x54[4];
+
+  public:
+    void InitializePottedPlant(SeedType);
 };
 
 PlantDefinition const &GetPlantDefinition(SeedType seedType) // placeholder

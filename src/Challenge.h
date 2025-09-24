@@ -15,10 +15,12 @@
 #include "Board.h"
 #include "LawnApp.h"
 #include "Plant.h"
+#include "Zombie.h"
 
 class Board;
 class LawnApp;
 class Plant;
+class Zombie;
 
 #ifndef E_GRID_ITEM_STATE
 #define E_GRID_ITEM_STATE
@@ -274,7 +276,7 @@ class Challenge
     void UpdateBeghouled();
 
   public:
-    bool UpdateBeghouledPlant(/* Plant * */ int);
+    bool UpdateBeghouledPlant(Plant *);
 
   public:
     void BeghouledFallIntoSquare(int, int, /* BeghouledBoardState * */ int);
@@ -283,7 +285,7 @@ class Challenge
     void BeghouledMakePlantsFall(/* BeghouledBoardState * */ int);
 
   public:
-    void ZombieAtePlant(/* Zombie * */ int, /* Plant * */ int);
+    void ZombieAtePlant(Zombie *, Plant *);
 
   public:
     void DrawBackdrop(Sexy::Graphics *);
@@ -298,7 +300,7 @@ class Challenge
     SeedType GetArtChallengeSeed(int, int);
 
   public:
-    void PlantAdded(/* Plant * */ int);
+    void PlantAdded(Plant *);
 
   public:
     PlantingReason CanPlantAt(int, int, SeedType);
@@ -400,7 +402,7 @@ class Challenge
     float PortalCombatRowSpawnWeight(int);
 
   public:
-    bool CanTargetZombieWithPortals(/* Plant * */ int, /* Zombie * */ int);
+    bool CanTargetZombieWithPortals(Plant *, Zombie *);
 
   public:
     /* GridItem * */ int GetPortalToRight(int, int);
@@ -430,7 +432,7 @@ class Challenge
     void BeghouledUpdateCraters();
 
   public:
-    /* Zombie * */ int ZombiquariumSpawnSnorkle();
+    Zombie *ZombiquariumSpawnSnorkle();
 
   public:
     void ZombiquariumPacketClicked(/* SeedPacket * */ int);
@@ -496,10 +498,10 @@ class Challenge
     void IZombieUpdate();
 
   public:
-    void IZombieDrawPlant(Sexy::Graphics *, /* Plant * */ int);
+    void IZombieDrawPlant(Sexy::Graphics *, Plant *);
 
   public:
-    void IZombieSetPlantFilterEffect(/* Plant * */ int, FilterEffect);
+    void IZombieSetPlantFilterEffect(Plant *, FilterEffect);
 
   public:
     int ScaryPotterCountSunInPot(/* GridItem * */ int);
@@ -538,16 +540,16 @@ class Challenge
     void SquirrelUpdateOne(/* GridItem * */ int);
 
   public:
-    void IZombieSetupPlant(/* Plant * */ int);
+    void IZombieSetupPlant(Plant *);
 
   public:
     void UpdateRain();
 
   public:
-    bool IZombieEatBrain(/* Zombie * */ int);
+    bool IZombieEatBrain(Zombie *);
 
   public:
-    /* GridItem * */ int IZombieGetBrainTarget(/* Zombie * */ int);
+    /* GridItem * */ int IZombieGetBrainTarget(Zombie *);
 
   public:
     void IZombiePlacePlantInSquare(SeedType, int, int);
@@ -565,7 +567,7 @@ class Challenge
     bool BeghouledFlashFromBoardState(/* BeghouledBoardState * */ int, int, int, int, int);
 
   public:
-    void IZombiePlantDropRemainingSun(/* Plant * */ int);
+    void IZombiePlantDropRemainingSun(Plant *);
 
   public:
     void IZombieSquishBrain(/* GridItem * */ int);

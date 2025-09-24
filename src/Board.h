@@ -14,12 +14,17 @@
 #include "SexyAppFramework/MTRand.h"
 
 #include "Challenge.h"
+#include "Coin.h"
+#include "CursorObject.h"
 #include "CutScene.h"
 #include "LawnApp.h"
 #include "Plant.h"
 #include "Zombie.h"
 
 class Challenge;
+class Coin;
+class CursorObject;
+class CutScene;
 class LawnApp;
 class Plant;
 class Zombie;
@@ -65,7 +70,7 @@ enum ProjectileType : int
 };
 
 #ifndef E_GAME_OBJECT_TYPE
-#define E_GAMEE_GAME_OBJECT_TYPE
+#define E_GAME_OBJECT_TYPE
 enum GameObjectType : int
 {
     OBJECT_TYPE_NONE = 0x0000,
@@ -148,6 +153,8 @@ enum GridSquareType : int
     GRIDSQUARE_HIGH_GROUND = 0x0004,
 };
 
+#ifndef E_COIN_MOTION
+#define E_COIN_MOTION
 enum CoinMotion : int
 {
     COIN_MOTION_FROM_SKY = 0x0000,
@@ -158,6 +165,7 @@ enum CoinMotion : int
     COIN_MOTION_FROM_PRESENT = 0x0005,
     COIN_MOTION_FROM_BOSS = 0x0006,
 };
+#endif
 
 enum BackgroundType : int
 {
@@ -244,6 +252,8 @@ enum AdviceType : int
     NUM_ADVICE_TYPES = 0x0041,
 };
 
+#ifndef E_COIN_TYPE
+#define E_COIN_TYPE
 enum CoinType : int
 {
     COIN_NONE = 0x0000,
@@ -274,6 +284,7 @@ enum CoinType : int
     COIN_PRESENT_MINIGAMES = 0x0019,
     COIN_PRESENT_PUZZLE_MODE = 0x001a,
 };
+#endif
 
 #ifndef E_CURSOR_TYPE
 #define E_CURSOR_TYPE
@@ -424,10 +435,10 @@ template <typename T> struct DataArray
     const char *mName;          // 0x18 -> debug name
 };
 
-class Board /*public Sexy::Widget, public Sexy::ButtonListener*/
-{           /* Size=0x57b0 */
+class Board : public Sexy::Widget, public Sexy::ButtonListener
+{   /* Size=0x57b0 */
     /* 0x0000: fields for Sexy::Widget */
-    char unk_0[0x88];
+    // char unk_0[0x88];
     /* 0x0088: fields for Sexy::ButtonListener */
     // char unk_88[4];
   /* 0x008c */ public:
@@ -449,7 +460,7 @@ class Board /*public Sexy::Widget, public Sexy::ButtonListener*/
     // DataArray<GridItem> mGridItems;
     char unk_11c[0x1c];
   /* 0x0138 */ public:
-    /* CursorObject * */ int mCursorObject;
+    CursorObject *mCursorObject;
   /* 0x013c */ public:
     /* CursorPreview * */ int mCursorPreview;
   /* 0x0140 */ public:
@@ -462,6 +473,7 @@ class Board /*public Sexy::Widget, public Sexy::ButtonListener*/
     /* GameButton * */ int mStoreButton;
   /* 0x0150 */ public:
     bool mIgnoreMouseUp;
+    char pad_0x151[3];
   /* 0x0154 */ public:
     /* ToolTipWidget * */ int mToolTip;
   /* 0x0158 */ public:
@@ -472,6 +484,7 @@ class Board /*public Sexy::Widget, public Sexy::ButtonListener*/
     Challenge *mChallenge;
   /* 0x0164 */ public:
     bool mPaused;
+    char pad_0x165[3];
   /* 0x0168 */ public:
     GridSquareType mGridSquareType[9][6];
   /* 0x0240 */ public:
@@ -482,6 +495,7 @@ class Board /*public Sexy::Widget, public Sexy::ButtonListener*/
     int mGridCelFog[9][7];
   /* 0x05c4 */ public:
     bool mEnableGraveStones;
+    char pad_0x5c5[3];
   /* 0x05c8 */ public:
     int mSpecialGraveStoneX;
   /* 0x05cc */ public:
@@ -566,18 +580,21 @@ class Board /*public Sexy::Widget, public Sexy::ButtonListener*/
     int mHugeWaveCountDown;
   /* 0x55a8 */ public:
     bool mHelpDisplayed[65];
+    char pad_0x55e9[3];
   /* 0x55ec */ public:
     AdviceType mHelpIndex;
   /* 0x55f0 */ public:
     bool mFinalBossKilled;
   /* 0x55f1 */ public:
     bool mShowShovel;
+    char pad_0x55f2[2];
   /* 0x55f4 */ public:
     int mCoinBankFadeCount;
   /* 0x55f8 */ public:
     DebugTextMode mDebugTextMode;
   /* 0x55fc */ public:
     bool mLevelComplete;
+    char pad_0x55fd[3];
   /* 0x5600 */ public:
     int mBoardFadeOutCounter;
   /* 0x5604 */ public:
@@ -586,6 +603,7 @@ class Board /*public Sexy::Widget, public Sexy::ButtonListener*/
     int mScoreNextMowerCounter;
   /* 0x560c */ public:
     bool mLevelAwardSpawned;
+    char pad_0x560d[3];
   /* 0x5610 */ public:
     int mProgressMeterWidth;
   /* 0x5614 */ public:
@@ -604,6 +622,7 @@ class Board /*public Sexy::Widget, public Sexy::ButtonListener*/
     int mTimeStopCounter;
   /* 0x574c */ public:
     bool mDroppedFirstCoin;
+    char pad_0x574d[3];
   /* 0x5750 */ public:
     int mFinalWaveSoundCounter;
   /* 0x5754 */ public:
@@ -626,6 +645,7 @@ class Board /*public Sexy::Widget, public Sexy::ButtonListener*/
     bool mDaisyMode;
   /* 0x5766 */ public:
     bool mSukhbirMode;
+    char pad_0x5767;
   /* 0x5768 */ public:
     BoardResult mPrevBoardResult;
   /* 0x576c */ public:
@@ -667,7 +687,7 @@ class Board /*public Sexy::Widget, public Sexy::ButtonListener*/
     Board(const Board &);
 
   public:
-    Board(/* LawnApp * */ int);
+    Board(LawnApp *);
 
   public:
     virtual ~Board();
@@ -694,17 +714,16 @@ class Board /*public Sexy::Widget, public Sexy::ButtonListener*/
     bool SyncState(/* DataSync & */ int);
 
   public:
-    void SaveGame(const std::basic_string<char, std::char_traits<char>, std::allocator<char>> &);
+    void SaveGame(const std::string &);
 
   public:
-    bool LoadGame(const std::basic_string<char, std::char_traits<char>, std::allocator<char>> &);
+    bool LoadGame(const std::string &);
 
   public:
     void InitLevel();
 
   public:
-    void DisplayAdvice(const std::basic_string<char, std::char_traits<char>, std::allocator<char>> &, MessageStyle,
-                       AdviceType);
+    void DisplayAdvice(const std::string &, MessageStyle, AdviceType);
 
   public:
     void StartLevel();
@@ -716,7 +735,7 @@ class Board /*public Sexy::Widget, public Sexy::ButtonListener*/
     /* Projectile * */ int AddProjectile(int, int, int, int, ProjectileType);
 
   public:
-    /* Coin * */ int AddCoin(int, int, CoinType, CoinMotion);
+    Coin *AddCoin(int, int, CoinType, CoinMotion);
 
   public:
     void RefreshSeedPacketFromCursor();
@@ -1289,8 +1308,7 @@ class Board /*public Sexy::Widget, public Sexy::ButtonListener*/
     bool IsFinalScaryPotterStage();
 
   public:
-    void DisplayAdviceAgain(const std::basic_string<char, std::char_traits<char>, std::allocator<char>> &, MessageStyle,
-                            AdviceType);
+    void DisplayAdviceAgain(const std::string &, MessageStyle, AdviceType);
 
   public:
     /* GridItem * */ int GetSquirrelAt(int, int);

@@ -3,31 +3,6 @@
 
 #include "Plant.h"
 
-enum PottedPlantNeed : int
-{
-    PLANTNEED_NONE = 0x0000,
-    PLANTNEED_WATER = 0x0001,
-    PLANTNEED_FERTILIZER = 0x0002,
-    PLANTNEED_BUGSPRAY = 0x0003,
-    PLANTNEED_PHONOGRAPH = 0x0004,
-};
-
-enum PottedPlantAge : int
-{
-    PLANTAGE_SPROUT = 0x0000,
-    PLANTAGE_SMALL = 0x0001,
-    PLANTAGE_MEDIUM = 0x0002,
-    PLANTAGE_FULL = 0x0003,
-};
-
-enum GardenType : int
-{
-    GARDEN_MAIN = 0x0000,
-    GARDEN_MUSHROOM = 0x0001,
-    GARDEN_WHEELBARROW = 0x0002,
-    GARDEN_AQUARIUM = 0x0003,
-};
-
 #ifndef E_GAME_MODE
 #define E_GAME_MODE
 enum GameMode : int
@@ -107,48 +82,10 @@ enum GameMode : int
 };
 #endif
 
-class PottedPlant
-{ /* Size=0x58 */
-  /* 0x0000 */ public:
-    SeedType mSeedType;
-  /* 0x0004 */ public:
-    GardenType mWhichZenGarden;
-  /* 0x0008 */ public:
-    int mX;
-  /* 0x000c */ public:
-    int mY;
-  /* 0x0010 */ public:
-    int mFacing;
-  /* 0x0018 */ public:
-    long mLastWateredTime;
-  /* 0x0020 */ public:
-    DrawVariation mDrawVariation;
-  /* 0x0024 */ public:
-    PottedPlantAge mPlantAge;
-  /* 0x0028 */ public:
-    int mTimesFed;
-  /* 0x002c */ public:
-    int mFeedingsPerGrow;
-  /* 0x0030 */ public:
-    PottedPlantNeed mPlantNeed;
-  /* 0x0038 */ public:
-    long mLastNeedFulfilledTime;
-  /* 0x0040 */ public:
-    long mLastFertilizedTime;
-  /* 0x0048 */ public:
-    long mLastChocolateTime;
-  /* 0x0050 */ public:
-    int mFutureAttribute[1];
-
-  public:
-    void InitializePottedPlant(SeedType);
-};
-
 class PlayerInfo
 { /* Size=0x4818 */
   /* 0x0000 */ public:
-    // std::basic_string<char, std::char_traits<char>, std::allocator<char>> mName;
-    char unk_0[0x1c];
+    std::string mName;
   /* 0x001c */ public:
     unsigned int mUseSeq;
   /* 0x0020 */ public:
