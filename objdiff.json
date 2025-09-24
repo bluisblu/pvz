@@ -17,6 +17,12 @@
   ],
   "units": [
     {
+      "name": "main",
+      "target_path": "build/objdiff/orig/main.obj",
+      "base_path": "build/objdiff/reimpl/main.obj",
+      "reverse_fn_order": false
+    },
+    {
       "name": "SexyAppFramework/AutoCrit",
       "target_path": "build/objdiff/orig/SexyAppFramework/AutoCrit.obj",
       "base_path": "build/objdiff/reimpl/SexyAppFramework/AutoCrit.obj",
@@ -382,6 +388,18 @@
       "reverse_fn_order": false
     },
     {
+      "name": "TodLib/FilterEffect",
+      "target_path": "build/objdiff/orig/TodLib/FilterEffect.obj",
+      "base_path": "build/objdiff/reimpl/TodLib/FilterEffect.obj",
+      "reverse_fn_order": false
+    },
+    {
+      "name": "TodLib/Precompile",
+      "target_path": "build/objdiff/orig/TodLib/Precompile.obj",
+      "base_path": "build/objdiff/reimpl/TodLib/Precompile.obj",
+      "reverse_fn_order": false
+    },
+    {
       "name": "TodLib/ReanimAtlas",
       "target_path": "build/objdiff/orig/TodLib/ReanimAtlas.obj",
       "base_path": "build/objdiff/reimpl/TodLib/ReanimAtlas.obj",
@@ -391,6 +409,18 @@
       "name": "TodLib/Reanimator",
       "target_path": "build/objdiff/orig/TodLib/Reanimator.obj",
       "base_path": "build/objdiff/reimpl/TodLib/Reanimator.obj",
+      "reverse_fn_order": false
+    },
+    {
+      "name": "TodLib/StackWalk",
+      "target_path": "build/objdiff/orig/TodLib/StackWalk.obj",
+      "base_path": "build/objdiff/reimpl/TodLib/StackWalk.obj",
+      "reverse_fn_order": false
+    },
+    {
+      "name": "TodLib/Tod_SWTri",
+      "target_path": "build/objdiff/orig/TodLib/Tod_SWTri.obj",
+      "base_path": "build/objdiff/reimpl/TodLib/Tod_SWTri.obj",
       "reverse_fn_order": false
     },
     {
@@ -415,6 +445,12 @@
       "name": "TodLib/TodParticle",
       "target_path": "build/objdiff/orig/TodLib/TodParticle.obj",
       "base_path": "build/objdiff/reimpl/TodLib/TodParticle.obj",
+      "reverse_fn_order": false
+    },
+    {
+      "name": "TodLib/TodStringFile",
+      "target_path": "build/objdiff/orig/TodLib/TodStringFile.obj",
+      "base_path": "build/objdiff/reimpl/TodLib/TodStringFile.obj",
       "reverse_fn_order": false
     },
     {
