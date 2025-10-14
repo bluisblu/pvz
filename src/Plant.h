@@ -44,6 +44,8 @@ enum MagnetItemType : int
     MAGNET_ITEM_PICK_AXE = 0x0015,
 };
 
+#ifndef E_PLANT_STATE
+#define E_PLANT_STATE
 enum PlantState : int
 {
     STATE_NOTREADY = 0x0000,
@@ -96,6 +98,7 @@ enum PlantState : int
     STATE_FLOWERPOT_INVULNERABLE = 0x002f,
     STATE_LILYPAD_INVULNERABLE = 0x0030,
 };
+#endif
 
 enum DrawVariation : int
 {
@@ -145,8 +148,8 @@ enum PlantSubClass : int
     SUBCLASS_SHOOTER = 0x0001,
 };
 
-#ifndef E_SEEDTYPE
-#define E_SEEDTYPE
+#ifndef E_SEED_TYPE
+#define E_SEED_TYPE
 enum SeedType : int
 {
     SEED_PEASHOOTER = 0x0000,

@@ -100,10 +100,10 @@ void Plant::PlayBodyReanim(const char *theTrackName, ReanimLoopType theLoopType,
 
 void Plant::UpdateDoomShroom()
 {
-    if (mIsAsleep || mState == PlantState::STATE_DOINGSPECIAL)
+    if (mIsAsleep || mState == STATE_DOINGSPECIAL)
         return;
 
-    mState = PlantState::STATE_DOINGSPECIAL;
+    mState = STATE_DOINGSPECIAL;
     mDoSpecialCountdown = 100;
 
     Reanimation *aBodyReanim = mApp->ReanimationTryToGet(mBodyReanimID);
@@ -111,11 +111,11 @@ void Plant::UpdateDoomShroom()
 
     aBodyReanim->SetFramesForLayer("anim_explode");
     aBodyReanim->mAnimRate = 23.0f;
-    aBodyReanim->mLoopType = ReanimLoopType::REANIM_PLAY_ONCE_AND_HOLD;
+    aBodyReanim->mLoopType = REANIM_PLAY_ONCE_AND_HOLD;
     aBodyReanim->SetShakeOverride("DoomShroom_head1", 1.0f);
     aBodyReanim->SetShakeOverride("DoomShroom_head2", 2.0f);
     aBodyReanim->SetShakeOverride("DoomShroom_head3", 2.0f);
-    mApp->PlayFoley(FoleyType::FOLEY_REVERSE_EXPLOSION);
+    mApp->PlayFoley(FOLEY_REVERSE_EXPLOSION);
 }
 
 void Plant::UpdateIceShroom()
@@ -146,11 +146,11 @@ void Plant::UpdateLilypad()
 
 MagnetItem *Plant::GetFreeMagnetItem()
 {
-    if (mSeedType == SeedType::SEED_GOLD_MAGNET)
+    if (mSeedType == SEED_GOLD_MAGNET)
     {
         for (int i = 0; i < MAX_MAGNET_ITEMS; i++)
         {
-            if (mMagnetItems[i].mItemType == MagnetItemType::MAGNET_ITEM_NONE)
+            if (mMagnetItems[i].mItemType == MAGNET_ITEM_NONE)
             {
                 return &mMagnetItems[i];
             }
@@ -293,39 +293,38 @@ void Plant::GetPeaHeadOffset(int &theOffsetX, int &theOffsetY)
 
 void Plant::BurnRow(int theRow)
 {
-    int aDamageRangeFlags = GetDamageRangeFlags(PlantWeapon::WEAPON_PRIMARY);
+    int DamageRangeFlags = Plant::GetDamageRangeFlags(WEAPON_PRIMARY);
 
-    Zombie *aZombie = NULL;
-    while (mBoard->IterateZombies(aZombie))
+    GridItem* aGridItem = NULL;
+    if (mBoard->IterateZombies((Zombie *&)*aGridItem))
     {
-        if ((aZombie->mZombieType == ZombieType::ZOMBIE_BOSS || aZombie->mRow == theRow) &&
-            aZombie->EffectedByDamage(aDamageRangeFlags))
+        do
         {
-            aZombie->RemoveColdEffects();
-            aZombie->ApplyBurn();
-        }
+            Zombie* aZombie = (Zombie*)aGridItem;
+            if (((int)aGridItem->mPosX == 25 || aGridItem->mRenderOrder == mRow) &&
+                aZombie->EffectedByDamage(DamageRangeFlags))
+            {
+                aZombie->RemoveColdEffects();
+                aZombie->ApplyBurn();
+            }
+        } while (mBoard->IterateZombies((Zombie *&)*aGridItem));
     }
 
-    /*GridItem* aGridItem = NULL;
-    while (mBoard->IterateGridItems(aGridItem))
+    GridItem* theGridItem = NULL;
+    if (mBoard->IterateGridItems(theGridItem))
     {
-        if (aGridItem->mGridY == theRow && aGridItem->mGridItemType == GridItemType::GRIDITEM_LADDER)
+        do
         {
-            aGridItem->GridItemDie();
-        }
-    }*/
-
-    Zombie *aBossZombie = NULL;
-    while (mBoard->IterateZombies(aBossZombie))
-    {
-        if (aBossZombie->mZombieType == ZOMBIE_BOSS && aBossZombie->mFireballRow == theRow)
-        {
-            // 注：原版中将 Zombie::BossDestroyIceballInRow(int) 函数改为了
-            // Zombie::BossDestroyIceball()，冰球是否位于目标行的判断则移动至此处进行
-            aBossZombie->BossDestroyIceballInRow(theRow);
-        }
+            if (theGridItem->mGridY == theRow && theGridItem->mGridItemType == GRIDITEM_LADDER)
+                theGridItem->GridItemDie();
+        } while (mBoard->IterateGridItems(theGridItem));
     }
+
+    Zombie* BossZombie = mBoard->GetBossZombie();
+    if (BossZombie)
+        BossZombie->BossDestroyIceballInRow(theRow);
 }
+
 
 int Plant::GetCost(SeedType theSeedType, SeedType theImitaterType)
 {
@@ -487,8 +486,7 @@ int Plant::CalcRenderOrder()
     {
         anOrder = PLANT_ORDER_FLYER;
     }
-    else if (seedType == SEED_FLOWERPOT ||
-             (seedType == SEED_LILYPAD && mApp->mGameMode != GAMEMODE_CHALLENGE_ZEN_GARDEN))
+    else if (seedType == SEED_FLOWERPOT || seedType == SEED_LILYPAD && mApp->mGameMode != GAMEMODE_CHALLENGE_ZEN_GARDEN)
     {
         anOrder = PLANT_ORDER_LILYPAD;
     }
@@ -707,7 +705,7 @@ void Plant::Die()
     // code *pcVar2;
     BOOL BVar3;
     Zombie *this_00;
-    int this_01;
+    GridItem *this_01;
     Plant *pPVar4;
     Plant *pPVar5;
     Reanimation *pRVar6;

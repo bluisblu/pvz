@@ -21,6 +21,7 @@ class Board;
 class LawnApp;
 class Plant;
 class Zombie;
+class GridItem;
 
 #ifndef E_GRID_ITEM_STATE
 #define E_GRID_ITEM_STATE
@@ -78,6 +79,8 @@ enum ChallengeState : int
     STATECHALLENGE_TREE_BABBLING = 0x000e,
 };
 
+#ifndef E_SCARY_POT_TYPE
+#define E_SCARY_POT_TYPE
 enum ScaryPotType : int
 {
     SCARYPOT_NONE = 0x0000,
@@ -85,6 +88,7 @@ enum ScaryPotType : int
     SCARYPOT_ZOMBIE = 0x0002,
     SCARYPOT_SUN = 0x0003,
 };
+#endif
 
 #ifndef E_PLANTING_REASON
 #define E_PLANTING_REASON
@@ -393,10 +397,10 @@ class Challenge
     void UpdatePortalCombat();
 
   public:
-    /* GridItem * */ int GetOtherPortal(/* GridItem * */ int);
+    GridItem * GetOtherPortal(GridItem *);
 
   public:
-    void UpdatePortal(/* GridItem * */ int);
+    void UpdatePortal(GridItem *);
 
   public:
     float PortalCombatRowSpawnWeight(int);
@@ -405,10 +409,10 @@ class Challenge
     bool CanTargetZombieWithPortals(Plant *, Zombie *);
 
   public:
-    /* GridItem * */ int GetPortalToRight(int, int);
+    GridItem * GetPortalToRight(int, int);
 
   public:
-    /* GridItem * */ int GetPortalAt(int, int);
+    GridItem * GetPortalAt(int, int);
 
   public:
     void MoveAPortal();
@@ -417,7 +421,7 @@ class Challenge
     int GetPortalDistanceToMower(int);
 
   public:
-    /* GridItem * */ int GetPortalToLeft(int, int);
+    GridItem * GetPortalToLeft(int, int);
 
   public:
     void BeghouledPacketClicked(/* SeedPacket * */ int);
@@ -459,7 +463,7 @@ class Challenge
     void ScaryPotterUpdate();
 
   public:
-    void ScaryPotterOpenPot(/* GridItem * */ int);
+    void ScaryPotterOpenPot(GridItem *);
 
   public:
     void ScaryPotterJackExplode(int, int);
@@ -483,7 +487,7 @@ class Challenge
     void PuzzleNextStageClear();
 
   public:
-    void ScaryPotterMalletPot(/* GridItem * */ int);
+    void ScaryPotterMalletPot(GridItem *);
 
   public:
     void IZombieMouseDownWithZombie(int, int, int);
@@ -504,7 +508,7 @@ class Challenge
     void IZombieSetPlantFilterEffect(Plant *, FilterEffect);
 
   public:
-    int ScaryPotterCountSunInPot(/* GridItem * */ int);
+    int ScaryPotterCountSunInPot(GridItem *);
 
   public:
     int ScaryPotterCountPots();
@@ -528,16 +532,16 @@ class Challenge
     void SquirrelStart();
 
   public:
-    void SquirrelFound(/* GridItem * */ int);
+    void SquirrelFound(GridItem *);
 
   public:
-    void SquirrelPeek(/* GridItem * */ int);
+    void SquirrelPeek(GridItem *);
 
   public:
-    void SquirrelChew(/* GridItem * */ int);
+    void SquirrelChew(GridItem *);
 
   public:
-    void SquirrelUpdateOne(/* GridItem * */ int);
+    void SquirrelUpdateOne(GridItem *);
 
   public:
     void IZombieSetupPlant(Plant *);
@@ -549,7 +553,7 @@ class Challenge
     bool IZombieEatBrain(Zombie *);
 
   public:
-    /* GridItem * */ int IZombieGetBrainTarget(Zombie *);
+    GridItem * IZombieGetBrainTarget(Zombie *);
 
   public:
     void IZombiePlacePlantInSquare(SeedType, int, int);
@@ -570,10 +574,10 @@ class Challenge
     void IZombiePlantDropRemainingSun(Plant *);
 
   public:
-    void IZombieSquishBrain(/* GridItem * */ int);
+    void IZombieSquishBrain(GridItem *);
 
   public:
-    void IZombieScoreBrain(/* GridItem * */ int);
+    void IZombieScoreBrain(GridItem *);
 
   public:
     void LastStandUpate();
@@ -642,7 +646,7 @@ class Challenge
     void TreeOfWisdomNextGarden();
 
   public:
-    void TreeOfWisdomToolUpdate(/* GridItem * */ int);
+    void TreeOfWisdomToolUpdate(GridItem *);
 
   public:
     void TreeOfWisdomOpenStore();

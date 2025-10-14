@@ -105,7 +105,7 @@ void Reanimation::AttachToAnotherReanimation(Reanimation *param_1, const char *p
             param_1->mFrameBasePose = param_1->mFrameStart;
         }
         iVar1 = param_1->FindTrackIndex(param_2);
-        AttachReanim(&param_1->mTrackInstances[iVar1].mAttachmentID, this, 0.0, 0.0);
+        AttachReanim(param_1->mTrackInstances[iVar1].mAttachmentID, this, 0.0, 0.0);
     }
     return;
 }

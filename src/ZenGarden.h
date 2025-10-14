@@ -4,6 +4,7 @@
 #define __ZENGARDEN_H__
 
 #include "CursorObject.h"
+#include "GridItem.h"
 
 #ifndef E_GRID_ITEM_STATE
 #define E_GRID_ITEM_STATE
@@ -178,7 +179,7 @@ class ZenGarden
     void UpdatePlantEffectState(Plant *);
 
   public:
-    void ZenToolUpdate(/* GridItem * */ int);
+    void ZenToolUpdate(GridItem *);
 
   public:
     void DoFeedingTool(int, int, GridItemState);
@@ -187,16 +188,16 @@ class ZenGarden
     void AddStinky();
 
   public:
-    void StinkyUpdate(/* GridItem * */ int);
+    void StinkyUpdate(GridItem *);
 
   public:
     void OpenStore();
 
   public:
-    /* GridItem * */ int GetStinky();
+    GridItem * GetStinky();
 
   public:
-    void StinkyPickGoal(/* GridItem * */ int);
+    void StinkyPickGoal(GridItem *);
 
   public:
     bool PlantShouldRefreshNeed(PottedPlant *);
@@ -232,13 +233,13 @@ class ZenGarden
     SeedType PickRandomSeedType();
 
   public:
-    void StinkyWakeUp(/* GridItem * */ int);
+    void StinkyWakeUp(GridItem *);
 
   public:
-    void StinkyStartFallingAsleep(/* GridItem * */ int);
+    void StinkyStartFallingAsleep(GridItem *);
 
   public:
-    void StinkyFinishFallingAsleep(/* GridItem * */ int, int);
+    void StinkyFinishFallingAsleep(GridItem *, int);
 
   public:
     void AdvanceCrazyDaveDialog();
@@ -262,7 +263,7 @@ class ZenGarden
     void SetPlantAnimSpeed(Plant *);
 
   public:
-    void UpdateStinkyMotionTrail(/* GridItem * */ int, bool);
+    void UpdateStinkyMotionTrail(GridItem *, bool);
 
   public:
     void ResetPlantTimers(PottedPlant *);
@@ -286,7 +287,7 @@ class ZenGarden
     bool IsStinkyHighOnChocolate();
 
   public:
-    void StinkyAnimRateUpdate(/* GridItem * */ int);
+    void StinkyAnimRateUpdate(GridItem *);
 
   public:
     bool PlantCanBeWatered(Plant *);

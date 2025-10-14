@@ -6,9 +6,9 @@ import subprocess
 import os
 
 # Map relative source paths to additional compiler flags
-# e.g. "src/Plant.cpp" needs /Ob0 to prevent inlining
 PER_FILE_FLAGS = {
     "src/Plant.cpp": "-Ob0",
+    #"src/Zombie.cpp": "-Ob0",
     "src/SexyAppFramework/BassLoader.cpp": "/Ob0",
     "src/SexyAppFramework/Font.cpp": "/Ob0",
     "src/SexyAppFramework/HTTPTransfer.cpp": "/Ob0",
@@ -38,8 +38,8 @@ def build_object(source_file: Path, out_dir: Path, verbose: bool = False) -> Pat
 
     # Base compiler flags
     base_flags = (
-        '/nologo /EHsc /MD /O2 /D_CRT_SECURE_NO_DEPRECATE /D_CRT_NONSTDC_NO_DEPRECATE '
-        f'/I"{dx_include}" /I"{Path("src/SexyAppFramework").resolve()}" /I"{Path("src").resolve()}"'
+        '/nologo /EHsc /MD /O2 /Ob2 /Oi /Gy /GS- /GR- /D_CRT_SECURE_NO_DEPRECATE /D_CRT_NONSTDC_NO_DEPRECATE '
+        f'/I"{dx_include}" /I"{Path("src/SexyAppFramework").resolve()}" /I"{Path("src/TodLib").resolve()}" /I"{Path("src").resolve()}"'
     )
 
     # Check per-file flags

@@ -9,6 +9,8 @@
 
 #include "Reanimator.h"
 
+class Reanimation;
+
 #ifndef E_ATTACHMENT_ID
 #define E_ATTACHMENT_ID
 enum AttachmentID : int
@@ -94,5 +96,10 @@ class Attachment
   public:
     // void *__vecDelDtor(unsigned int);
 };
+
+AttachEffect *AttachReanim(AttachmentID &theAttachmentID, Reanimation *theReanimation, float theOffsetX, float theOffsetY)
+{
+    return NULL;
+}
 
 #endif

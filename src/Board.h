@@ -17,6 +17,7 @@
 #include "Coin.h"
 #include "CursorObject.h"
 #include "CutScene.h"
+#include "GridItem.h"
 #include "LawnApp.h"
 #include "Plant.h"
 #include "Zombie.h"
@@ -28,6 +29,7 @@ class CutScene;
 class LawnApp;
 class Plant;
 class Zombie;
+class GridItem;
 
 #ifndef E_PLANTING_REASON
 #define E_PLANTING_REASON
@@ -144,6 +146,8 @@ enum MessageStyle : int
     MESSAGE_STYLE_ZEN_GARDEN_LONG = 0x0012,
 };
 
+#ifndef E_GRID_SQUARE_TYPE
+#define E_GRID_SQUARE_TYPE
 enum GridSquareType : int
 {
     GRIDSQUARE_NONE = 0x0000,
@@ -152,6 +156,27 @@ enum GridSquareType : int
     GRIDSQUARE_POOL = 0x0003,
     GRIDSQUARE_HIGH_GROUND = 0x0004,
 };
+#endif
+
+#ifndef E_GRID_ITEM_TYPE
+#define E_GRID_ITEM_TYPE
+enum GridItemType : int
+{
+    GRIDITEM_NONE = 0x0000,
+    GRIDITEM_GRAVESTONE = 0x0001,
+    GRIDITEM_CRATER = 0x0002,
+    GRIDITEM_LADDER = 0x0003,
+    GRIDITEM_PORTAL_CIRCLE = 0x0004,
+    GRIDITEM_PORTAL_SQUARE = 0x0005,
+    GRIDITEM_BRAIN = 0x0006,
+    GRIDITEM_SCARY_POT = 0x0007,
+    GRIDITEM_SQUIRREL = 0x0008,
+    GRIDITEM_ZEN_TOOL = 0x0009,
+    GRIDITEM_STINKY = 0x000a,
+    GRIDITEM_RAKE = 0x000b,
+    GRIDITEM_IZOMBIE_BRAIN = 0x000c,
+};
+#endif
 
 #ifndef E_COIN_MOTION
 #define E_COIN_MOTION
@@ -310,23 +335,6 @@ enum CursorType : int
     CURSOR_TYPE_TREE_FOOD = 0x0011,
 };
 #endif
-
-enum GridItemType : int
-{
-    GRIDITEM_NONE = 0x0000,
-    GRIDITEM_GRAVESTONE = 0x0001,
-    GRIDITEM_CRATER = 0x0002,
-    GRIDITEM_LADDER = 0x0003,
-    GRIDITEM_PORTAL_CIRCLE = 0x0004,
-    GRIDITEM_PORTAL_SQUARE = 0x0005,
-    GRIDITEM_BRAIN = 0x0006,
-    GRIDITEM_SCARY_POT = 0x0007,
-    GRIDITEM_SQUIRREL = 0x0008,
-    GRIDITEM_ZEN_TOOL = 0x0009,
-    GRIDITEM_STINKY = 0x000a,
-    GRIDITEM_RAKE = 0x000b,
-    GRIDITEM_IZOMBIE_BRAIN = 0x000c,
-};
 
 enum RenderLayer : int
 {
@@ -1014,7 +1022,7 @@ class Board : public Sexy::Widget, public Sexy::ButtonListener
     bool IterateReanimations(/* Reanimation *& */ int);
 
   public:
-    bool IterateGridItems(/* GridItem *& */ int);
+    bool IterateGridItems(GridItem *&);
 
   public:
     Zombie *AddZombieInRow(ZombieType, int, int);
@@ -1146,7 +1154,7 @@ class Board : public Sexy::Widget, public Sexy::ButtonListener
     void UpdateGridItems();
 
   public:
-    /* GridItem * */ int AddAGraveStone(int, int);
+    GridItem * AddAGraveStone(int, int);
 
   public:
     int GetSurvivalFlagsCompleted();
@@ -1266,19 +1274,19 @@ class Board : public Sexy::Widget, public Sexy::ButtonListener
     void AddBossRenderItem(/* RenderItem * */ int, int &, Zombie *);
 
   public:
-    /* GridItem * */ int GetCraterAt(int, int);
+    GridItem * GetCraterAt(int, int);
 
   public:
-    /* GridItem * */ int GetGraveStoneAt(int, int);
+    GridItem * GetGraveStoneAt(int, int);
 
   public:
-    /* GridItem * */ int GetLadderAt(int, int);
+    GridItem * GetLadderAt(int, int);
 
   public:
-    /* GridItem * */ int AddALadder(int, int);
+    GridItem * AddALadder(int, int);
 
   public:
-    /* GridItem * */ int AddACrater(int, int);
+    GridItem * AddACrater(int, int);
 
   public:
     void InitLawnMowers();
@@ -1296,7 +1304,7 @@ class Board : public Sexy::Widget, public Sexy::ButtonListener
     void RemoveParticleByType(ParticleEffect);
 
   public:
-    /* GridItem * */ int GetScaryPotAt(int, int);
+    GridItem * GetScaryPotAt(int, int);
 
   public:
     void PuzzleSaveStreak();
@@ -1311,10 +1319,10 @@ class Board : public Sexy::Widget, public Sexy::ButtonListener
     void DisplayAdviceAgain(const std::string &, MessageStyle, AdviceType);
 
   public:
-    /* GridItem * */ int GetSquirrelAt(int, int);
+    GridItem * GetSquirrelAt(int, int);
 
   public:
-    /* GridItem * */ int GetZenToolAt(int, int);
+    GridItem * GetZenToolAt(int, int);
 
   public:
     bool IsPlantInGoldWateringCanRange(int, int, Plant *);
@@ -1326,7 +1334,7 @@ class Board : public Sexy::Widget, public Sexy::ButtonListener
     void PlaceRake();
 
   public:
-    /* GridItem * */ int GetRake();
+    GridItem * GetRake();
 
   public:
     bool IsScaryPotterDaveTalking();
@@ -1341,7 +1349,7 @@ class Board : public Sexy::Widget, public Sexy::ButtonListener
     int CountEmptyPotsOrLilies(SeedType);
 
   public:
-    /* GridItem * */ int GetGridItemAt(GridItemType, int, int);
+    GridItem * GetGridItemAt(GridItemType, int, int);
 
   public:
     bool ProgressMeterHasFlags();

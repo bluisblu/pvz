@@ -18,6 +18,7 @@
 class AwardScreen;
 class Board;
 class GameSelector;
+class SeedChooserScreen;
 
 namespace Sexy
 {
@@ -608,8 +609,8 @@ enum GameMode : int
 };
 #endif
 
-#ifndef E_SEEDTYPE
-#define E_SEEDTYPE
+#ifndef E_SEED_TYPE
+#define E_SEED_TYPE
 enum SeedType : int
 {
     SEED_PEASHOOTER = 0x0000,
