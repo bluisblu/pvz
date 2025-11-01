@@ -7,6 +7,8 @@
 #include "SexyAppFramework/Image.h"
 #include "SexyAppFramework/SexyApp.h"
 
+#include "TodLib/TodStringFile.h"
+
 #include "AwardScreen.h"
 #include "Board.h"
 #include "GameSelector.h"
@@ -18,6 +20,9 @@
 class AwardScreen;
 class Board;
 class GameSelector;
+class SeedChooserScreen;
+
+extern TodStringListFormat gLawnStringFormats[12];
 
 namespace Sexy
 {
@@ -608,8 +613,8 @@ enum GameMode : int
 };
 #endif
 
-#ifndef E_SEEDTYPE
-#define E_SEEDTYPE
+#ifndef E_SEED_TYPE
+#define E_SEED_TYPE
 enum SeedType : int
 {
     SEED_PEASHOOTER = 0x0000,

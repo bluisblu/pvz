@@ -1,5 +1,7 @@
-#ifndef __REANIMATLAS_H__
-#define __REANIMATLAS_H__
+#pragma once
+
+#ifndef __TODLIB_REANIMATLAS_H__
+#define __TODLIB_REANIMATLAS_H__
 
 #include "SexyAppFramework/Image.h"
 #include "SexyAppFramework/MemoryImage.h"

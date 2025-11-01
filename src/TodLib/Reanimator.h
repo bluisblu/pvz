@@ -1,7 +1,7 @@
 #pragma once
 
-#ifndef __REANIMATOR_H__
-#define __REANIMATOR_H__
+#ifndef __TODLIB_REANIMATOR_H__
+#define __TODLIB_REANIMATOR_H__
 
 #include <list>
 #include <map>
@@ -10,15 +10,16 @@
 #include <utility>
 #include <vector>
 
+#include "Attachment.h"
+#include "ReanimAtlas.h"
 #include "SexyAppFramework/Font.h"
 #include "SexyAppFramework/Image.h"
 #include "SexyAppFramework/MemoryImage.h"
 #include "SexyAppFramework/SexyMatrix.h"
 
-#include "Attachment.h"
-#include "ReanimAtlas.h"
 
 class AttachEffect;
+class ReanimAtlas;
 
 #ifndef E_FILTER_EFFECT
 #define E_FILTER_EFFECT
@@ -40,11 +41,14 @@ enum AttachmentID : int
 };
 #endif
 
-enum
+#ifndef E_RENDER_GROUP
+#define E_RENDER_GROUP
+enum RenderGroup : int
 {
     RENDER_GROUP_HIDDEN = -1,
     RENDER_GROUP_NORMAL = 0
 };
+#endif
 
 #ifndef E_REANIMATION_TYPE
 #define E_REANIMATION_TYPE
@@ -514,11 +518,6 @@ class ReanimationHolder
   public:
     Reanimation *AllocReanimation(float, float, int, ReanimationType);
 };
-
-AttachEffect *AttachReanim(AttachmentID *param_1, Reanimation *param_2, float param_3, float param_4)
-{
-    return NULL;
-}
 
 void ReanimatorEnsureDefinitionLoaded(ReanimationType theReanimType, bool theIsPreloading);
 

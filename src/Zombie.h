@@ -1,5 +1,6 @@
 #pragma once
 
+#include "TodLib/Attachment.h"
 #ifndef __ZOMBIE_H__
 #define __ZOMBIE_H__
 
@@ -13,9 +14,12 @@
 #include "Attachment.h"
 #include "GameObject.h"
 #include "Plant.h"
+#include "LawnApp.h"
 
+class Attachment;
 class GameObject;
 class Plant;
+class LawnApp;
 
 enum BossPart : int
 {
@@ -781,7 +785,7 @@ class Zombie : public GameObject
     bool HasShadow();
 
   public:
-    /* Reanimation * */ int LoadReanim(ReanimationType);
+    Reanimation * LoadReanim(ReanimationType);
 
   public:
     int TakeFlyingDamage(int, unsigned int);
@@ -877,7 +881,7 @@ class Zombie : public GameObject
     void StartWalkAnim(int);
 
   public:
-    /* Reanimation * */ int AddAttachedReanim(int, int, ReanimationType);
+    Reanimation * AddAttachedReanim(int, int, ReanimationType);
 
   public:
     void DragUnder();

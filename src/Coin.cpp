@@ -248,8 +248,8 @@ void Coin::MouseDown(int x, int y, int theClickCount)
 
     if (theClickCount >= 0 && !mIsBeingCollected)
     {
-        PlayCollectSound();
-        Collect();
+        this->PlayCollectSound();
+        this->Collect();
 
         if (mApp->IsFirstTimeAdventureMode() && mBoard->mLevel == 1)
         {

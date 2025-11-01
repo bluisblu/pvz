@@ -6,14 +6,14 @@ import subprocess
 import os
 
 # Map relative source paths to additional compiler flags
-# e.g. "src/Plant.cpp" needs /Ob0 to prevent inlining
 PER_FILE_FLAGS = {
     "src/Plant.cpp": "-Ob0",
+    # "src/Zombie.cpp": "-Ob0",
     "src/SexyAppFramework/BassLoader.cpp": "/Ob0",
     "src/SexyAppFramework/Font.cpp": "/Ob0",
     "src/SexyAppFramework/HTTPTransfer.cpp": "/Ob0",
     "src/SexyAppFramework/NativeDisplay.cpp": "/Ob0",
-    #"src/SexyAppFramework/SexyTransform2D.cpp": "/Ob0", # ???
+    # "src/SexyAppFramework/SexyTransform2D.cpp": "/Ob0", # ???
 }
 
 
@@ -27,7 +27,10 @@ def build_object(source_file: Path, out_dir: Path, verbose: bool = False) -> Pat
     obj_file.parent.mkdir(parents=True, exist_ok=True)
 
     # Detect DirectX SDK path
-    dxsdk_dir = os.environ.get("DXSDK_DIR") or r"C:\Program Files (x86)\Microsoft DirectX SDK (June 2010)"
+    dxsdk_dir = (
+        os.environ.get("DXSDK_DIR")
+        or r"C:\Program Files (x86)\Microsoft DirectX SDK (June 2010)"
+    )
     dx_include = Path(dxsdk_dir) / "Include"
     if not dx_include.exists():
         raise RuntimeError(f"DirectX SDK include folder not found at {dx_include}")
@@ -38,8 +41,8 @@ def build_object(source_file: Path, out_dir: Path, verbose: bool = False) -> Pat
 
     # Base compiler flags
     base_flags = (
-        '/nologo /EHsc /MD /O2 /D_CRT_SECURE_NO_DEPRECATE /D_CRT_NONSTDC_NO_DEPRECATE '
-        f'/I"{dx_include}" /I"{Path("src/SexyAppFramework").resolve()}" /I"{Path("src").resolve()}"'
+        "/nologo /EHsc /MD /O2 /Ob2 /Oi /Gy /GS- /GR- /D_CRT_SECURE_NO_DEPRECATE /D_CRT_NONSTDC_NO_DEPRECATE "
+        f'/I"{dx_include}" /I"{Path("src/SexyAppFramework").resolve()}" /I"{Path("src/TodLib").resolve()}" /I"{Path("src").resolve()}"'
     )
 
     # Check per-file flags
@@ -51,7 +54,7 @@ def build_object(source_file: Path, out_dir: Path, verbose: bool = False) -> Pat
         f'"{vcvarsall}" x86 && '
         f'cl.exe /c "{source_file.resolve()}" '
         f'/Fo"{obj_file.resolve()}" '
-        f'{base_flags} {per_file_flags}'
+        f"{base_flags} {per_file_flags}"
     )
 
     if verbose:
@@ -68,42 +71,42 @@ def find_source_for_obj(obj_name: Path) -> Path:
     """
     base_name = obj_name.stem  # e.g. "Plant" from "Plant.obj"
     src_dir = Path("src")
-    candidates = list(src_dir.rglob(base_name + ".c")) + list(src_dir.rglob(base_name + ".cpp"))
+    candidates = list(src_dir.rglob(base_name + ".c")) + list(
+        src_dir.rglob(base_name + ".cpp")
+    )
 
     if not candidates:
-        print(f"Error: Could not find source file for {obj_name} in {src_dir}", file=sys.stderr)
+        print(
+            f"Error: Could not find source file for {obj_name} in {src_dir}",
+            file=sys.stderr,
+        )
         sys.exit(1)
     if len(candidates) > 1:
-        print(f"Warning: Multiple candidates found for {obj_name}, using {candidates[0]}")
+        print(
+            f"Warning: Multiple candidates found for {obj_name}, using {candidates[0]}"
+        )
     return candidates[0]
 
 
 def parse_args():
     parser = argparse.ArgumentParser(description="Build .obj files for PvZ")
     parser.add_argument(
-        "--source",
-        nargs="+",
-        help="Source file(s) to compile into .obj"
+        "--source", nargs="+", help="Source file(s) to compile into .obj"
     )
     parser.add_argument(
-        "--out-dir",
-        default=None,
-        help="Directory where object files will be placed"
+        "--out-dir", default=None, help="Directory where object files will be placed"
     )
     parser.add_argument(
-        "--verbose",
-        action="store_true",
-        help="Show MSVC compiler output"
+        "--verbose", action="store_true", help="Show MSVC compiler output"
     )
     parser.add_argument(
         "--build-type",
         choices=["normal", "objdiffbuild"],
         default="normal",
-        help="Type of build: normal or objdiffbuild"
+        help="Type of build: normal or objdiffbuild",
     )
     parser.add_argument(
-        "--object-name",
-        help="Specific object file to build in objdiffbuild mode"
+        "--object-name", help="Specific object file to build in objdiffbuild mode"
     )
     return parser.parse_args()
 
@@ -113,7 +116,10 @@ def main():
 
     if args.build_type == "objdiffbuild":
         if not args.object_name:
-            print("Error: --object-name must be specified for objdiffbuild", file=sys.stderr)
+            print(
+                "Error: --object-name must be specified for objdiffbuild",
+                file=sys.stderr,
+            )
             sys.exit(1)
 
         obj_path = Path(args.object_name)
@@ -131,7 +137,9 @@ def main():
         out_dir.mkdir(parents=True, exist_ok=True)
 
         if not args.source:
-            print("Error: --source must be specified for normal builds", file=sys.stderr)
+            print(
+                "Error: --source must be specified for normal builds", file=sys.stderr
+            )
             sys.exit(1)
 
         for src in args.source:

@@ -1,13 +1,15 @@
 #pragma once
 
-#ifndef __ATTACHMENT_H__
-#define __ATTACHMENT_H__
+#ifndef __TODLIB_ATTACHMENT_H__
+#define __TODLIB_ATTACHMENT_H__
 
 #include "SexyAppFramework/Color.h"
 #include "SexyAppFramework/Graphics.h"
 #include "SexyAppFramework/SexyMatrix.h"
 
 #include "Reanimator.h"
+
+class Reanimation;
 
 #ifndef E_ATTACHMENT_ID
 #define E_ATTACHMENT_ID
@@ -94,5 +96,10 @@ class Attachment
   public:
     // void *__vecDelDtor(unsigned int);
 };
+
+AttachEffect *AttachReanim(AttachmentID &theAttachmentID, Reanimation *theReanimation, float theOffsetX, float theOffsetY)
+{
+    return NULL;
+}
 
 #endif
