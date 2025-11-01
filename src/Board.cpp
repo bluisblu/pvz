@@ -226,13 +226,17 @@ bool Board::HasLevelAwardDropped()
 
 bool Board::RowCanHaveZombies(int theRow)
 {
-    if (theRow > 5U)
-        return false;
-    if (mApp->mGameMode == GAMEMODE_CHALLENGE_RESODDED && theRow <= 4)
-        return true;
-    if (mPlantRow[theRow] != PLANTROW_DIRT)
+    if (theRow <= 5U)
     {
-        return true;
+        if (mApp->mGameMode == GAMEMODE_CHALLENGE_RESODDED && theRow <= 4)
+        {
+            return true;
+        }
+        if (mPlantRow[theRow] != PLANTROW_DIRT)
+        {
+            return true;
+        }
+        return false;
     }
     return false;
 }
@@ -706,3 +710,8 @@ void Board::InitZombieWavesForLevel(int aForLevel)
 {
     // return mZombies.DataArrayGetID(theZombie); // TODO: Implement DataArray
 }*/
+
+bool Board::MouseHitTest(int theX, int theY, HitResult *theHitResult)
+{
+    return true;
+}

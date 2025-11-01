@@ -1,7 +1,7 @@
 #pragma once
 
-#ifndef __ATTACHMENT_H__
-#define __ATTACHMENT_H__
+#ifndef __TODLIB_ATTACHMENT_H__
+#define __TODLIB_ATTACHMENT_H__
 
 #include "SexyAppFramework/Color.h"
 #include "SexyAppFramework/Graphics.h"

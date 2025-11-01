@@ -20,7 +20,10 @@
       "name": "main",
       "target_path": "build/objdiff/orig/main.obj",
       "base_path": "build/objdiff/reimpl/main.obj",
-      "reverse_fn_order": false
+      "reverse_fn_order": false,
+      "symbol_mappings": {
+        "WinMain": "_WinMain@16"
+      }
     },
     {
       "name": "SexyAppFramework/AutoCrit",
@@ -394,12 +397,6 @@
       "reverse_fn_order": false
     },
     {
-      "name": "TodLib/Precompile",
-      "target_path": "build/objdiff/orig/TodLib/Precompile.obj",
-      "base_path": "build/objdiff/reimpl/TodLib/Precompile.obj",
-      "reverse_fn_order": false
-    },
-    {
       "name": "TodLib/ReanimAtlas",
       "target_path": "build/objdiff/orig/TodLib/ReanimAtlas.obj",
       "base_path": "build/objdiff/reimpl/TodLib/ReanimAtlas.obj",
@@ -451,7 +448,11 @@
       "name": "TodLib/TodStringFile",
       "target_path": "build/objdiff/orig/TodLib/TodStringFile.obj",
       "base_path": "build/objdiff/reimpl/TodLib/TodStringFile.obj",
-      "reverse_fn_order": false
+      "reverse_fn_order": false,
+      "symbol_mappings": {
+        "?TodStringListReadValue@@YA_NAAPBDAAV?$basic_string@DU?$char_traits@D@std@@V?$allocator@D@2@@std@@@Z": "?TodStringListReadValue@@YA_NPAPBDPAV?$basic_string@DU?$char_traits@D@std@@V?$allocator@D@2@@std@@@Z",
+        "TodWriteStringSetFormat": "?TodWriteStringSetFormat@@YAXPBDPAVTodStringListFormat@@@Z"
+      }
     },
     {
       "name": "TodLib/Trail",
@@ -553,7 +554,10 @@
       "name": "GameButton",
       "target_path": "build/objdiff/orig/GameButton.obj",
       "base_path": "build/objdiff/reimpl/GameButton.obj",
-      "reverse_fn_order": false
+      "reverse_fn_order": false,
+      "symbol_mappings": {
+        "?DrawButtonImage@GameButton@@QAEXPAVGraphics@Sexy@@PAVImage@3@ABV?$TRect@H@3@HH@Z": "?DrawButtonImage@GameButton@@QAEXPAVGraphics@Sexy@@PAVImage@3@PBV?$TRect@H@3@HH@Z"
+      }
     },
     {
       "name": "GameObject",

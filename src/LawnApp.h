@@ -7,6 +7,8 @@
 #include "SexyAppFramework/Image.h"
 #include "SexyAppFramework/SexyApp.h"
 
+#include "TodLib/TodStringFile.h"
+
 #include "AwardScreen.h"
 #include "Board.h"
 #include "GameSelector.h"
@@ -19,6 +21,8 @@ class AwardScreen;
 class Board;
 class GameSelector;
 class SeedChooserScreen;
+
+extern TodStringListFormat gLawnStringFormats[12];
 
 namespace Sexy
 {

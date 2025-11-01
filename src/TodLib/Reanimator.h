@@ -1,7 +1,7 @@
 #pragma once
 
-#ifndef __REANIMATOR_H__
-#define __REANIMATOR_H__
+#ifndef __TODLIB_REANIMATOR_H__
+#define __TODLIB_REANIMATOR_H__
 
 #include <list>
 #include <map>

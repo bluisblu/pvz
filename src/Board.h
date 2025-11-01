@@ -887,7 +887,7 @@ class Board : public Sexy::Widget, public Sexy::ButtonListener
     void UpdateGameObjects();
 
   public:
-    bool MouseHitTest(int, int, /* HitResult * */ int);
+    bool MouseHitTest(int, int, HitResult *);
 
   public:
     void MouseDownWithPlant(int, int, int);

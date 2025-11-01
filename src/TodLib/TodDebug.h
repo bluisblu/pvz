@@ -1,5 +1,7 @@
-#ifndef __TODDEBUG_H__
-#define __TODDEBUG_H__
+#pragma once
+
+#ifndef __TODLIB_TODDEBUG_H__
+#define __TODLIB_TODDEBUG_H__
 
 #define _DEBUG
 
