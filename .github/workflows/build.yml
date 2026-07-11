@@ -6,7 +6,7 @@ jobs:
   build:
     # Private container with /orig (game files) + delink/msvc8.0/wibo/
     # objdiff-cli pre-baked. See docs/github_actions.md.
-    container: ghcr.io/OWNER/pvz-build:main
+    container: ghcr.io/bluisblu/pvz-build:main
     runs-on: ubuntu-latest
     strategy:
       fail-fast: false
