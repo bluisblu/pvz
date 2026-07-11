@@ -7,4 +7,7 @@ log.txt
 scripts/dls
 scripts/prefix
 build.ninja
+.ninja_log
+objdiff.json
+orig
 __pycache__
