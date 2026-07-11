@@ -355,7 +355,7 @@ bool XMLParser::NextElement(XMLElement* theElement)
 				if (mFile != NULL)
 				{
 					bool error = false;
-					if ((this->*mGetCharFunc)(&c, &error))
+					if ((*mGetCharFunc)(&c, &error))
 					{
 						aVal = 1;
 					}
