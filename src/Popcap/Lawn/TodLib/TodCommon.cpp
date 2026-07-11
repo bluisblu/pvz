@@ -4,6 +4,7 @@
 #include <stdio.h>
 
 #include "TodCommon.h"
+#include "TodDebug.h"
 
 bool TodAppCloseRequest()
 {
@@ -35,7 +36,8 @@ int TodSnprintf(char *theBuffer, int size, const char *theFormat, ...)
 
 int TodPickFromArray(int const *theArray, int theCount)
 {
-    // TOD_ASSERT(theCount > 0);
+    TOD_ASSERT(theCount > 0);
+
     return 0;
 }
 

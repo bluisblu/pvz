@@ -1,5 +1,6 @@
 #include "SexyAppFramework/Common.h"
 #include "TodLib/Reanimator.h"
+#include "TodLib/TodDebug.h"
 
 #include "Challenge.h"
 #include "LawnApp.h"
@@ -110,7 +111,7 @@ void Plant::UpdateDoomShroom()
     mDoSpecialCountdown = 100;
 
     Reanimation *aBodyReanim = mApp->ReanimationTryToGet(mBodyReanimID);
-    // TOD_ASSERT(aBodyReanim);
+    TOD_ASSERT(aBodyReanim);
 
     aBodyReanim->SetFramesForLayer("anim_explode");
     aBodyReanim->mAnimRate = 23.0f;
