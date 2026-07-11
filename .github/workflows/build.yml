@@ -1,0 +1,91 @@
+name: Build
+on:
+  push:
+  pull_request:
+jobs:
+  build:
+    # Private container with /orig (game files) + delink/msvc8.0/wibo/
+    # objdiff-cli pre-baked. See docs/github_actions.md.
+    container: ghcr.io/OWNER/pvz-build:main
+    runs-on: ubuntu-latest
+    strategy:
+      fail-fast: false
+      matrix:
+        version: [BETA_099]
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v4
+        with:
+          fetch-depth: 0
+
+      - name: Git config
+        run: git config --global --add safe.directory "$GITHUB_WORKSPACE"
+
+      # No mtime-restore step here (unlike dtk-template): nothing in this
+      # build depends on file timestamps, and relinking is disabled.
+
+      # orig/*.exe|*.pdb are gitignored (copyrighted); pull them from the
+      # container instead.
+      - name: Prepare
+        run: |
+          mkdir -p orig/${{ matrix.version }}
+          cp -a /orig/${{ matrix.version }}/. orig/${{ matrix.version }}/
+
+      - name: Cache build
+        uses: actions/cache@v4
+        with:
+          path: |
+            build
+          key: ${{ runner.os }}-${{ matrix.version }}-${{ github.sha }}
+          restore-keys: ${{ runner.os }}-${{ matrix.version }}-
+
+      # configure.py skips downloading delink/msvc8.0/wibo if it finds
+      # them already at these paths.
+      - name: Link container tools into build/tools
+        run: |
+          mkdir -p build/tools
+          ln -sf /tools/delink build/tools/delink
+          ln -sf /tools/msvc8.0 build/tools/msvc8.0
+          ln -sf /tools/wibo build/tools/wibo
+
+      # This project's configure.py only takes -v/--build-dir (no
+      # --map/--binutils/--compilers like dtk-template's GC/Wii projects).
+      - name: Configure
+        run: python3 configure.py -v ${{ matrix.version }}
+
+      - name: Build
+        run: ninja -k 0
+        # Keep going past failures (e.g. DXSDK-gated TUs) so objdiff can
+        # still report progress on everything that did compile.
+        continue-on-error: true
+
+      # No report.json ninja target exists here, so call objdiff-cli
+      # directly. It hard-fails the whole report if any unit's compiled
+      # obj is missing, which happens whenever ninja -k 0 above skipped
+      # something -- so filter those units out first.
+      - name: Generate report
+        run: |
+          mkdir -p build/${{ matrix.version }}
+          cp objdiff.json /tmp/objdiff.json.orig
+          python3 scripts/filter_objdiff_report.py \
+            objdiff.json objdiff.json
+          /tools/objdiff-cli report generate \
+            --project . \
+            -o build/${{ matrix.version }}/report.json
+          mv /tmp/objdiff.json.orig objdiff.json
+
+      # decomp.dev polls for an artifact named exactly "<version>_report".
+      - name: Upload report
+        uses: actions/upload-artifact@v4
+        with:
+          name: ${{ matrix.version }}_report
+          path: build/${{ matrix.version }}/report.json
+
+      # No-op until link.enabled: true in build.yml; kept ready for then.
+      - name: Upload map
+        if: always()
+        uses: actions/upload-artifact@v4
+        with:
+          name: ${{ matrix.version }}_maps
+          path: build/${{ matrix.version }}/**/*.MAP
+          if-no-files-found: ignore
