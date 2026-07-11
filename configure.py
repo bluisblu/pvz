@@ -4,9 +4,10 @@ Generic configure script for a decomp-toolkit-style workflow:
 delink (PE split) -> ninja build -> objdiff.json.
 
 This script is intentionally free of game/compiler-specific hardcoding.
-All of that lives in config/<version>/build.yml. To fork this project for
-a different game or compiler, copy that YAML file and edit it — you
-should not need to touch this file at all.
+All of that lives in config/<version>/config.yml, copied from
+config.example.yml. To fork this project for a different game or
+compiler, edit that YAML file — you should not need to touch this
+file at all.
 """
 
 import argparse
@@ -38,11 +39,17 @@ DEFAULT_VERSION = "BETA_099"
 def discover_versions(config_root: Path) -> list:
     if not config_root.exists():
         return []
-    return sorted(p.name for p in config_root.iterdir() if (p / "build.yml").exists())
+    return sorted(
+        p.name
+        for p in config_root.iterdir()
+        if (p / "config.yml").exists() or (p / "config.example.yml").exists()
+    )
 
 
 def load_config(config_root: Path, version: str) -> Dict[str, Any]:
-    config_file = config_root / version / "build.yml"
+    version_dir = config_root / version
+    config_file = version_dir / "config.yml"
+
     if not config_file.exists():
         sys.exit(f"[-] No config found for version '{version}' at {config_file}")
     with open(config_file, "r") as f:
@@ -140,7 +147,7 @@ def run_delink(
 # Path config (obj -> source file mapping)
 # ---------------------------------------------------------------------------
 #
-# The mapping lives entirely in build.yml under `paths:`. Right now that's
+# The mapping lives entirely in config.yml under `paths:`. Right now that's
 # just `paths.manual`, a flat obj-basename -> source-path (no extensions)
 # dict. `resolve_path_mapping` is written so a future `paths.rules` list
 # (regex-based, auto-deriving mappings in bulk) can be layered in without
@@ -435,7 +442,7 @@ def get_compiler_environment(
 ) -> Tuple[Path, Optional[Path], list]:
     """Resolves (and bootstraps, if needed) the MSVC8 toolchain root, the
     wibo wrapper binary (non-Windows only, else None), and extra include
-    dirs (e.g. DXSDK, which is not auto-downloaded -- see build.yml).
+    dirs (e.g. DXSDK, which is not auto-downloaded -- see config.yml).
     """
     toolchain_root = bootstrap_msvc8_toolchain(compiler_cfg, tools_dir)
     wibo_path = bootstrap_wibo(tools_dir)
@@ -469,7 +476,7 @@ def resolve_link_lib_dirs(link_cfg: Dict[str, Any], toolchain_root: Path) -> lis
     """Resolve link.lib_dirs {env, fallback[, subpath]} entries to paths,
     plus the bootstrapped MSVC8 toolchain's own Lib dir (user32.lib,
     gdi32.lib, etc. -- from widberg/msvc8.0's copy of the Platform SDK),
-    which isn't hardcoded in build.yml since its location depends on
+    which isn't hardcoded in config.yml since its location depends on
     where the toolchain was bootstrapped on this machine.
     """
     configured = [resolve_env_path(entry) for entry in link_cfg.get("lib_dirs", [])]
@@ -856,7 +863,7 @@ def main():
     # 1. Split PE targets
     run_delink(delink_exe, args.version, cfg["target"], args.build_dir)
 
-    # 2. Resolve obj -> source path mappings from build.yml
+    # 2. Resolve obj -> source path mappings from config.yml
     mapping = resolve_path_mapping(cfg.get("paths", {}))
 
     if mapping:
@@ -880,7 +887,7 @@ def main():
         link_cfg = cfg.get("link")
         if link_cfg is not None and not link_cfg.get("enabled", True):
             print(
-                "[*] Relinking disabled (link.enabled: false in build.yml) "
+                "[*] Relinking disabled (link.enabled: false in config.yml) "
                 "-- generating compile-only ninja/objdiff configs."
             )
             link_cfg = None

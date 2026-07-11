@@ -1,0 +1,147 @@
+# BETA_099 build config. See config.example.yml for full documentation
+# of every key.
+
+delink:
+  repo: "HaydnTrigg/delink"
+  version: "v0.14.0"
+  asset_name: "delink-{os}-{arch}{ext}"
+
+target:
+  exe: "orig/{version}/PlantsVsZombies.exe"
+  pdb: "orig/{version}/PlantsVsZombies.pdb"
+
+paths:
+  manual:
+    "__shared_data": "__shared_data"
+    "0001_Zombie": "Popcap/Lawn/Zombie"
+    "0002_ZenGarden": "Popcap/Lawn/ZenGarden"
+    "0003_UserDialog": "Popcap/Lawn/UserDialog"
+    "0004_TypingCheck": "Popcap/Lawn/TypingCheck"
+    "0005_Trail": "Popcap/Lawn/TodLib/Trail"
+    "0006_ToolTipWidget": "Popcap/Lawn/ToolTipWidget"
+    "0007_TodStringFile": "Popcap/Lawn/TodLib/TodStringFile"
+    "0008_TodParticle": "Popcap/Lawn/TodLib/TodParticle"
+    "0009_TodFoley": "Popcap/Lawn/TodLib/TodFoley"
+    "0010_TodDebug": "Popcap/Lawn/TodLib/TodDebug"
+    "0011_TodCommon": "Popcap/Lawn/TodLib/TodCommon"
+    "0012_Tod_SWTri": "Popcap/Lawn/TodLib/Tod_SWTri"
+    "0013_TitleScreen": "Popcap/Lawn/TitleScreen"
+    "0014_StoreScreen": "Popcap/Lawn/StoreScreen"
+    "0015_StackWalk": "Popcap/Lawn/TodLib/StackWalk"
+    "0016_SeedPacket": "Popcap/Lawn/SeedPacket"
+    "0017_SeedChooserScreen": "Popcap/Lawn/SeedChooserScreen"
+    "0018_SaveGame": "Popcap/Lawn/SaveGame"
+    "0019_Res": "Popcap/Lawn/Res"
+    "0020_Reanimator": "Popcap/Lawn/TodLib/Reanimator"
+    "0021_ReanimAtlas": "Popcap/Lawn/TodLib/ReanimAtlas"
+    "0022_ReanimationLawn": "Popcap/Lawn/ReanimationLawn"
+    "0023_Projectile": "Popcap/Lawn/Projectile"
+    "0024_ProfileMgr": "Popcap/Lawn/ProfileMgr"
+    "0026_PoolEffect": "Popcap/Lawn/PoolEffect"
+    "0027_PlayerInfo": "Popcap/Lawn/PlayerInfo"
+    "0028_Plant": "Popcap/Lawn/Plant"
+    "0029_NewUserDialog": "Popcap/Lawn/NewUserDialog"
+    "0030_NewOptionsDialog": "Popcap/Lawn/NewOptionsDialog"
+    "0031_Music": "Popcap/Lawn/Music"
+    "0032_MessageWidget": "Popcap/Lawn/MessageWidget"
+    "0033_LawnMower": "Popcap/Lawn/LawnMower"
+    "0034_LawnDialog": "Popcap/Lawn/LawnDialog"
+    "0035_LawnCommon": "Popcap/Lawn/LawnCommon"
+    "0036_LawnApp": "Popcap/Lawn/LawnApp"
+    "0037_GridItem": "Popcap/Lawn/GridItem"
+    "0038_GameSelector": "Popcap/Lawn/GameSelector"
+    "0039_GameObject": "Popcap/Lawn/GameObject"
+    "0040_GameButton": "Popcap/Lawn/GameButton"
+    "0041_FilterEffect": "Popcap/Lawn/TodLib/FilterEffect"
+    "0042_EffectSystem": "Popcap/Lawn/TodLib/EffectSystem"
+    "0043_Definition": "Popcap/Lawn/TodLib/Definition"
+    "0044_DataWriter": "Popcap/Lawn/DataWriter"
+    "0045_DataSync": "Popcap/Lawn/DataSync"
+    "0046_DataReader": "Popcap/Lawn/DataReader"
+    "0047_CutScene": "Popcap/Lawn/CutScene"
+    "0048_CursorPreview": "Popcap/Lawn/CursorPreview"
+    "0049_CursorObject": "Popcap/Lawn/CursorObject"
+    "0050_CreditScreen": "Popcap/Lawn/CreditScreen"
+    "0051_ContinueDialog": "Popcap/Lawn/ContinueDialog"
+    "0052_Coin": "Popcap/Lawn/Coin"
+    "0053_CheatDialog": "Popcap/Lawn/CheatDialog"
+    "0054_ChallengeScreen": "Popcap/Lawn/ChallengeScreen"
+    "0055_Challenge": "Popcap/Lawn/Challenge"
+    "0056_Board": "Popcap/Lawn/Board"
+    "0057_AwardScreen": "Popcap/Lawn/AwardScreen"
+    "0058_Attachment": "Popcap/Lawn/TodLib/Attachment"
+    "0059_Almanac": "Popcap/Lawn/Almanac"
+
+compiler:
+  id: msvc8
+  toolchain:
+    env: "MSVC8_DIR"
+    repo: "widberg/msvc8.0"
+    ref: "d6c4aa208c8345c78a9f68ba6ef911ee94c6a6e1"
+  arch: x86
+
+  extra_includes:
+    - env: "DXSDK_DIR"
+      fallback: 'C:\Program Files (x86)\Microsoft DirectX SDK (June 2010)'
+      subpath: "Include"
+
+  include_dirs:
+    - "src/SexyAppFramework"
+    - "src/Popcap/Lawn"
+    - "src"
+
+  base_flags: >-
+    /nologo /EHsc /MT /O2 /Ob2 /Oi /Gy /GS- /GR-
+    /D_CRT_SECURE_NO_DEPRECATE /D_CRT_NONSTDC_NO_DEPRECATE
+
+link:
+  enabled: false # relinking is currently broken upstream; see config.example.yml
+
+  output: "PlantsVsZombies.exe"
+  subsystem: "windows"
+  target: "exe"
+
+  base_address: "0x00400000"
+  stack_reserve: "0x100000"
+  stack_commit: "0x1000"
+
+  lib_dirs:
+    - env: "DXSDK_DIR"
+      fallback: 'C:\Program Files (x86)\Microsoft DirectX SDK (June 2010)'
+      subpath: "Lib/x86"
+
+  libs:
+    - "user32.lib"
+    - "gdi32.lib"
+    - "winmm.lib"
+    - "ddraw.lib"
+    - "dxguid.lib"
+    - "dsound.lib"
+    - "d3d8.lib"
+    - "d3dx8.lib"
+    - "wsock32.lib"
+    - "comctl32.lib"
+
+  # /FORCE:MULTIPLE + /OPT:NOICF are required, not optional -- see config.example.yml
+  extra_flags: >-
+    /MAP /OPT:REF /OPT:NOICF /INCREMENTAL:NO /FORCE:MULTIPLE
+
+  # status:
+  #   matching:
+  #     - "0028_Plant"
+
+objdiff:
+  min_version: "2.0.0-beta.5"
+  unit_prefix: "main"
+  progress_categories: ["game"]
+  watch_patterns:
+    - "*.c"
+    - "*.cp"
+    - "*.cpp"
+    - "*.h"
+    - "*.hpp"
+    - "*.inc"
+    - "*.py"
+    - "*.yml"
+    - "*.txt"
+    - "*.json"
