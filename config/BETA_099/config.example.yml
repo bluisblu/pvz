@@ -1,0 +1,194 @@
+# Build configuration for BETA_099.
+#
+# Single source of truth for compiler/linker flags, include paths, and
+# obj->source mapping. configure.py has no game- or compiler-specific
+# hardcoding, so forking this project for a different target should only
+# require copying this file and editing it.
+
+# --- Delink (PE splitter) ---------------------------------------------------
+delink:
+  repo: "HaydnTrigg/delink"
+  version: "v0.14.0"
+  asset_name: "delink-{os}-{arch}{ext}" # {os}/{arch}/{ext} filled in by configure.py
+
+# --- Source binaries used as the split target -------------------------------
+target:
+  exe: "orig/{version}/PlantsVsZombies.exe"
+  pdb: "orig/{version}/PlantsVsZombies.pdb"
+
+# --- Object -> source path remapping ----------------------------------------
+# delink dumps each TU as a flat "<NNNN>_<Name>.obj" with no directory
+# structure. `manual` maps each flat obj basename (no extension) to its
+# real source path relative to src/ (also no extension):
+#
+#   manual:
+#     "0001_Zombie": "Popcap/Lawn/Zombie"
+#
+# A future `rules:` list could pattern-match these in bulk once naming
+# conventions are established; `manual` always wins over any rule.
+paths:
+  manual:
+    "__shared_data": "__shared_data"
+    "0001_Zombie": "Popcap/Lawn/Zombie"
+    "0002_ZenGarden": "Popcap/Lawn/ZenGarden"
+    "0003_UserDialog": "Popcap/Lawn/UserDialog"
+    "0004_TypingCheck": "Popcap/Lawn/TypingCheck"
+    "0005_Trail": "Popcap/Lawn/TodLib/Trail"
+
+  # rules: []   # reserved for future pattern-based remapping
+
+# --- Compiler toolchain ------------------------------------------------
+# configure.py bootstraps MSVC8/VC80 automatically (no VS install needed,
+# on any OS): it downloads widberg/msvc8.0 -- the same portable extraction
+# decomp.me's own MSVC8 image uses -- into build/tools/msvc8.0/ on first
+# run. On non-Windows hosts it also bootstraps wibo (decompals/wibo) and
+# prefixes cl.exe/link.exe with it. Set the `env` var below to a directory
+# with your own Bin/Include(/Lib) to skip the download.
+#
+# Based on the Dockerfile at https://github.com/decompme/compilers/ for MSVC 8.0
+compiler:
+  id: msvc8
+  toolchain:
+    env: "MSVC8_DIR"
+    repo: "widberg/msvc8.0"
+    ref: "d6c4aa208c8345c78a9f68ba6ef911ee94c6a6e1" # pin used by decomp.me
+  arch: x86
+
+  # DXSDK isn't auto-downloaded like the toolchain above -- there's no
+  # freely-redistributable mirror, so every contributor needs their own
+  # legally obtained June 2010 DirectX SDK.
+  extra_includes:
+    - env: "DXSDK_DIR"
+      fallback: 'C:\Program Files (x86)\Microsoft DirectX SDK (June 2010)'
+      subpath: "Include"
+
+  # Include dirs relative to repo root, always added.
+  include_dirs:
+    - "src/SexyAppFramework"
+    - "src/Popcap/Lawn"
+    - "src"
+
+  # Flags applied to every translation unit.
+  base_flags: >-
+    /nologo /EHsc /MT /O2 /Ob2 /Oi /Gy /GS- /GR-
+    /D_CRT_SECURE_NO_DEPRECATE /D_CRT_NONSTDC_NO_DEPRECATE
+
+  # Precompiled header setup. Omit this whole block if the project has no PCH.
+  #  pch:
+  #    header: "Precompile.h"
+  #    source: "src/Popcap/Lawn/releasebeta/Precompile.cpp"
+  #    output: "PlantsVsZombies.pch"
+  #    flags: >-
+  #      /nologo /Ox /Ob2 /Oi /MT /EHsc /GS- /Gy /GR-
+  #      /DBETA_BUILD /DWIN32 /DNDEBUG /D_WINDOWS /D_CRT_SECURE_NO_DEPRECATE
+  #      /D_VC80_UPGRADE=0x0700 /D_MBCS /GF /FD /W4 /Zi
+
+  # Per-file flag overrides, keyed by source path relative to src/. Appended
+  # to base_flags for that TU. {pch_path} resolves to the quoted PCH path.
+  # per_file_flags:
+  #  "Popcap/Lawn/releasebeta/TodCommon.cpp": >-
+  #    /Ox /Ob2 /Oi /MT /EHsc /GS- /Gy /GR-
+  #    /DBETA_BUILD /DWIN32 /DNDEBUG /D_WINDOWS /D_CRT_SECURE_NO_DEPRECATE
+  #    /D_VC80_UPGRADE=0x0700 /D_MBCS /GF /FD /W4 /Zi
+  #    /YuPrecompile.h /Fp{pch_path}
+
+# --- Linker (relink) ----------------------------------------------------
+# Produces build/<version>/PlantsVsZombies.exe from the per-TU objects.
+# Each TU is linked from either build/<version>/src (freshly compiled,
+# "matching") or build/<version>/obj (original delinked, "nonmatching")
+# per `status:` below; anything unlisted defaults to nonmatching.
+#
+# Link order = paths.manual order (mirrors delink's NNNN_ ordering). MSVC
+# symbol resolution/codegen can depend on it, so don't reorder paths.manual
+# expecting link order to be independent of it.
+link:
+  # Relinking is off for now: delink v0.14.0 doesn't yet recover every
+  # relocation in split objects, so a full-nonmatching relink can't
+  # reproduce a working image. While false, configure.py stops after
+  # generating compile-only ninja/objdiff configs; everything below is
+  # ready to go as soon as this flips to true.
+  enabled: false
+
+  output: "PlantsVsZombies.exe" # relative to build/<version>/
+  subsystem: "windows" # windows | console
+  target: "exe" # exe | dll
+
+  # Matches the original beta's known link characteristics; adjust if
+  # objdiff/the linker map disagrees.
+  base_address: "0x00400000"
+  stack_reserve: "0x100000"
+  stack_commit: "0x1000"
+
+  # Extra libs to search, resolved via env/fallback like extra_includes above.
+  # ddraw.lib/dxguid.lib ship inside the DXSDK itself (not the Platform SDK).
+  # A LNK1181 on either usually means your DXSDK trimmed legacy DirectDraw --
+  # configure.py checks each lib in `libs:` resolves under `lib_dirs:` and
+  # names the missing file directly rather than deferring to link.exe's bare
+  # LNK1181. The bootstrapped MSVC8 toolchain's own Lib/ (user32.lib, etc.)
+  # is added automatically and needs no entry here.
+  lib_dirs:
+    - env: "DXSDK_DIR"
+      fallback: 'C:\Program Files (x86)\Microsoft DirectX SDK (June 2010)'
+      subpath: "Lib/x86"
+
+  # Import libs linked in, in addition to whatever objs pull in via
+  # #pragma comment(lib, ...).
+  libs:
+    - "user32.lib"
+    - "gdi32.lib"
+    - "winmm.lib"
+    - "ddraw.lib"
+    - "dxguid.lib"
+    - "dsound.lib"
+    - "d3d8.lib"
+    - "d3dx8.lib"
+    - "wsock32.lib"
+    - "comctl32.lib"
+
+  # Raw flags appended verbatim to the link line (e.g. /MAP, /INCREMENTAL:NO).
+  #
+  # /FORCE:MULTIPLE + /OPT:NOICF are required, not optional: delink has no
+  # compiler front-end, so when several TUs reference a folded/inlined/
+  # template symbol it copies the definition into each one instead of
+  # picking an owner. The original binary only had one instance (folded
+  # once by /OPT:ICF at original build time) -- these are duplicate-symbol
+  # artifacts of splitting, not real ODR violations. /FORCE:MULTIPLE tells
+  # the linker to keep one and continue (warning, not error); /OPT:NOICF
+  # stops it from re-folding across TUs itself. Keep both once matched
+  # objects start replacing nonmatching ones -- fresh objects will
+  # legitimately re-duplicate the same symbols.
+  #
+  # If instead the SAME symbol is reported multiply defined WITHIN one
+  # object ("Foo.obj ... already defined in Foo.obj"), that's delink
+  # emitting more than one definition inside a single object -- /FORCE
+  # will silently pick one, but it's worth spot-checking (objdump -t /
+  # dumpbin /symbols) since it can also mean the .exe/.pdb don't match.
+  extra_flags: >-
+    /MAP /OPT:REF /OPT:NOICF /INCREMENTAL:NO /FORCE:MULTIPLE
+
+  # --- Matching status ---------------------------------------------------
+  # Keyed by the same flat obj basename as paths.manual. `__shared_data` is
+  # delink's catch-all for read-only/static data with no single owning TU
+  # (merged vtables, string literals, etc.) -- there's no .cpp to match it
+  # against, so leave it out of `matching` and let it stay nonmatching.
+#  status:
+#    matching:
+#      - "0028_Plant"
+#      - "0039_GameObject"
+
+# --- objdiff -------------------------------------------------------------
+objdiff:
+  min_version: "2.0.0-beta.5"
+  unit_prefix: "main"
+  progress_categories: ["game"]
+  watch_patterns:
+    - "*.c"
+    - "*.cp"
+    - "*.cpp"
+    - "*.h"
+    - "*.hpp"
+    - "*.inc"
+    - "*.py"
+    - "*.yml"
+    - "*.txt"
+    - "*.json"
