@@ -789,15 +789,15 @@ def generate_objdiff_config(
             units.append(
                 {
                     "name": unit_name,
-                    "target_path": None,
-                    "base_path": str(obj_path).replace("\\", "/"),
+                    "target_path": str(obj_path).replace("\\", "/"),
+                    "base_path": None,
                     "metadata": {
                         "complete": False,
                         "reverse_fn_order": False,
                         "progress_categories": objdiff_cfg.get(
                             "progress_categories", []
                         ),
-                        "auto_generated": True,
+                        "auto_generated": False,
                     },
                 }
             )
