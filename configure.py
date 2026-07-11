@@ -775,6 +775,40 @@ def generate_objdiff_config(
             }
         )
 
+    # add unmapped TUs so coverage isn't just the mapped subset.
+    obj_dir = build_dir / "obj"
+    if obj_dir.is_dir():
+        mapped_obj_bases = set(mapping.keys())
+        unmapped_objs = sorted(
+            p for p in obj_dir.glob("*.obj") if p.stem not in mapped_obj_bases
+        )
+        for obj_path in unmapped_objs:
+            obj_base = obj_path.stem
+            unit_name = f"{unit_prefix}/unmapped/{obj_base}"
+
+            units.append(
+                {
+                    "name": unit_name,
+                    "target_path": None,
+                    "base_path": str(obj_path).replace("\\", "/"),
+                    "metadata": {
+                        "complete": False,
+                        "reverse_fn_order": False,
+                        "progress_categories": objdiff_cfg.get(
+                            "progress_categories", []
+                        ),
+                        "auto_generated": True,
+                    },
+                }
+            )
+
+        if unmapped_objs:
+            print(
+                f"[*] {len(unmapped_objs)} delinked obj(s) have no source "
+                f"mapping yet -- added as unclaimed units so the report "
+                f"covers the full binary."
+            )
+
     config_data = {
         "min_version": objdiff_cfg.get("min_version", "2.0.0-beta.5"),
         "custom_make": "ninja",
