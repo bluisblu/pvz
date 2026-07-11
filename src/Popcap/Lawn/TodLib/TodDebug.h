@@ -7,6 +7,12 @@
 
 #include <Windows.h>
 
+// Copied from Precompile.h:
+// Ensure IsDebuggerPresent is available (may not be in older SDK headers)
+#ifndef IsDebuggerPresent
+extern "C" __declspec(dllimport) int __stdcall IsDebuggerPresent(void);
+#endif
+
 class TodHesitationBracket
 {
   public:
@@ -39,7 +45,8 @@ void TodTraceAndLog(const char *theFormat, ...);
 void TodTraceWithoutSpamming(const char *theFormat, ...);
 void TodHesitationTrace(...);
 void TodReportError(LPEXCEPTION_POINTERS exceptioninfo, const char *theMessage);
-void TodAssertFailed(const char *theCondition, const char *theFile, int theLine, const char *theMsg = "", ...);
+void TodAssertFailed(const char *theCondition, const char *theFile, int theLine,
+                     const char *theMsg = "", ...);
 /*inline*/ void TodErrorMessageBox(const char *theMessage, const char *theTitle);
 void TodCrashScreenshot(char const *);
 long __stdcall TodUnhandledExceptionFilter(LPEXCEPTION_POINTERS exceptioninfo);
@@ -51,17 +58,17 @@ void TodAssertInitForApp();
 extern void (*gBetaSubmitFunc)();
 
 #ifdef _DEBUG
-#define TOD_ASSERT(condition, ...)                                                                                     \
-    {                                                                                                                  \
-        if (!bool(condition))                                                                                          \
-        {                                                                                                              \
-            TodAssertFailed("" #condition, __FILE__, __LINE__, ##__VA_ARGS__);                                         \
-            if (IsDebuggerPresent())                                                                                   \
-            {                                                                                                          \
-                __debugbreak();                                                                                        \
-            }                                                                                                          \
-            TodTraceMemory();                                                                                          \
-        }                                                                                                              \
+#define TOD_ASSERT(condition, ...)                                                                 \
+    {                                                                                              \
+        if (!bool(condition))                                                                      \
+        {                                                                                          \
+            TodAssertFailed("" #condition, __FILE__, __LINE__, ##__VA_ARGS__);                     \
+            if (IsDebuggerPresent())                                                               \
+            {                                                                                      \
+                __debugbreak();                                                                    \
+            }                                                                                      \
+            TodTraceMemory();                                                                      \
+        }                                                                                          \
     }
 #else
 #define TOD_ASSERT(condition, ...)

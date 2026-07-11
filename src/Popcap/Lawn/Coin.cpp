@@ -1,5 +1,7 @@
 #include "Coin.h"
 
+#include "TodLib/TodDebug.h"
+
 const double PI = 3.141592741012573;
 
 bool Coin::IsMoney()
@@ -107,12 +109,12 @@ bool Coin::MouseHitTest(int theX, int theY, HitResult *theHitResult)
         aOffsetY = -20;
     }
 
-    int aExtraClickSize = 0;
+    int aExtraClickSize   = 0;
     int aExtraClickHeight = 0;
     if (mApp->IsWhackAZombieLevel())
     {
         aExtraClickHeight = 30;
-        aExtraClickSize = 15;
+        aExtraClickSize   = 15;
     }
     if (mType == COIN_SUN)
     {
@@ -126,7 +128,8 @@ bool Coin::MouseHitTest(int theX, int theY, HitResult *theHitResult)
     }
     if (mType == COIN_USABLE_SEED_PACKET && mBoard)
     {
-        if (mBoard->mCursorObject->mCursorType != CURSOR_TYPE_NORMAL && !mApp->IsWhackAZombieLevel())
+        if (mBoard->mCursorObject->mCursorType != CURSOR_TYPE_NORMAL &&
+            !mApp->IsWhackAZombieLevel())
         {
             aCanHitCoin = false;
         }
@@ -136,23 +139,24 @@ bool Coin::MouseHitTest(int theX, int theY, HitResult *theHitResult)
         theY >= mPosY + aOffsetY - aExtraClickSize &&
         theY < mPosY + mHeight + aOffsetY + aExtraClickSize + aExtraClickHeight)
     {
-        theHitResult->mObject = this;
+        theHitResult->mObject     = this;
         theHitResult->mObjectType = OBJECT_TYPE_COIN;
         return true;
     }
 
-    theHitResult->mObject = NULL;
+    theHitResult->mObject     = NULL;
     theHitResult->mObjectType = OBJECT_TYPE_NONE;
     return false;
 }
 
 bool Coin::IsLevelAward()
 {
-    if (mType == COIN_FINAL_SEED_PACKET || mType == COIN_TROPHY || mType == COIN_AWARD_SILVER_SUNFLOWER ||
-        mType == COIN_AWARD_GOLD_SUNFLOWER || mType == COIN_SHOVEL || mType == COIN_CARKEYS || mType == COIN_ALMANAC ||
-        mType == COIN_VASE || mType == COIN_WATERING_CAN || mType == COIN_TACO || mType == COIN_NOTE ||
-        mType == COIN_AWARD_MONEY_BAG || mType == COIN_AWARD_BAG_DIAMOND || mType == COIN_AWARD_PRESENT ||
-        mType == COIN_AWARD_CHOCOLATE)
+    if (mType == COIN_FINAL_SEED_PACKET || mType == COIN_TROPHY ||
+        mType == COIN_AWARD_SILVER_SUNFLOWER || mType == COIN_AWARD_GOLD_SUNFLOWER ||
+        mType == COIN_SHOVEL || mType == COIN_CARKEYS || mType == COIN_ALMANAC ||
+        mType == COIN_VASE || mType == COIN_WATERING_CAN || mType == COIN_TACO ||
+        mType == COIN_NOTE || mType == COIN_AWARD_MONEY_BAG || mType == COIN_AWARD_BAG_DIAMOND ||
+        mType == COIN_AWARD_PRESENT || mType == COIN_AWARD_CHOCOLATE)
         return true;
 
     return false;
@@ -165,7 +169,8 @@ bool Coin::CoinGetsBouncyArrow()
 
     if (mType == COIN_SILVER || mType == COIN_GOLD)
     {
-        if (mApp->IsFirstTimeAdventureMode() && mBoard && mBoard->mLevel == 11 && !mBoard->mDroppedFirstCoin)
+        if (mApp->IsFirstTimeAdventureMode() && mBoard && mBoard->mLevel == 11 &&
+            !mBoard->mDroppedFirstCoin)
         {
             return true;
         }
@@ -181,12 +186,14 @@ int Coin::GetDisappearTime()
 {
     int aTime = 750;
 
-    if (mType == COIN_DIAMOND || mType == COIN_PRESENT_PLANT || mType == COIN_CHOCOLATE || mHasBouncyArrow)
+    if (mType == COIN_DIAMOND || mType == COIN_PRESENT_PLANT || mType == COIN_CHOCOLATE ||
+        mHasBouncyArrow)
     {
         aTime = 1500;
     }
 
-    if ((mApp->IsScaryPotterLevel() || mApp->IsSlotMachineLevel()) && mType == COIN_USABLE_SEED_PACKET)
+    if ((mApp->IsScaryPotterLevel() || mApp->IsSlotMachineLevel()) &&
+        mType == COIN_USABLE_SEED_PACKET)
     {
         aTime = 1500;
     }
@@ -213,14 +220,15 @@ void Coin::DroppedUsableSeed()
 
 void Coin::FanOutCoins(CoinType theCoinType, int theNumCoins)
 {
-    // TOD_ASSERT(mBoard);
+    TOD_ASSERT(mBoard);
 
     for (int i = 0; i < theNumCoins; i++)
     {
         float aAngle = PI / 2 + PI * (i + 1) / (theNumCoins + 1);
-        float aPosX = mPosX + 20.0f;
-        float aPosY = mPosY;
-        Coin *aCoin = mBoard->AddCoin((int)aPosX, (int)aPosY, theCoinType, COIN_MOTION_FROM_PRESENT);
+        float aPosX  = mPosX + 20.0f;
+        float aPosY  = mPosY;
+        Coin *aCoin =
+            mBoard->AddCoin((int)aPosX, (int)aPosY, theCoinType, COIN_MOTION_FROM_PRESENT);
         aCoin->mVelX = 5.0f * sin(aAngle);
         aCoin->mVelY = 5.0f * cos(aAngle);
     }
@@ -228,8 +236,8 @@ void Coin::FanOutCoins(CoinType theCoinType, int theNumCoins)
 
 void Coin::UpdateFade()
 {
-    if (mApp->IsEndlessIZombie(mApp->mGameMode) || mApp->IsEndlessScaryPotter(mApp->mGameMode) || mType == COIN_NOTE ||
-        !IsLevelAward())
+    if (mApp->IsEndlessIZombie(mApp->mGameMode) || mApp->IsEndlessScaryPotter(mApp->mGameMode) ||
+        mType == COIN_NOTE || !IsLevelAward())
     {
         mFadeCount--;
         if (mFadeCount == 0)
@@ -265,8 +273,9 @@ void Coin::TryAutoCollectAfterLevelAward()
     // into here but this is the best match so far
     if ((mType == COIN_SILVER || mType == COIN_GOLD || mType == COIN_DIAMOND) &&
             mCoinMotion != COIN_MOTION_FROM_PRESENT ||
-        mType == COIN_SUN || mType == COIN_SMALLSUN || mType == COIN_LARGESUN || mType == COIN_PRESENT_PLANT ||
-        mType == COIN_CHOCOLATE || mType == COIN_PRESENT_MINIGAMES || mType == COIN_PRESENT_PUZZLE_MODE)
+        mType == COIN_SUN || mType == COIN_SMALLSUN || mType == COIN_LARGESUN ||
+        mType == COIN_PRESENT_PLANT || mType == COIN_CHOCOLATE || mType == COIN_PRESENT_MINIGAMES ||
+        mType == COIN_PRESENT_PUZZLE_MODE)
     {
         PlayCollectSound();
         Collect();
