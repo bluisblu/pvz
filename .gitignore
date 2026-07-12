@@ -9,5 +9,8 @@ scripts/prefix
 build.ninja
 .ninja_log
 objdiff.json
-orig
 __pycache__
+
+orig/**/*
+!orig/**/
+!orig/**/.gitkeep
