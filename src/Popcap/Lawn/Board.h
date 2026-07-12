@@ -1,5 +1,3 @@
-#pragma once
-
 #ifndef __BOARD_H__
 #define __BOARD_H__
 
@@ -17,6 +15,7 @@
 #include "Coin.h"
 #include "CursorObject.h"
 #include "CutScene.h"
+#include "DataArray.h"
 #include "GridItem.h"
 #include "LawnApp.h"
 #include "Plant.h"
@@ -420,24 +419,6 @@ enum BoardResult : int
     BOARDRESULT_CHEAT    = 0x0006,
 };
 #endif
-
-template <typename T> struct DataArray
-{
-    struct DataArrayItem
-    {
-        T mItem;   // the actual object
-        int mID;   // unique ID/key used for lookups
-        int mNext; // next index in free list
-    };
-
-    DataArrayItem *mBlock;      // 0x00 -> contiguous block of items
-    unsigned int mMaxUsedCount; // 0x04 -> high water mark of active items
-    unsigned int mMaxSize;      // 0x08 -> allocated capacity (# of DataArrayItem)
-    unsigned int mFreeListHead; // 0x0C -> head index of free list
-    unsigned int mSize;         // 0x10 -> current active count
-    unsigned int mNextKey;      // 0x14 -> monotonically increasing key generator
-    const char *mName;          // 0x18 -> debug name
-};
 
 class Board : /* 0x0000 */ public Sexy::Widget, /* 0x0088 */ public Sexy::ButtonListener
 { /* Size=0x57b0 */
