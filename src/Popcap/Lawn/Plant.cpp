@@ -1138,3 +1138,446 @@ void Plant::UpdateAbilities()
     }
     return;
 }
+
+int RandRangeInt(int theMin, int theMax);
+float PlantDrawHeightOffset(Board *theBoard, Plant *thePlant, SeedType theSeedType, int theGridX,
+                            int theGridY);
+
+void Plant::PlantInitialize(int theGridX, int theGridY, SeedType theSeedType,
+                            SeedType theImitaterType)
+{
+    mPlantCol = theGridX;
+    mRow      = theGridY;
+
+    if (mBoard)
+    {
+        mX = mBoard->GridToPixelX(theGridX, theGridY);
+        mY = mBoard->GridToPixelY(theGridX, theGridY);
+    }
+
+    mAnimCounter        = 0;
+    mAnimPing           = true;
+    mFrame              = 0;
+    mShootingCounter    = 0;
+    mFrameLength        = RandRangeInt(12, 18);
+    mShakeOffsetX       = 0.0f;
+    mShakeOffsetY       = 0.0f;
+    mImitaterType       = theImitaterType;
+    mNumFrames          = 5;
+    mState              = STATE_NOTREADY;
+    mDead               = false;
+    mSquished           = false;
+    mSeedType           = theSeedType;
+    mPlantHealth        = 300;
+    mDoSpecialCountdown = 0;
+    mDisappearCountdown = 200;
+    mTargetX            = -1;
+    mTargetY            = -1;
+    mStateCountdown     = 0;
+    mStartRow           = mRow;
+    mParticleID         = PARTICLESYSTEMID_NULL;
+
+    memset(&mBodyReanimID, 0, offsetof(Plant, mBlinkCountdown) - offsetof(Plant, mBodyReanimID));
+
+    mWidth  = 80;
+    mHeight = 80;
+    memset(&mMagnetItems, 0, sizeof(mMagnetItems));
+
+    mIsAsleep         = false;
+    mWakeUpCounter    = 0;
+    mIsOnBungee       = false;
+    mPottedPlantIndex = -1;
+
+    const PlantDefinition &aDefinition = GetPlantDefinition(theSeedType);
+    mLaunchRate                        = aDefinition.mLaunchRate;
+    mSubclass                          = aDefinition.mSubClass;
+    mRenderOrder                       = CalcRenderOrder();
+
+    Reanimation *aBodyReanim = NULL;
+
+    if (aDefinition.mReanimationType != REANIM_LOADBAR_SPROUT)
+    {
+        float aHeightOffset = PlantDrawHeightOffset(mBoard, this, mSeedType, mPlantCol, mRow);
+
+        aBodyReanim            = mApp->AddReanimation(0.0f, aHeightOffset, mRenderOrder + 1,
+                                                      aDefinition.mReanimationType);
+        aBodyReanim->mLoopType = REANIM_LOOP;
+        aBodyReanim->mAnimRate = RandRangeFloat(10.0f, 15.0f);
+
+        if (aBodyReanim->TrackExists("anim_idle"))
+            aBodyReanim->SetFramesForLayer("anim_idle");
+
+        if (mApp->IsWallnutBowlingLevel() && aBodyReanim->TrackExists("_ground"))
+        {
+            aBodyReanim->SetFramesForLayer("_ground");
+
+            if (mSeedType == SEED_WALLNUT || mSeedType == SEED_EXPLODE_O_NUT)
+            {
+                aBodyReanim->mAnimRate = RandRangeFloat(12.0f, 18.0f);
+            }
+            else if (mSeedType == SEED_GIANT_WALLNUT)
+            {
+                aBodyReanim->mAnimRate = RandRangeFloat(6.0f, 10.0f);
+            }
+        }
+
+        aBodyReanim->mIsAttachment = true;
+        mBodyReanimID              = mApp->ReanimationGetID(aBodyReanim);
+        mBlinkCountdown            = RandRangeInt(0, 100) + 100;
+    }
+
+    if (mSeedType == SEED_PUFFSHROOM || mSeedType == SEED_SEASHROOM ||
+        mSeedType == SEED_SUNSHROOM || mSeedType == SEED_FUMESHROOM ||
+        mSeedType == SEED_HYPNOSHROOM || mSeedType == SEED_DOOMSHROOM ||
+        mSeedType == SEED_ICESHROOM || mSeedType == SEED_MAGNETSHROOM ||
+        mSeedType == SEED_SCAREDYSHROOM || mSeedType == SEED_GLOOMSHROOM)
+    {
+        if (mBoard && !mBoard->StageIsNight())
+            SetSleeping(true);
+    }
+
+    if (mLaunchRate <= 0)
+    {
+        mLaunchCounter = 0;
+    }
+    else if (mSeedType == SEED_SUNFLOWER || mSeedType == SEED_TWINSUNFLOWER ||
+             mSeedType == SEED_SUNSHROOM)
+    {
+        mLaunchCounter = RandRangeInt(300, mLaunchRate / 2);
+    }
+    else
+    {
+        mLaunchCounter = RandRangeInt(0, mLaunchRate);
+    }
+
+    if (theSeedType == SEED_BLOVER)
+    {
+        mDoSpecialCountdown = 50;
+
+        if (!IsInPlay())
+        {
+            aBodyReanim->SetFramesForLayer("anim_idle");
+            aBodyReanim->mAnimRate = 10.0f;
+        }
+        else
+        {
+            aBodyReanim->SetFramesForLayer("anim_blow");
+            aBodyReanim->mAnimRate = 20.0f;
+            aBodyReanim->mLoopType = REANIM_PLAY_ONCE_AND_HOLD;
+        }
+    }
+    else if (!theSeedType || theSeedType == SEED_SNOWPEA || theSeedType == SEED_REPEATER ||
+             theSeedType == SEED_LEFTPEATER || theSeedType == SEED_GATLINGPEA)
+    {
+        if (aBodyReanim)
+        {
+            float aHeadX           = 0.0f;
+            float aHeadY           = 0.0f;
+            aBodyReanim->mAnimRate = RandRangeFloat(10.0f, 20.0f);
+
+            Reanimation *aHeadReanim = mApp->AddReanimation(aHeadX, aHeadY, mRenderOrder + 2,
+                                                            aDefinition.mReanimationType);
+            aHeadReanim->mLoopType   = REANIM_LOOP;
+            aHeadReanim->mAnimRate   = aBodyReanim->mAnimRate;
+            aHeadReanim->SetFramesForLayer("anim_head_idle");
+            mHeadReanimID = mApp->ReanimationGetID(aHeadReanim);
+
+            if (!aBodyReanim->TrackExists("anim_stem"))
+            {
+                if (aBodyReanim->TrackExists("anim_idle"))
+                    aHeadReanim->AttachToAnotherReanimation(aBodyReanim, "anim_idle");
+            }
+            else
+            {
+                aHeadReanim->AttachToAnotherReanimation(aBodyReanim, "anim_stem");
+            }
+        }
+    }
+    else if (theSeedType == SEED_SPLITPEA)
+    {
+        TOD_ASSERT(aBodyReanim);
+
+        float aHeadX           = 0.0f;
+        float aHeadY           = 0.0f;
+        aBodyReanim->mAnimRate = RandRangeFloat(10.0f, 20.0f);
+
+        Reanimation *aHeadReanim =
+            mApp->AddReanimation(aHeadX, aHeadY, mRenderOrder + 2, aDefinition.mReanimationType);
+        aHeadReanim->mLoopType = REANIM_LOOP;
+        aHeadReanim->mAnimRate = aBodyReanim->mAnimRate;
+        aHeadReanim->SetFramesForLayer("anim_head_idle");
+        aHeadReanim->AttachToAnotherReanimation(aBodyReanim, "anim_idle");
+        mHeadReanimID = mApp->ReanimationGetID(aHeadReanim);
+
+        float aHead2X = 0.0f;
+        float aHead2Y = 0.0f;
+
+        Reanimation *aHeadReanim2 =
+            mApp->AddReanimation(aHead2X, aHead2Y, mRenderOrder + 2, aDefinition.mReanimationType);
+        aHeadReanim2->mLoopType = REANIM_LOOP;
+        aHeadReanim2->mAnimRate = aBodyReanim->mAnimRate;
+        aHeadReanim2->SetFramesForLayer("anim_splitpea_idle");
+        aHeadReanim2->AttachToAnotherReanimation(aBodyReanim, "anim_idle");
+        mHeadReanimID2 = mApp->ReanimationGetID(aHeadReanim2);
+    }
+    else if (theSeedType == SEED_THREEPEATER)
+    {
+        TOD_ASSERT(aBodyReanim);
+
+        float aHead1X          = 0.0f;
+        float aHead1Y          = 0.0f;
+        aBodyReanim->mAnimRate = RandRangeFloat(10.0f, 20.0f);
+
+        Reanimation *aHeadReanim1 =
+            mApp->AddReanimation(aHead1X, aHead1Y, mRenderOrder + 2, aDefinition.mReanimationType);
+        aHeadReanim1->mLoopType = REANIM_LOOP;
+        aHeadReanim1->mAnimRate = aBodyReanim->mAnimRate;
+        aHeadReanim1->SetFramesForLayer("anim_head_idle1");
+        aHeadReanim1->AttachToAnotherReanimation(aBodyReanim, "anim_head1");
+        mHeadReanimID = mApp->ReanimationGetID(aHeadReanim1);
+
+        float aHead2X = 0.0f;
+        float aHead2Y = 0.0f;
+
+        Reanimation *aHeadReanim2 =
+            mApp->AddReanimation(aHead2X, aHead2Y, mRenderOrder + 2, aDefinition.mReanimationType);
+        aHeadReanim2->mLoopType = REANIM_LOOP;
+        aHeadReanim2->mAnimRate = aBodyReanim->mAnimRate;
+        aHeadReanim2->SetFramesForLayer("anim_head_idle2");
+        aHeadReanim2->AttachToAnotherReanimation(aBodyReanim, "anim_head2");
+        mHeadReanimID2 = mApp->ReanimationGetID(aHeadReanim2);
+
+        float aHead3X = 0.0f;
+        float aHead3Y = 0.0f;
+
+        Reanimation *aHeadReanim3 =
+            mApp->AddReanimation(aHead3X, aHead3Y, mRenderOrder + 2, aDefinition.mReanimationType);
+        aHeadReanim3->mLoopType = REANIM_LOOP;
+        aHeadReanim3->mAnimRate = aBodyReanim->mAnimRate;
+        aHeadReanim3->SetFramesForLayer("anim_head_idle3");
+        aHeadReanim3->AttachToAnotherReanimation(aBodyReanim, "anim_head3");
+        mHeadReanimID3 = mApp->ReanimationGetID(aHeadReanim3);
+    }
+    else if (theSeedType == SEED_WALLNUT)
+    {
+        mPlantHealth    = 4000;
+        mBlinkCountdown = RandRangeInt(0, 1000) + 1000;
+    }
+    else if (theSeedType == SEED_EXPLODE_O_NUT)
+    {
+        mPlantHealth                = 4000;
+        mBlinkCountdown             = RandRangeInt(0, 1000) + 1000;
+        aBodyReanim->mColorOverride = Sexy::Color(0xff, 0x40, 0x40);
+    }
+    else if (theSeedType == SEED_GIANT_WALLNUT)
+    {
+        mPlantHealth    = 4000;
+        mBlinkCountdown = RandRangeInt(0, 1000) + 1000;
+    }
+    else if (theSeedType == SEED_TALLNUT)
+    {
+        mPlantHealth    = 8000;
+        mHeight         = 80;
+        mBlinkCountdown = RandRangeInt(0, 1000) + 1000;
+    }
+    else if (theSeedType == SEED_GARLIC)
+    {
+        TOD_ASSERT(aBodyReanim);
+        mPlantHealth = 400;
+        aBodyReanim->SetTruncateDisappearingFrames(NULL, false);
+    }
+    else if (theSeedType != SEED_GOLD_MAGNET)
+    {
+        if (theSeedType == SEED_CHERRYBOMB || theSeedType == SEED_IMITATER)
+        {
+            TOD_ASSERT(aBodyReanim);
+
+            if (theSeedType != SEED_IMITATER && IsInPlay())
+            {
+                mDoSpecialCountdown = 100;
+                aBodyReanim->SetFramesForLayer("anim_explode");
+                aBodyReanim->mLoopType = REANIM_PLAY_ONCE_AND_HOLD;
+                mApp->PlayFoley(FOLEY_REVERSE_EXPLOSION);
+            }
+        }
+        else if (theSeedType == SEED_JALAPENO)
+        {
+            TOD_ASSERT(aBodyReanim);
+        }
+        else if (theSeedType == SEED_POTATOMINE)
+        {
+            TOD_ASSERT(aBodyReanim);
+            aBodyReanim->mAnimRate = 10.0f;
+
+            if (!IsInPlay())
+            {
+                aBodyReanim->SetFramesForLayer("anim_armed");
+                mState = STATE_POTATO_ARMED;
+            }
+            else
+            {
+                aBodyReanim->AssignRenderGroupToTrack("anim_glow", -1);
+                mStateCountdown = 1500;
+            }
+        }
+        else if (theSeedType == SEED_GRAVEBUSTER)
+        {
+            TOD_ASSERT(aBodyReanim);
+
+            if (IsInPlay())
+            {
+                aBodyReanim->SetFramesForLayer("anim_land");
+                aBodyReanim->mLoopType = REANIM_PLAY_ONCE_AND_HOLD;
+                mState                 = STATE_GRAVEBUSTER_LANDING;
+                mApp->PlayFoley(FOLEY_GRAVEBUSTERCHOMP);
+            }
+        }
+        else if (theSeedType == SEED_SUNSHROOM)
+        {
+            TOD_ASSERT(aBodyReanim);
+            aBodyReanim->mFrameBasePose = aBodyReanim->mFrameStart;
+
+            if (!IsInPlay())
+            {
+                const char *aTrackName = mIsAsleep ? "anim_bigsleep" : "anim_bigidle";
+                aBodyReanim->SetFramesForLayer(aTrackName);
+                mState          = STATE_SUNSHROOM_SMALL;
+                mStateCountdown = 12000;
+            }
+            else
+            {
+                mX += RandRangeInt(0, 10) - 5;
+                mY += RandRangeInt(0, 10) - 5;
+                mState          = STATE_SUNSHROOM_SMALL;
+                mStateCountdown = 12000;
+            }
+        }
+        else if (theSeedType == SEED_PUFFSHROOM || theSeedType == SEED_SEASHROOM)
+        {
+            if (IsInPlay())
+            {
+                mX += RandRangeInt(0, 10) - 5;
+                mY += RandRangeInt(0, 6) - 3;
+            }
+        }
+        else if (theSeedType == SEED_PUMPKINSHELL)
+        {
+            mPlantHealth = 4000;
+            mWidth       = 120;
+
+            TOD_ASSERT(aBodyReanim);
+            aBodyReanim->AssignRenderGroupToTrack("Pumpkin_back", 1);
+        }
+        else if (theSeedType == SEED_CHOMPER)
+        {
+            mState = STATE_READY;
+        }
+        else if (theSeedType == SEED_PLANTERN)
+        {
+            int aPosX       = mX + 40;
+            int aPosY       = mY + 40;
+            mStateCountdown = 50;
+            AddAttachedParticle(aPosX, aPosY, 500000, PARTICLE_LANTERN_SHINE);
+
+            if (IsInPlay())
+                mApp->PlayFoley(FOLEY_SWING);
+        }
+        else if (theSeedType != SEED_TORCHWOOD)
+        {
+            if (theSeedType == SEED_MARIGOLD)
+            {
+                TOD_ASSERT(aBodyReanim);
+                aBodyReanim->mAnimRate = RandRangeFloat(15.0f, 20.0f);
+            }
+            else if (theSeedType == SEED_CACTUS)
+            {
+                mState = STATE_CACTUS_LOW;
+            }
+            else if (theSeedType == SEED_INSTANT_COFFEE)
+            {
+                mDoSpecialCountdown = 100;
+            }
+            else if (theSeedType == SEED_SCAREDYSHROOM)
+            {
+                mState = STATE_READY;
+            }
+            else if (theSeedType == SEED_COBCANNON)
+            {
+                if (IsInPlay())
+                {
+                    mState          = STATE_COBCANNON_ARMING;
+                    mStateCountdown = 500;
+
+                    TOD_ASSERT(aBodyReanim);
+                    aBodyReanim->SetFramesForLayer("anim_unarmed_idle");
+                }
+            }
+            else if (theSeedType == SEED_KERNELPULT)
+            {
+                TOD_ASSERT(aBodyReanim);
+                aBodyReanim->AssignRenderGroupToPrefix("Cornpult_butter", -1);
+            }
+            else if (theSeedType != SEED_MAGNETSHROOM)
+            {
+                if (theSeedType != SEED_SPIKEROCK && theSeedType != SEED_SPROUT)
+                {
+                    if (theSeedType == SEED_FLOWERPOT)
+                    {
+                        if (IsInPlay())
+                        {
+                            mState          = STATE_FLOWERPOT_INVULNERABLE;
+                            mStateCountdown = 100;
+                        }
+                    }
+                    else if (theSeedType == SEED_LILYPAD)
+                    {
+                        if (IsInPlay())
+                        {
+                            mState          = STATE_LILYPAD_INVULNERABLE;
+                            mStateCountdown = 100;
+                        }
+                    }
+                    else if (theSeedType == SEED_TANGLEKELP)
+                    {
+                        TOD_ASSERT(aBodyReanim);
+                        aBodyReanim->SetTruncateDisappearingFrames(NULL, false);
+                    }
+                }
+            }
+            else
+            {
+                TOD_ASSERT(aBodyReanim);
+                aBodyReanim->SetTruncateDisappearingFrames(NULL, false);
+            }
+        }
+    }
+    else
+    {
+        TOD_ASSERT(aBodyReanim);
+        aBodyReanim->SetTruncateDisappearingFrames(NULL, false);
+    }
+
+    if (mApp->mGameMode == GAMEMODE_CHALLENGE_BIG_TIME)
+    {
+        if (mSeedType == SEED_WALLNUT || mSeedType == SEED_SUNFLOWER || mSeedType == SEED_MARIGOLD)
+            mPlantHealth *= 2;
+    }
+
+    mPlantMaxHealth = mPlantHealth;
+
+    if (mSeedType == SEED_FLOWERPOT || !mIsOnBoard)
+        return;
+
+    if (!mBoard)
+    {
+        TOD_ASSERT(mBoard);
+        return;
+    }
+
+    Plant *aFlowerPot = mBoard->GetFlowerPotAt(mPlantCol, mRow);
+    if (!aFlowerPot)
+        return;
+
+    Reanimation *aPotReanim = mApp->ReanimationGet(aFlowerPot->mBodyReanimID);
+    aPotReanim->mAnimRate   = 0.0f;
+}
