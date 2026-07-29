@@ -30,27 +30,6 @@ class Plant;
 class Zombie;
 class GridItem;
 
-#ifndef E_PLANTING_REASON
-#define E_PLANTING_REASON
-enum PlantingReason : int
-{
-    PLANTING_OK              = 0x0000,
-    PLANTING_NOT_HERE        = 0x0001,
-    PLANTING_ONLY_ON_GRAVES  = 0x0002,
-    PLANTING_ONLY_IN_POOL    = 0x0003,
-    PLANTING_ONLY_ON_GROUND  = 0x0004,
-    PLANTING_NEEDS_POT       = 0x0005,
-    PLANTING_NOT_ON_ART      = 0x0006,
-    PLANTING_NOT_PASSED_LINE = 0x0007,
-    PLANTING_NEEDS_UPGRADE   = 0x0008,
-    PLANTING_NOT_ON_GRAVE    = 0x0009,
-    PLANTING_NOT_ON_CRATER   = 0x000a,
-    PLANTING_NOT_ON_WATER    = 0x000b,
-    PLANTING_NEEDS_GROUND    = 0x000c,
-    PLANTING_NEEDS_SLEEPING  = 0x000d,
-};
-#endif
-
 enum ProjectileType : int
 {
     PROJECTILE_PEA         = 0x0000,
@@ -68,49 +47,6 @@ enum ProjectileType : int
     PROJECTILE_BUTTER      = 0x000c,
     PROJECTILE_ZOMBIE_PEA  = 0x000d,
     NUM_PROJECTILES        = 0x000e,
-};
-
-#ifndef E_GAME_OBJECT_TYPE
-#define E_GAME_OBJECT_TYPE
-enum GameObjectType : int
-{
-    OBJECT_TYPE_NONE                = 0x0000,
-    OBJECT_TYPE_PLANT               = 0x0001,
-    OBJECT_TYPE_PROJECTILE          = 0x0002,
-    OBJECT_TYPE_COIN                = 0x0003,
-    OBJECT_TYPE_SEEDPACKET          = 0x0004,
-    OBJECT_TYPE_SHOVEL              = 0x0005,
-    OBJECT_TYPE_WATERING_CAN        = 0x0006,
-    OBJECT_TYPE_FERTILIZER          = 0x0007,
-    OBJECT_TYPE_BUG_SPRAY           = 0x0008,
-    OBJECT_TYPE_PHONOGRAPH          = 0x0009,
-    OBJECT_TYPE_CHOCOLATE           = 0x000a,
-    OBJECT_TYPE_GLOVE               = 0x000b,
-    OBJECT_TYPE_MONEY_SIGN          = 0x000c,
-    OBJECT_TYPE_WHEELBARROW         = 0x000d,
-    OBJECT_TYPE_TREE_FOOD           = 0x000e,
-    OBJECT_TYPE_NEXT_GARDEN         = 0x000f,
-    OBJECT_TYPE_MENU_BUTTON         = 0x0010,
-    OBJECT_TYPE_STORE_BUTTON        = 0x0011,
-    OBJECT_TYPE_SLOT_MACHINE_HANDLE = 0x0012,
-    OBJECT_TYPE_SCARY_POT           = 0x0013,
-    OBJECT_TYPE_STINKY              = 0x0014,
-    OBJECT_TYPE_TREE_OF_WISDOM      = 0x0015,
-};
-#endif
-
-enum PlantPriority : int
-{
-    TOPPLANT_EATING_ORDER         = 0x0000,
-    TOPPLANT_DIGGING_ORDER        = 0x0001,
-    TOPPLANT_BUNGEE_ORDER         = 0x0002,
-    TOPPLANT_CATAPULT_ORDER       = 0x0003,
-    TOPPLANT_ZEN_TOOL_ORDER       = 0x0004,
-    TOPPLANT_ANY                  = 0x0005,
-    TOPPLANT_ONLY_NORMAL_POSITION = 0x0006,
-    TOPPLANT_ONLY_FLYING          = 0x0007,
-    TOPPLANT_ONLY_PUMPKIN         = 0x0008,
-    TOPPLANT_ONLY_UNDER_PLANT     = 0x0009,
 };
 
 enum DebugTextMode : int
@@ -144,52 +80,6 @@ enum MessageStyle : int
     MESSAGE_STYLE_SLOT_MACHINE         = 0x0011,
     MESSAGE_STYLE_ZEN_GARDEN_LONG      = 0x0012,
 };
-
-#ifndef E_GRID_SQUARE_TYPE
-#define E_GRID_SQUARE_TYPE
-enum GridSquareType : int
-{
-    GRIDSQUARE_NONE        = 0x0000,
-    GRIDSQUARE_GRASS       = 0x0001,
-    GRIDSQUARE_DIRT        = 0x0002,
-    GRIDSQUARE_POOL        = 0x0003,
-    GRIDSQUARE_HIGH_GROUND = 0x0004,
-};
-#endif
-
-#ifndef E_GRID_ITEM_TYPE
-#define E_GRID_ITEM_TYPE
-enum GridItemType : int
-{
-    GRIDITEM_NONE          = 0x0000,
-    GRIDITEM_GRAVESTONE    = 0x0001,
-    GRIDITEM_CRATER        = 0x0002,
-    GRIDITEM_LADDER        = 0x0003,
-    GRIDITEM_PORTAL_CIRCLE = 0x0004,
-    GRIDITEM_PORTAL_SQUARE = 0x0005,
-    GRIDITEM_BRAIN         = 0x0006,
-    GRIDITEM_SCARY_POT     = 0x0007,
-    GRIDITEM_SQUIRREL      = 0x0008,
-    GRIDITEM_ZEN_TOOL      = 0x0009,
-    GRIDITEM_STINKY        = 0x000a,
-    GRIDITEM_RAKE          = 0x000b,
-    GRIDITEM_IZOMBIE_BRAIN = 0x000c,
-};
-#endif
-
-#ifndef E_COIN_MOTION
-#define E_COIN_MOTION
-enum CoinMotion : int
-{
-    COIN_MOTION_FROM_SKY       = 0x0000,
-    COIN_MOTION_FROM_SKY_SLOW  = 0x0001,
-    COIN_MOTION_FROM_PLANT     = 0x0002,
-    COIN_MOTION_COIN           = 0x0003,
-    COIN_MOTION_LAWNMOWER_COIN = 0x0004,
-    COIN_MOTION_FROM_PRESENT   = 0x0005,
-    COIN_MOTION_FROM_BOSS      = 0x0006,
-};
-#endif
 
 enum BackgroundType : int
 {
@@ -276,65 +166,6 @@ enum AdviceType : int
     NUM_ADVICE_TYPES                     = 0x0041,
 };
 
-#ifndef E_COIN_TYPE
-#define E_COIN_TYPE
-enum CoinType : int
-{
-    COIN_NONE                   = 0x0000,
-    COIN_SILVER                 = 0x0001,
-    COIN_GOLD                   = 0x0002,
-    COIN_DIAMOND                = 0x0003,
-    COIN_SUN                    = 0x0004,
-    COIN_SMALLSUN               = 0x0005,
-    COIN_LARGESUN               = 0x0006,
-    COIN_FINAL_SEED_PACKET      = 0x0007,
-    COIN_TROPHY                 = 0x0008,
-    COIN_SHOVEL                 = 0x0009,
-    COIN_ALMANAC                = 0x000a,
-    COIN_CARKEYS                = 0x000b,
-    COIN_VASE                   = 0x000c,
-    COIN_WATERING_CAN           = 0x000d,
-    COIN_TACO                   = 0x000e,
-    COIN_NOTE                   = 0x000f,
-    COIN_USABLE_SEED_PACKET     = 0x0010,
-    COIN_PRESENT_PLANT          = 0x0011,
-    COIN_AWARD_MONEY_BAG        = 0x0012,
-    COIN_AWARD_PRESENT          = 0x0013,
-    COIN_AWARD_BAG_DIAMOND      = 0x0014,
-    COIN_AWARD_SILVER_SUNFLOWER = 0x0015,
-    COIN_AWARD_GOLD_SUNFLOWER   = 0x0016,
-    COIN_CHOCOLATE              = 0x0017,
-    COIN_AWARD_CHOCOLATE        = 0x0018,
-    COIN_PRESENT_MINIGAMES      = 0x0019,
-    COIN_PRESENT_PUZZLE_MODE    = 0x001a,
-};
-#endif
-
-#ifndef E_CURSOR_TYPE
-#define E_CURSOR_TYPE
-enum CursorType : int
-{
-    CURSOR_TYPE_NORMAL                  = 0x0000,
-    CURSOR_TYPE_PLANT_FROM_BANK         = 0x0001,
-    CURSOR_TYPE_PLANT_FROM_USABLE_COIN  = 0x0002,
-    CURSOR_TYPE_PLANT_FROM_GLOVE        = 0x0003,
-    CURSOR_TYPE_PLANT_FROM_DUPLICATOR   = 0x0004,
-    CURSOR_TYPE_PLANT_FROM_WHEEL_BARROW = 0x0005,
-    CURSOR_TYPE_SHOVEL                  = 0x0006,
-    CURSOR_TYPE_HAMMER                  = 0x0007,
-    CURSOR_TYPE_COBCANNON_TARGET        = 0x0008,
-    CURSOR_TYPE_WATERING_CAN            = 0x0009,
-    CURSOR_TYPE_FERTILIZER              = 0x000a,
-    CURSOR_TYPE_BUG_SPRAY               = 0x000b,
-    CURSOR_TYPE_PHONOGRAPH              = 0x000c,
-    CURSOR_TYPE_CHOCOLATE               = 0x000d,
-    CURSOR_TYPE_GLOVE                   = 0x000e,
-    CURSOR_TYPE_MONEY_SIGN              = 0x000f,
-    CURSOR_TYPE_WHEEELBARROW            = 0x0010,
-    CURSOR_TYPE_TREE_FOOD               = 0x0011,
-};
-#endif
-
 enum RenderLayer : int
 {
     RENDER_LAYER_UI_BOTTOM   = 0x000186a0,
@@ -353,14 +184,6 @@ enum RenderLayer : int
     RENDER_LAYER_PROJECTILE  = 0x0004a768,
     RENDER_LAYER_LAWN_MOWER  = 0x0004ab50,
     RENDER_LAYER_PARTICLE    = 0x0004af38,
-};
-
-enum PlantRowType : int
-{
-    PLANTROW_DIRT        = 0x0000,
-    PLANTROW_NORMAL      = 0x0001,
-    PLANTROW_POOL        = 0x0002,
-    PLANTROW_HIGH_GROUND = 0x0003,
 };
 
 class TodSmoothArray
@@ -405,20 +228,6 @@ enum TutorialState : int
     TUTORIAL_WHACK_A_ZOMBIE_PICK_SEED        = 0x001d,
     TUTORIAL_WHACK_A_ZOMBIE_COMPLETED        = 0x001e,
 };
-
-#ifndef E_BOARD_RESULT
-#define E_BOARD_RESULT
-enum BoardResult : int
-{
-    BOARDRESULT_NONE     = 0x0000,
-    BOARDRESULT_WON      = 0x0001,
-    BOARDRESULT_LOST     = 0x0002,
-    BOARDRESULT_RESTART  = 0x0003,
-    BOARDRESULT_QUIT     = 0x0004,
-    BOARDRESULT_QUIT_APP = 0x0005,
-    BOARDRESULT_CHEAT    = 0x0006,
-};
-#endif
 
 class Board : /* 0x0000 */ public Sexy::Widget, /* 0x0088 */ public Sexy::ButtonListener
 { /* Size=0x57b0 */

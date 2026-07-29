@@ -7,55 +7,6 @@
 
 class GameObject;
 class LawnApp;
-class Plant;
-
-#ifndef E_COIN_TYPE
-#define E_COIN_TYPE
-enum CoinType : int
-{
-    COIN_NONE                   = 0x0000,
-    COIN_SILVER                 = 0x0001,
-    COIN_GOLD                   = 0x0002,
-    COIN_DIAMOND                = 0x0003,
-    COIN_SUN                    = 0x0004,
-    COIN_SMALLSUN               = 0x0005,
-    COIN_LARGESUN               = 0x0006,
-    COIN_FINAL_SEED_PACKET      = 0x0007,
-    COIN_TROPHY                 = 0x0008,
-    COIN_SHOVEL                 = 0x0009,
-    COIN_ALMANAC                = 0x000a,
-    COIN_CARKEYS                = 0x000b,
-    COIN_VASE                   = 0x000c,
-    COIN_WATERING_CAN           = 0x000d,
-    COIN_TACO                   = 0x000e,
-    COIN_NOTE                   = 0x000f,
-    COIN_USABLE_SEED_PACKET     = 0x0010,
-    COIN_PRESENT_PLANT          = 0x0011,
-    COIN_AWARD_MONEY_BAG        = 0x0012,
-    COIN_AWARD_PRESENT          = 0x0013,
-    COIN_AWARD_BAG_DIAMOND      = 0x0014,
-    COIN_AWARD_SILVER_SUNFLOWER = 0x0015,
-    COIN_AWARD_GOLD_SUNFLOWER   = 0x0016,
-    COIN_CHOCOLATE              = 0x0017,
-    COIN_AWARD_CHOCOLATE        = 0x0018,
-    COIN_PRESENT_MINIGAMES      = 0x0019,
-    COIN_PRESENT_PUZZLE_MODE    = 0x001a,
-};
-#endif
-
-#ifndef E_COIN_MOTION
-#define E_COIN_MOTION
-enum CoinMotion : int
-{
-    COIN_MOTION_FROM_SKY       = 0x0000,
-    COIN_MOTION_FROM_SKY_SLOW  = 0x0001,
-    COIN_MOTION_FROM_PLANT     = 0x0002,
-    COIN_MOTION_COIN           = 0x0003,
-    COIN_MOTION_LAWNMOWER_COIN = 0x0004,
-    COIN_MOTION_FROM_PRESENT   = 0x0005,
-    COIN_MOTION_FROM_BOSS      = 0x0006,
-};
-#endif
 
 class Coin : public GameObject
 { /* Size=0xd0 */

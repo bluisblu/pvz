@@ -1,5 +1,3 @@
-#pragma once
-
 #ifndef __CUTSCENE_H__
 #define __CUTSCENE_H__
 
