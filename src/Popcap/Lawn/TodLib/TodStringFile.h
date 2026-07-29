@@ -1,5 +1,3 @@
-#pragma once
-
 #ifndef __TODLIB_TODSTRINGFILE_H__
 #define __TODLIB_TODSTRINGFILE_H__
 

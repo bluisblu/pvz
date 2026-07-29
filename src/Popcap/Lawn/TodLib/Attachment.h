@@ -1,5 +1,3 @@
-#pragma once
-
 #include <cstdio>
 #ifndef __TODLIB_ATTACHMENT_H__
 #define __TODLIB_ATTACHMENT_H__
@@ -9,29 +7,10 @@
 #include "SexyAppFramework/SexyMatrix.h"
 
 #include "EffectSystem.h"
+#include "Enums.h"
 #include "Reanimator.h"
 
 class Reanimation;
-
-#ifndef E_ATTACHMENT_ID
-#define E_ATTACHMENT_ID
-enum AttachmentID : int
-{
-    ATTACHMENTID_NULL = 0x0000,
-};
-#endif
-
-#ifndef E_EFFECT_TYPE
-#define E_EFFECT_TYPE
-enum EffectType : int
-{
-    EFFECT_PARTICLE   = 0x0000,
-    EFFECT_TRAIL      = 0x0001,
-    EFFECT_REANIM     = 0x0002,
-    EFFECT_ATTACHMENT = 0x0003,
-    EFFECT_OTHER      = 0x0004,
-};
-#endif
 
 class AttachEffect
 { /* Size=0x30 */

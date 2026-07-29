@@ -1,5 +1,3 @@
-#pragma once
-
 #ifndef __GAMESELECTOR_H__
 #define __GAMESELECTOR_H__
 
@@ -7,31 +5,8 @@
 #include "SexyAppFramework/Dialog.h"
 #include "SexyAppFramework/Widget.h"
 
+#include "Enums.h"
 #include "LawnApp.h"
-
-#ifndef E_PARTICLE_SYSTEM_ID
-#define E_PARTICLE_SYSTEM_ID
-enum ParticleSystemID : int
-{
-    PARTICLESYSTEMID_NULL = 0x0000,
-};
-#endif
-
-#ifndef E_REANIMATION_ID
-#define E_REANIMATION_ID
-enum ReanimationID : int
-{
-    REANIMATIONID_NULL = 0x0000,
-};
-#endif
-
-enum SelectorAnimState : int
-{
-    SELECTOR_OPEN      = 0x0000,
-    SELECTOR_NEW_USER  = 0x0001,
-    SELECTOR_SHOW_SIGN = 0x0002,
-    SELECTOR_IDLE      = 0x0003,
-};
 
 class GameSelector : public Sexy::Widget, public Sexy::ButtonListener
 { /* Size=0x12c */

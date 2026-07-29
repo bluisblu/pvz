@@ -1,5 +1,3 @@
-#pragma once
-
 #ifndef __TODLIB_REANIMATLAS_H__
 #define __TODLIB_REANIMATLAS_H__
 

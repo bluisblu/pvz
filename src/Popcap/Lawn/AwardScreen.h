@@ -1,5 +1,3 @@
-#pragma once
-
 #ifndef __AWARDSCREEN_H__
 #define __AWARDSCREEN_H__
 
@@ -8,15 +6,6 @@
 #include "LawnApp.h"
 
 class LawnApp;
-
-#ifndef E_AWARD_TYPE
-#define E_AWARD_TYPE
-enum AwardType : int
-{
-    AWARD_FOR_LEVEL           = 0x0000,
-    AWARD_CREDITS_ZOMBIE_NOTE = 0x0001,
-};
-#endif
 
 class AwardScreen : public Sexy::Widget
 { /* Size=0x9c */

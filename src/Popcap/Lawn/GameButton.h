@@ -1,5 +1,3 @@
-#pragma once
-
 #ifndef __GAMEBUTTON_H__
 #define __GAMEBUTTON_H__
 
