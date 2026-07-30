@@ -1,8 +1,6 @@
 #ifndef __LAWNAPP_H__
 #define __LAWNAPP_H__
 
-#include "SexyAppFramework/Graphics.h"
-#include "SexyAppFramework/Image.h"
 #include "SexyAppFramework/SexyApp.h"
 
 #include "TodLib/Reanimator.h"
@@ -21,25 +19,6 @@ class GameSelector;
 class SeedChooserScreen;
 
 extern TodStringListFormat gLawnStringFormats[12];
-
-namespace Sexy
-{
-Sexy::Image *IMAGE_BUG_SPRAY;
-Sexy::Image *IMAGE_SHOVEL;
-Sexy::Image *IMAGE_WATERINGCAN;
-Sexy::Image *IMAGE_ZEN_GOLDTOOLRETICLE;
-Sexy::Image *IMAGE_WATERINGCANGOLD;
-Sexy::Image *IMAGE_FERTILIZER;
-Sexy::Image *IMAGE_PHONOGRAPH;
-Sexy::Image *IMAGE_CHOCOLATE;
-Sexy::Image *IMAGE_ZEN_GARDENGLOVE;
-Sexy::Image *IMAGE_TREEFOOD;
-Sexy::Image *IMAGE_ZEN_WHEELBARROW;
-Sexy::Image *IMAGE_COBCANNON_TARGET;
-Sexy::Image *IMAGE_ZEN_MONEYSIGN;
-int SOUND_SEEDLIFT;
-int SOUND_DIAMOND;
-} // namespace Sexy
 
 class LawnApp : public Sexy::SexyApp
 { /* Size=0x8c0 */
