@@ -44,10 +44,9 @@ compiler:
       subpath: "Include"
 
   include_dirs:
-    - "src/lib/SexyAppFramework"
-    - "src/lib"
-    - "src/Popcap/Lawn"
     - "src"
+    - "src/Popcap"
+    - "src/Popcap/Lawn"
 
   base_flags: >-
     /nologo /EHsc /MT /O2 /Ob2 /Oi /Gy /GS- /GR-

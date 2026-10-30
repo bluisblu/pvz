@@ -14,7 +14,7 @@ Popcap/Lawn/Almanac.cpp:
 	.text        start:0x00453600 end:0x00453610
 	.text        start:0x0063F1B0 end:0x0063F450
 
-lib/SexyAppFramework/SexyAppBase.cpp:
+Popcap/SexyAppFramework/SexyAppBase.cpp:
 	.text        start:0x00401290 end:0x004012A0
 	.text        start:0x0043DF00 end:0x0043DF20
 	.text        start:0x00443810 end:0x00443830
@@ -209,7 +209,7 @@ Popcap/Lawn/Music.cpp:
 	.text        start:0x00457250 end:0x00458D60
 	.text        start:0x00642520 end:0x006425C0
 
-lib/SexyAppFramework/SoundBuild.cpp:
+Popcap/SexyAppFramework/SoundBuild.cpp:
 	.text        start:0x00456FE0 end:0x00457000
 	.text        start:0x00457100 end:0x00457190
 	.text        start:0x004571E0 end:0x00457250
@@ -221,7 +221,7 @@ lib/SexyAppFramework/SoundBuild.cpp:
 	.text        start:0x005C7A90 end:0x005CBF70
 	.text        start:0x0064FFB0 end:0x006504E0
 
-lib/SexyAppFramework/MiscBuild.cpp:
+Popcap/SexyAppFramework/MiscBuild.cpp:
 	.text        start:0x004570B0 end:0x00457100
 	.text        start:0x00457190 end:0x004571E0
 	.text        start:0x0047D8D0 end:0x0047D930
@@ -322,7 +322,7 @@ Popcap/Lawn/TodLib/StackWalk.cpp:
 Popcap/Lawn/TodLib/Tod_SWTri.cpp:
 	.text        start:0x0048A100 end:0x0050AC90
 
-lib/SexyAppFramework/GraphicsBuild.cpp:
+Popcap/SexyAppFramework/GraphicsBuild.cpp:
 	.text        start:0x0050B940 end:0x0050B960
 	.text        start:0x00510480 end:0x00510490
 	.text        start:0x00532500 end:0x00532520
@@ -396,7 +396,7 @@ Popcap/Lawn/Zombie.cpp:
 	.text        start:0x00646970 end:0x006469D0
 	.text        start:0x00654620 end:0x00654640
 
-lib/SexyAppFramework/WidgetBuild.cpp:
+Popcap/SexyAppFramework/WidgetBuild.cpp:
 	.text        start:0x0052F570 end:0x00532430
 	.text        start:0x00532470 end:0x00532500
 	.text        start:0x00532520 end:0x00532C50
@@ -413,18 +413,18 @@ lib/SexyAppFramework/WidgetBuild.cpp:
 	.text        start:0x00654640 end:0x006546C0
 	.text        start:0x00654F40 end:0x00655000
 
-lib/SexyAppFramework/jmemnobs.cpp:
+Popcap/SexyAppFramework/jmemnobs.cpp:
 	.text        start:0x0053E6F0 end:0x0053E700
 	.text        start:0x005F9BB0 end:0x005F9BF0
 
-lib/SexyAppFramework/PakInterface.cpp:
+Popcap/SexyAppFramework/PakInterface.cpp:
 	.text        start:0x0053F570 end:0x0053F5A0
 	.text        start:0x005D7920 end:0x005D9B40
 	.text        start:0x006511D0 end:0x00651450
 	.text        start:0x00654A60 end:0x00654A80
 	.text        start:0x006554C0 end:0x006554D0
 
-lib/SexyAppFramework/ImageLib.cpp:
+Popcap/SexyAppFramework/ImageLib.cpp:
 	.text        start:0x00565360 end:0x00565370
 	.text        start:0x005D2A80 end:0x005D2CA0
 	.text        start:0x005D2CB0 end:0x005D7920
@@ -432,271 +432,271 @@ lib/SexyAppFramework/ImageLib.cpp:
 	.text        start:0x00654A20 end:0x00654A60
 	.text        start:0x00655430 end:0x006554C0
 
-lib/SexyAppFramework/crc32.cpp:
+Popcap/SexyAppFramework/crc32.cpp:
 	.text        start:0x005CBF70 end:0x005CC0B0
 
-lib/SexyAppFramework/compress.cpp:
+Popcap/SexyAppFramework/compress.cpp:
 	.text        start:0x005CC0B0 end:0x005CC180
 
-lib/SexyAppFramework/uncompr.cpp:
+Popcap/SexyAppFramework/uncompr.cpp:
 	.text        start:0x005CC180 end:0x005CC220
 
-lib/SexyAppFramework/SexyApp.cpp:
+Popcap/SexyAppFramework/SexyApp.cpp:
 	.text        start:0x005CC220 end:0x005D0DF0
 	.text        start:0x006504E0 end:0x00651000
 
-lib/SexyAppFramework/Buffer.cpp:
+Popcap/SexyAppFramework/Buffer.cpp:
 	.text        start:0x005D0DF0 end:0x005D1E50
 	.text        start:0x00651000 end:0x006510F0
 
-lib/SexyAppFramework/SWTri.cpp:
+Popcap/SexyAppFramework/SWTri.cpp:
 	.text        start:0x005D1E50 end:0x005D2A80
 
-lib/SexyAppFramework/CryptBuild.cpp:
+Popcap/SexyAppFramework/CryptBuild.cpp:
 	.text        start:0x005D9B40 end:0x005DBBE0
 	.text        start:0x00651450 end:0x00651A92
 	.text        start:0x00654A80 end:0x00654E85
 	.text        start:0x006554D0 end:0x006554E4
 
-lib/SexyAppFramework/vorbisfile.cpp:
+Popcap/SexyAppFramework/vorbisfile.cpp:
 	.text        start:0x005DBBE0 end:0x005DD250
 
-lib/SexyAppFramework/deflate.cpp:
+Popcap/SexyAppFramework/deflate.cpp:
 	.text        start:0x005DD250 end:0x005DE3D0
 
-lib/SexyAppFramework/inflate.cpp:
+Popcap/SexyAppFramework/inflate.cpp:
 	.text        start:0x005DE3D0 end:0x005DE970
 
-lib/SexyAppFramework/pngerror.cpp:
+Popcap/SexyAppFramework/pngerror.cpp:
 	.text        start:0x005DE970 end:0x005DEB40
 
-lib/SexyAppFramework/jcomapi.cpp:
+Popcap/SexyAppFramework/jcomapi.cpp:
 	.text        start:0x005DEB40 end:0x005DEBF0
 
-lib/SexyAppFramework/jdmarker.cpp:
+Popcap/SexyAppFramework/jdmarker.cpp:
 	.text        start:0x005DEBF0 end:0x005E06A0
 
-lib/SexyAppFramework/pngread.cpp:
+Popcap/SexyAppFramework/pngread.cpp:
 	.text        start:0x005E06A0 end:0x005E2720
 
-lib/SexyAppFramework/pngtrans.cpp:
+Popcap/SexyAppFramework/pngtrans.cpp:
 	.text        start:0x005E2720 end:0x005E2BD0
 
-lib/SexyAppFramework/pngrtran.cpp:
+Popcap/SexyAppFramework/pngrtran.cpp:
 	.text        start:0x005E2BD0 end:0x005E7050
 
-lib/SexyAppFramework/pngget.cpp:
+Popcap/SexyAppFramework/pngget.cpp:
 	.text        start:0x005E7050 end:0x005E7130
 
-lib/SexyAppFramework/png.cpp:
+Popcap/SexyAppFramework/png.cpp:
 	.text        start:0x005E7130 end:0x005E7400
 
-lib/SexyAppFramework/pngrio.cpp:
+Popcap/SexyAppFramework/pngrio.cpp:
 	.text        start:0x005E7400 end:0x005E74C0
 
-lib/SexyAppFramework/jcapimin.cpp:
+Popcap/SexyAppFramework/jcapimin.cpp:
 	.text        start:0x005E74C0 end:0x005E7720
 
-lib/SexyAppFramework/jcapistd.cpp:
+Popcap/SexyAppFramework/jcapistd.cpp:
 	.text        start:0x005E7720 end:0x005E7870
 
-lib/SexyAppFramework/jdatadst.cpp:
+Popcap/SexyAppFramework/jdatadst.cpp:
 	.text        start:0x005E7870 end:0x005E79A0
 
-lib/SexyAppFramework/jcparam.cpp:
+Popcap/SexyAppFramework/jcparam.cpp:
 	.text        start:0x005E79A0 end:0x005E81A0
 
-lib/SexyAppFramework/jerror.cpp:
+Popcap/SexyAppFramework/jerror.cpp:
 	.text        start:0x005E81A0 end:0x005E8380
 
-lib/SexyAppFramework/pngwrite.cpp:
+Popcap/SexyAppFramework/pngwrite.cpp:
 	.text        start:0x005E8380 end:0x005E8FD0
 
-lib/SexyAppFramework/pngset.cpp:
+Popcap/SexyAppFramework/pngset.cpp:
 	.text        start:0x005E8FD0 end:0x005E9590
 
-lib/SexyAppFramework/jdapimin.cpp:
+Popcap/SexyAppFramework/jdapimin.cpp:
 	.text        start:0x005E9590 end:0x005E9A90
 
-lib/SexyAppFramework/jdapistd.cpp:
+Popcap/SexyAppFramework/jdapistd.cpp:
 	.text        start:0x005E9A90 end:0x005E9CE0
 
-lib/SexyAppFramework/framing.cpp:
+Popcap/SexyAppFramework/framing.cpp:
 	.text        start:0x005E9CE0 end:0x005EAE50
 
-lib/SexyAppFramework/info.cpp:
+Popcap/SexyAppFramework/info.cpp:
 	.text        start:0x005EAE50 end:0x005EB6C0
 
-lib/SexyAppFramework/synthesis.cpp:
+Popcap/SexyAppFramework/synthesis.cpp:
 	.text        start:0x005EB6C0 end:0x005EB8A0
 
-lib/SexyAppFramework/block.cpp:
+Popcap/SexyAppFramework/block.cpp:
 	.text        start:0x005EB8A0 end:0x005EC1A0
 
-lib/SexyAppFramework/adler32.cpp:
+Popcap/SexyAppFramework/adler32.cpp:
 	.text        start:0x005EC1A0 end:0x005EC2E0
 
-lib/SexyAppFramework/trees.cpp:
+Popcap/SexyAppFramework/trees.cpp:
 	.text        start:0x005EC2E0 end:0x005EDD30
 
-lib/SexyAppFramework/zutil.cpp:
+Popcap/SexyAppFramework/zutil.cpp:
 	.text        start:0x005EDD30 end:0x005EDD60
 
-lib/SexyAppFramework/infblock.cpp:
+Popcap/SexyAppFramework/infblock.cpp:
 	.text        start:0x005EDD60 end:0x005EE990
 
-lib/SexyAppFramework/jutils.cpp:
+Popcap/SexyAppFramework/jutils.cpp:
 	.text        start:0x005EE990 end:0x005EEA50
 
-lib/SexyAppFramework/pngmem.cpp:
+Popcap/SexyAppFramework/pngmem.cpp:
 	.text        start:0x005EEA50 end:0x005EEA90
 	.text        start:0x005EEAB0 end:0x005EEB50
 
-lib/SexyAppFramework/pngrutil.cpp:
+Popcap/SexyAppFramework/pngrutil.cpp:
 	.text        start:0x005EEB50 end:0x005F1B40
 
-lib/SexyAppFramework/jmemmgr.cpp:
+Popcap/SexyAppFramework/jmemmgr.cpp:
 	.text        start:0x005F1B40 end:0x005F2760
 
-lib/SexyAppFramework/jcmarker.cpp:
+Popcap/SexyAppFramework/jcmarker.cpp:
 	.text        start:0x005F2760 end:0x005F3040
 
-lib/SexyAppFramework/jcinit.cpp:
+Popcap/SexyAppFramework/jcinit.cpp:
 	.text        start:0x005F3040 end:0x005F3100
 
-lib/SexyAppFramework/pngwutil.cpp:
+Popcap/SexyAppFramework/pngwutil.cpp:
 	.text        start:0x005F3100 end:0x005F5AA0
 
-lib/SexyAppFramework/pngwtran.cpp:
+Popcap/SexyAppFramework/pngwtran.cpp:
 	.text        start:0x005F5AA0 end:0x005F62A0
 
-lib/SexyAppFramework/pngwio.cpp:
+Popcap/SexyAppFramework/pngwio.cpp:
 	.text        start:0x005F62A0 end:0x005F63B0
 
-lib/SexyAppFramework/jdinput.cpp:
+Popcap/SexyAppFramework/jdinput.cpp:
 	.text        start:0x005F63B0 end:0x005F69C0
 
-lib/SexyAppFramework/jdmaster.cpp:
+Popcap/SexyAppFramework/jdmaster.cpp:
 	.text        start:0x005F69C0 end:0x005F70B0
 
-lib/SexyAppFramework/bitwise.cpp:
+Popcap/SexyAppFramework/bitwise.cpp:
 	.text        start:0x005F70B0 end:0x005F7610
 
-lib/SexyAppFramework/sharedbook.cpp:
+Popcap/SexyAppFramework/sharedbook.cpp:
 	.text        start:0x005F7610 end:0x005F81C0
 
-lib/SexyAppFramework/codebook.cpp:
+Popcap/SexyAppFramework/codebook.cpp:
 	.text        start:0x005F81C0 end:0x005F8A20
 
-lib/SexyAppFramework/window.cpp:
+Popcap/SexyAppFramework/window.cpp:
 	.text        start:0x005F8A20 end:0x005F8CC0
 
-lib/SexyAppFramework/infcodes.cpp:
+Popcap/SexyAppFramework/infcodes.cpp:
 	.text        start:0x005F8CC0 end:0x005F93C0
 
-lib/SexyAppFramework/inftrees.cpp:
+Popcap/SexyAppFramework/inftrees.cpp:
 	.text        start:0x005F93C0 end:0x005F9AC0
 
-lib/SexyAppFramework/infutil.cpp:
+Popcap/SexyAppFramework/infutil.cpp:
 	.text        start:0x005F9AC0 end:0x005F9BB0
 
-lib/SexyAppFramework/jcmainct.cpp:
+Popcap/SexyAppFramework/jcmainct.cpp:
 	.text        start:0x005F9BF0 end:0x005F9D80
 
-lib/SexyAppFramework/jccoefct.cpp:
+Popcap/SexyAppFramework/jccoefct.cpp:
 	.text        start:0x005F9D80 end:0x005FA5C0
 
-lib/SexyAppFramework/jchuff.cpp:
+Popcap/SexyAppFramework/jchuff.cpp:
 	.text        start:0x005FA5C0 end:0x005FB4B0
 
-lib/SexyAppFramework/jcphuff.cpp:
+Popcap/SexyAppFramework/jcphuff.cpp:
 	.text        start:0x005FB4B0 end:0x005FC020
 
-lib/SexyAppFramework/jcdctmgr.cpp:
+Popcap/SexyAppFramework/jcdctmgr.cpp:
 	.text        start:0x005FC020 end:0x005FCF50
 
-lib/SexyAppFramework/jcprepct.cpp:
+Popcap/SexyAppFramework/jcprepct.cpp:
 	.text        start:0x005FCF50 end:0x005FD500
 
-lib/SexyAppFramework/jcsample.cpp:
+Popcap/SexyAppFramework/jcsample.cpp:
 	.text        start:0x005FD500 end:0x005FDE70
 
-lib/SexyAppFramework/jccolor.cpp:
+Popcap/SexyAppFramework/jccolor.cpp:
 	.text        start:0x005FDE70 end:0x005FE580
 
-lib/SexyAppFramework/jcmaster.cpp:
+Popcap/SexyAppFramework/jcmaster.cpp:
 	.text        start:0x005FE580 end:0x005FF120
 
-lib/SexyAppFramework/jdmainct.cpp:
+Popcap/SexyAppFramework/jdmainct.cpp:
 	.text        start:0x005FF120 end:0x005FF7F0
 
-lib/SexyAppFramework/jdcoefct.cpp:
+Popcap/SexyAppFramework/jdcoefct.cpp:
 	.text        start:0x005FF7F0 end:0x00600770
 
-lib/SexyAppFramework/jdhuff.cpp:
+Popcap/SexyAppFramework/jdhuff.cpp:
 	.text        start:0x00600770 end:0x006012B0
 
-lib/SexyAppFramework/jdphuff.cpp:
+Popcap/SexyAppFramework/jdphuff.cpp:
 	.text        start:0x006012B0 end:0x00601FA0
 
-lib/SexyAppFramework/jddctmgr.cpp:
+Popcap/SexyAppFramework/jddctmgr.cpp:
 	.text        start:0x00601FA0 end:0x00602340
 
-lib/SexyAppFramework/jdpostct.cpp:
+Popcap/SexyAppFramework/jdpostct.cpp:
 	.text        start:0x00602340 end:0x006026B0
 
-lib/SexyAppFramework/jdsample.cpp:
+Popcap/SexyAppFramework/jdsample.cpp:
 	.text        start:0x006026B0 end:0x00602D70
 
-lib/SexyAppFramework/jdcolor.cpp:
+Popcap/SexyAppFramework/jdcolor.cpp:
 	.text        start:0x00602D70 end:0x00603370
 
-lib/SexyAppFramework/jdmerge.cpp:
+Popcap/SexyAppFramework/jdmerge.cpp:
 	.text        start:0x00603370 end:0x00603960
 
-lib/SexyAppFramework/jquant2.cpp:
+Popcap/SexyAppFramework/jquant2.cpp:
 	.text        start:0x00603960 end:0x00604D20
 
-lib/SexyAppFramework/jquant1.cpp:
+Popcap/SexyAppFramework/jquant1.cpp:
 	.text        start:0x00604D20 end:0x00605940
 
-lib/SexyAppFramework/mapping0.cpp:
+Popcap/SexyAppFramework/mapping0.cpp:
 	.text        start:0x00605940 end:0x006060A0
 
-lib/SexyAppFramework/res012.cpp:
+Popcap/SexyAppFramework/res012.cpp:
 	.text        start:0x006060A0 end:0x006068D0
 
-lib/SexyAppFramework/floor1.cpp:
+Popcap/SexyAppFramework/floor1.cpp:
 	.text        start:0x006068D0 end:0x00607260
 
-lib/SexyAppFramework/floor0.cpp:
+Popcap/SexyAppFramework/floor0.cpp:
 	.text        start:0x00607260 end:0x00607AD0
 
-lib/SexyAppFramework/inffast.cpp:
+Popcap/SexyAppFramework/inffast.cpp:
 	.text        start:0x00607AD0 end:0x00607E30
 
-lib/SexyAppFramework/jfdctint.cpp:
+Popcap/SexyAppFramework/jfdctint.cpp:
 	.text        start:0x00607E30 end:0x00608150
 
-lib/SexyAppFramework/jfdctfst.cpp:
+Popcap/SexyAppFramework/jfdctfst.cpp:
 	.text        start:0x00608150 end:0x00608820
 
-lib/SexyAppFramework/jfdctflt.cpp:
+Popcap/SexyAppFramework/jfdctflt.cpp:
 	.text        start:0x00608820 end:0x00608B50
 
-lib/SexyAppFramework/jidctint.cpp:
+Popcap/SexyAppFramework/jidctint.cpp:
 	.text        start:0x00608B50 end:0x00609070
 
-lib/SexyAppFramework/jidctfst.cpp:
+Popcap/SexyAppFramework/jidctfst.cpp:
 	.text        start:0x00609070 end:0x00609450
 
-lib/SexyAppFramework/jidctflt.cpp:
+Popcap/SexyAppFramework/jidctflt.cpp:
 	.text        start:0x00609450 end:0x006099A0
 
-lib/SexyAppFramework/jidctred.cpp:
+Popcap/SexyAppFramework/jidctred.cpp:
 	.text        start:0x006099A0 end:0x0060A170
 
-lib/SexyAppFramework/mdct.cpp:
+Popcap/SexyAppFramework/mdct.cpp:
 	.text        start:0x0060A170 end:0x0060C5AD
 
 lib/libcpmt/string.cpp:
@@ -2334,7 +2334,7 @@ Popcap/Lawn/Zombie.cpp:
 	.data        start:0x006AA560 end:0x006AA92C
 	.bss         start:0x0072A810 end:0x0072A820
 
-lib/SexyAppFramework/WidgetBuild.cpp:
+Popcap/SexyAppFramework/WidgetBuild.cpp:
 	.rdata       start:0x00656524 end:0x00656534
 	.rdata       start:0x00668728 end:0x0066880C
 	.rdata       start:0x00668810 end:0x0066888C
@@ -2398,7 +2398,7 @@ lib/SexyAppFramework/WidgetBuild.cpp:
 	.data        start:0x006AAD60 end:0x006AAD83
 	.bss         start:0x0072A820 end:0x0072A838
 
-lib/SexyAppFramework/SexyAppBase.cpp:
+Popcap/SexyAppFramework/SexyAppBase.cpp:
 	.rdata       start:0x00656534 end:0x0065653C
 	.rdata       start:0x006694B4 end:0x006694D5
 	.rdata       start:0x006694D8 end:0x00669505
@@ -2595,7 +2595,7 @@ lib/SexyAppFramework/SexyAppBase.cpp:
 	.bss         start:0x0072A838 end:0x0072A8AE
 	.bss         start:0x0072A8B0 end:0x0072A96C
 
-lib/SexyAppFramework/GraphicsBuild.cpp:
+Popcap/SexyAppFramework/GraphicsBuild.cpp:
 	.rdata       start:0x0065653C end:0x00656554
 	.rdata       start:0x0066A7D4 end:0x0066A83C
 	.rdata       start:0x0066A840 end:0x0066A884
@@ -2737,7 +2737,7 @@ lib/SexyAppFramework/GraphicsBuild.cpp:
 	.data        start:0x006AB4F0 end:0x006AB50C
 	.bss         start:0x0072A970 end:0x00764219
 
-lib/SexyAppFramework/MiscBuild.cpp:
+Popcap/SexyAppFramework/MiscBuild.cpp:
 	.rdata       start:0x00656554 end:0x006565A0
 	.rdata       start:0x0066B8DC end:0x0066B8F7
 	.rdata       start:0x0066B8F8 end:0x0066B90F
@@ -3194,7 +3194,7 @@ lib/SexyAppFramework/MiscBuild.cpp:
 	.bss         start:0x00764220 end:0x00764E22
 	.bss         start:0x00764E24 end:0x00764E34
 
-lib/SexyAppFramework/ImageLib.cpp:
+Popcap/SexyAppFramework/ImageLib.cpp:
 	.rdata       start:0x006565A0 end:0x006565AC
 	.rdata       start:0x00670488 end:0x0067049B
 	.rdata       start:0x0067049C end:0x006704D6
@@ -3221,7 +3221,7 @@ lib/SexyAppFramework/ImageLib.cpp:
 	.data        start:0x006AC47C end:0x006AC4F9
 	.bss         start:0x00765960 end:0x00765994
 
-lib/SexyAppFramework/PakInterface.cpp:
+Popcap/SexyAppFramework/PakInterface.cpp:
 	.rdata       start:0x006565AC end:0x006565B0
 	.rdata       start:0x0067061C end:0x0067061F
 	.rdata       start:0x00670620 end:0x00670660
@@ -3233,7 +3233,7 @@ lib/SexyAppFramework/PakInterface.cpp:
 	.data        start:0x006AC524 end:0x006AC53F
 	.bss         start:0x00765994 end:0x007659B8
 
-lib/SexyAppFramework/CryptBuild.cpp:
+Popcap/SexyAppFramework/CryptBuild.cpp:
 	.rdata       start:0x006565B0 end:0x006565B4
 	.rdata       start:0x00670660 end:0x0067067D
 	.rdata       start:0x00670680 end:0x00670746
@@ -4930,7 +4930,7 @@ Popcap/Lawn/ZenGarden.cpp:
 	.rdata       start:0x00693D54 end:0x00693FA8
 	.data        start:0x006AA260 end:0x006AA560
 
-lib/SexyAppFramework/SoundBuild.cpp:
+Popcap/SexyAppFramework/SoundBuild.cpp:
 	.rdata       start:0x0066EA78 end:0x0066EB3C
 	.rdata       start:0x0066EB40 end:0x0066EB72
 	.rdata       start:0x0066EB74 end:0x0066EB87
@@ -5053,13 +5053,13 @@ lib/SexyAppFramework/SoundBuild.cpp:
 	.data        start:0x006AC018 end:0x006AC03E
 	.bss         start:0x00764E34 end:0x00764E4C
 
-lib/SexyAppFramework/crc32.cpp:
+Popcap/SexyAppFramework/crc32.cpp:
 	.rdata       start:0x0066F7B8 end:0x0066FBB8
 
-lib/SexyAppFramework/compress.cpp:
+Popcap/SexyAppFramework/compress.cpp:
 	.rdata       start:0x0066FBB8 end:0x0066FBBE
 
-lib/SexyAppFramework/SexyApp.cpp:
+Popcap/SexyAppFramework/SexyApp.cpp:
 	.rdata       start:0x0066FBC0 end:0x0066FD5C
 	.rdata       start:0x0066FD60 end:0x0066FF19
 	.rdata       start:0x0066FF1C end:0x0066FF23
@@ -5115,27 +5115,27 @@ lib/SexyAppFramework/SexyApp.cpp:
 	.data        start:0x006AC040 end:0x006AC06B
 	.bss         start:0x00764E4C end:0x00764E50
 
-lib/SexyAppFramework/Buffer.cpp:
+Popcap/SexyAppFramework/Buffer.cpp:
 	.rdata       start:0x00670438 end:0x00670479
 	.rdata       start:0x0067047C end:0x00670486
 	.rdata       start:0x0069D958 end:0x0069DA08
 	.data        start:0x006AC070 end:0x006AC478
 	.bss         start:0x00764E50 end:0x00765254
 
-lib/SexyAppFramework/deflate.cpp:
+Popcap/SexyAppFramework/deflate.cpp:
 	.rdata       start:0x00670748 end:0x006707F8
 	.data        start:0x006AC560 end:0x006AC564
 
-lib/SexyAppFramework/inflate.cpp:
+Popcap/SexyAppFramework/inflate.cpp:
 	.rdata       start:0x006707F8 end:0x00670821
 	.rdata       start:0x00670824 end:0x0067083B
 	.rdata       start:0x0067083C end:0x0067086B
 
-lib/SexyAppFramework/pngerror.cpp:
+Popcap/SexyAppFramework/pngerror.cpp:
 	.rdata       start:0x0067086C end:0x0067088E
 	.rdata       start:0x00670890 end:0x006708A4
 
-lib/SexyAppFramework/pngread.cpp:
+Popcap/SexyAppFramework/pngread.cpp:
 	.rdata       start:0x006708A4 end:0x006708B7
 	.rdata       start:0x006708B8 end:0x006708CB
 	.rdata       start:0x006708CC end:0x006708DE
@@ -5149,28 +5149,28 @@ lib/SexyAppFramework/pngread.cpp:
 	.rdata       start:0x006709CC end:0x006709ED
 	.rdata       start:0x006709F0 end:0x00670A06
 
-lib/SexyAppFramework/pngrtran.cpp:
+Popcap/SexyAppFramework/pngrtran.cpp:
 	.rdata       start:0x00670A08 end:0x00670A42
 	.rdata       start:0x00670A44 end:0x00670A6B
 	.rdata       start:0x00670A6C end:0x00670A91
 	.data        start:0x006AC868 end:0x006AC888
 
-lib/SexyAppFramework/pngget.cpp:
+Popcap/SexyAppFramework/pngget.cpp:
 	.rdata       start:0x00670A94 end:0x00670AC6
 
-lib/SexyAppFramework/png.cpp:
+Popcap/SexyAppFramework/png.cpp:
 	.rdata       start:0x00670AC8 end:0x00670AF8
 	.data        start:0x006AC888 end:0x006AC9CC
 
-lib/SexyAppFramework/pngrio.cpp:
+Popcap/SexyAppFramework/pngrio.cpp:
 	.rdata       start:0x00670AF8 end:0x00670B13
 	.rdata       start:0x00670B14 end:0x00670B46
 	.rdata       start:0x00670B48 end:0x00670B89
 
-lib/SexyAppFramework/jcparam.cpp:
+Popcap/SexyAppFramework/jcparam.cpp:
 	.rdata       start:0x00670B90 end:0x00670F42
 
-lib/SexyAppFramework/jerror.cpp:
+Popcap/SexyAppFramework/jerror.cpp:
 	.rdata       start:0x00670F44 end:0x00670F6F
 	.rdata       start:0x00670F70 end:0x00670F9B
 	.rdata       start:0x00670F9C end:0x00670FEF
@@ -5268,23 +5268,23 @@ lib/SexyAppFramework/jerror.cpp:
 	.rdata       start:0x006721C0 end:0x006721D6
 	.rdata       start:0x006721D8 end:0x006723CC
 
-lib/SexyAppFramework/pngwrite.cpp:
+Popcap/SexyAppFramework/pngwrite.cpp:
 	.rdata       start:0x006723CC end:0x00672413
 	.rdata       start:0x00672414 end:0x0067241F
 	.rdata       start:0x00672420 end:0x00672440
 
-lib/SexyAppFramework/pngset.cpp:
+Popcap/SexyAppFramework/pngset.cpp:
 	.rdata       start:0x00672440 end:0x0067247F
 	.rdata       start:0x00672480 end:0x006724B0
 
-lib/SexyAppFramework/info.cpp:
+Popcap/SexyAppFramework/info.cpp:
 	.rdata       start:0x006724B0 end:0x006724B7
 
-lib/SexyAppFramework/trees.cpp:
+Popcap/SexyAppFramework/trees.cpp:
 	.rdata       start:0x006724B8 end:0x00672EF0
 	.data        start:0x006ACDD0 end:0x006ACE0C
 
-lib/SexyAppFramework/zutil.cpp:
+Popcap/SexyAppFramework/zutil.cpp:
 	.rdata       start:0x00672EF0 end:0x00672F05
 	.rdata       start:0x00672F08 end:0x00672F15
 	.rdata       start:0x00672F18 end:0x00672F37
@@ -5293,18 +5293,18 @@ lib/SexyAppFramework/zutil.cpp:
 	.rdata       start:0x00672F54 end:0x00672F5F
 	.data        start:0x006ACE0C end:0x006ACE34
 
-lib/SexyAppFramework/infblock.cpp:
+Popcap/SexyAppFramework/infblock.cpp:
 	.rdata       start:0x00672F60 end:0x00672FC6
 	.rdata       start:0x00672FC8 end:0x00673009
 	.rdata       start:0x0067300C end:0x0067301F
 
-lib/SexyAppFramework/jutils.cpp:
+Popcap/SexyAppFramework/jutils.cpp:
 	.rdata       start:0x00673020 end:0x00673160
 
-lib/SexyAppFramework/pngmem.cpp:
+Popcap/SexyAppFramework/pngmem.cpp:
 	.rdata       start:0x00673160 end:0x0067316E
 
-lib/SexyAppFramework/pngrutil.cpp:
+Popcap/SexyAppFramework/pngrutil.cpp:
 	.rdata       start:0x00673170 end:0x00673183
 	.rdata       start:0x00673184 end:0x006731A6
 	.rdata       start:0x006731A8 end:0x006731B2
@@ -5367,11 +5367,11 @@ lib/SexyAppFramework/pngrutil.cpp:
 	.rdata       start:0x00673B3C end:0x00673B50
 	.data        start:0x006ACE34 end:0x006ACE4E
 
-lib/SexyAppFramework/jmemmgr.cpp:
+Popcap/SexyAppFramework/jmemmgr.cpp:
 	.rdata       start:0x00673B50 end:0x00673B66
 	.rdata       start:0x00673B68 end:0x00673B70
 
-lib/SexyAppFramework/pngwutil.cpp:
+Popcap/SexyAppFramework/pngwutil.cpp:
 	.rdata       start:0x00673B70 end:0x00673BC2
 	.rdata       start:0x00673BC4 end:0x00673BED
 	.rdata       start:0x00673BF0 end:0x00673C4D
@@ -5395,17 +5395,17 @@ lib/SexyAppFramework/pngwutil.cpp:
 	.rdata       start:0x00673F74 end:0x00673F9A
 	.rdata       start:0x00673F9C end:0x00673FC2
 
-lib/SexyAppFramework/pngwio.cpp:
+Popcap/SexyAppFramework/pngwio.cpp:
 	.rdata       start:0x00673FC4 end:0x00674021
 	.rdata       start:0x00674024 end:0x0067405C
 
-lib/SexyAppFramework/window.cpp:
+Popcap/SexyAppFramework/window.cpp:
 	.rdata       start:0x00674060 end:0x0067BFE0
 
-lib/SexyAppFramework/infcodes.cpp:
+Popcap/SexyAppFramework/infcodes.cpp:
 	.rdata       start:0x0067BFE0 end:0x0067C012
 
-lib/SexyAppFramework/inftrees.cpp:
+Popcap/SexyAppFramework/inftrees.cpp:
 	.rdata       start:0x0067C018 end:0x0067C2A3
 	.rdata       start:0x0067C2A4 end:0x0067C2C7
 	.rdata       start:0x0067C2C8 end:0x0067C2E9
@@ -5413,36 +5413,36 @@ lib/SexyAppFramework/inftrees.cpp:
 	.rdata       start:0x0067C308 end:0x0067C325
 	.data        start:0x006ACEF0 end:0x006ADFF8
 
-lib/SexyAppFramework/jcdctmgr.cpp:
+Popcap/SexyAppFramework/jcdctmgr.cpp:
 	.rdata       start:0x0067C328 end:0x0067C3F0
 
-lib/SexyAppFramework/jdhuff.cpp:
+Popcap/SexyAppFramework/jdhuff.cpp:
 	.rdata       start:0x0067C3F0 end:0x0067C470
 
-lib/SexyAppFramework/jdphuff.cpp:
+Popcap/SexyAppFramework/jdphuff.cpp:
 	.rdata       start:0x0067C470 end:0x0067C4F0
 
-lib/SexyAppFramework/jddctmgr.cpp:
+Popcap/SexyAppFramework/jddctmgr.cpp:
 	.rdata       start:0x0067C4F0 end:0x0067C5B0
 
-lib/SexyAppFramework/jquant1.cpp:
+Popcap/SexyAppFramework/jquant1.cpp:
 	.rdata       start:0x0067C5B0 end:0x0067C6BC
 
-lib/SexyAppFramework/floor1.cpp:
+Popcap/SexyAppFramework/floor1.cpp:
 	.rdata       start:0x0067C6C0 end:0x0067CAC0
 	.data        start:0x006AE08C end:0x006AE0A4
 
-lib/SexyAppFramework/floor0.cpp:
+Popcap/SexyAppFramework/floor0.cpp:
 	.rdata       start:0x0067CAC0 end:0x0067D0D8
 	.data        start:0x006AE0A4 end:0x006AE0C4
 
-lib/SexyAppFramework/jfdctflt.cpp:
+Popcap/SexyAppFramework/jfdctflt.cpp:
 	.rdata       start:0x0067D0D8 end:0x0067D0F8
 
-lib/SexyAppFramework/jidctflt.cpp:
+Popcap/SexyAppFramework/jidctflt.cpp:
 	.rdata       start:0x0067D0F8 end:0x0067D118
 
-lib/SexyAppFramework/mdct.cpp:
+Popcap/SexyAppFramework/mdct.cpp:
 	.rdata       start:0x0067D118 end:0x0067F120
 	.data        start:0x006AE0C4 end:0x006AE0D4
 
@@ -6125,30 +6125,30 @@ lib/LIBCMT/open.cpp:
 lib/LIBCMT/wopen.cpp:
 	.rdata       start:0x006A1550 end:0x006A156C
 
-lib/SexyAppFramework/SWTri.cpp:
+Popcap/SexyAppFramework/SWTri.cpp:
 	.data        start:0x006AC478 end:0x006AC47C
 	.bss         start:0x00765258 end:0x00765960
 
-lib/SexyAppFramework/pngtrans.cpp:
+Popcap/SexyAppFramework/pngtrans.cpp:
 	.data        start:0x006AC568 end:0x006AC868
 
-lib/SexyAppFramework/framing.cpp:
+Popcap/SexyAppFramework/framing.cpp:
 	.data        start:0x006AC9D0 end:0x006ACDD0
 
-lib/SexyAppFramework/bitwise.cpp:
+Popcap/SexyAppFramework/bitwise.cpp:
 	.data        start:0x006ACE50 end:0x006ACED4
 
-lib/SexyAppFramework/registry.cpp:
+Popcap/SexyAppFramework/registry.cpp:
 	.data        start:0x006ACED4 end:0x006ACEEC
 
-lib/SexyAppFramework/infutil.cpp:
+Popcap/SexyAppFramework/infutil.cpp:
 	.data        start:0x006ADFF8 end:0x006AE03C
 
-lib/SexyAppFramework/mapping0.cpp:
+Popcap/SexyAppFramework/mapping0.cpp:
 	.data        start:0x006AE03C end:0x006AE050
 	.bss         start:0x00765DDC end:0x00765DE0
 
-lib/SexyAppFramework/res012.cpp:
+Popcap/SexyAppFramework/res012.cpp:
 	.data        start:0x006AE050 end:0x006AE08C
 
 lib/libcpmt/newaop.cpp:
