@@ -719,17 +719,40 @@ bool Board::PlantUsesAcceleratedPricing(SeedType theSeedType)
 
 void Board::InitZombieWavesForLevel(int aForLevel)
 {
-    if ((mApp->IsWhackAZombieLevel() || mApp->IsWallnutBowlingLevel()) &&
-        !mApp->IsFirstTimeAdventureMode())
-    {
+    // if ((mApp->IsWhackAZombieLevel() || mApp->IsWallnutBowlingLevel()) &&
+    //     !mApp->IsFirstTimeAdventureMode())
+    // {
+    //     mChallenge->InitZombieWaves();
+    // }
+    // else
+    // {
+    //     for (int i = ZOMBIE_NORMAL; i < NUM_ZOMBIE_TYPES; i++)
+    //     {
+    //         mZombieAllowed[i] = Board::CanZombieSpawnOnLevel((ZombieType)i, aForLevel);
+    //     }
+    // }
+    // //
+    // if (mApp->IsWhackAZombieLevel()) {
+    //     mChallenge->InitZombieWaves();
+    // } else {
+    //     if (!mApp->IsWallnutBowlingLevel() || mApp->IsFirstTimeAdventureMode()) {
+    //         for (int i = ZOMBIE_NORMAL; i < NUM_ZOMBIE_TYPES; i++)
+    //         {
+    //             mZombieAllowed[i] = Board::CanZombieSpawnOnLevel((ZombieType)i, aForLevel);
+    //         }
+    //     }
+    // }
+    if (mApp->IsWhackAZombieLevel()) {
         mChallenge->InitZombieWaves();
+        return;
     }
-    else
+    if (mApp->IsWallnutBowlingLevel() && !mApp->IsFirstTimeAdventureMode()) {
+        mChallenge->InitZombieWaves();
+        return;
+    }
+    for (int i = ZOMBIE_NORMAL; i < NUM_ZOMBIE_TYPES; i++)
     {
-        for (int i = ZOMBIE_NORMAL; i < NUM_ZOMBIE_TYPES; i++)
-        {
-            mZombieAllowed[i] = Board::CanZombieSpawnOnLevel((ZombieType)i, aForLevel);
-        }
+        mZombieAllowed[i] = Board::CanZombieSpawnOnLevel((ZombieType)i, aForLevel);
     }
 }
 
