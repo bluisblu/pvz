@@ -45,6 +45,7 @@ compiler:
 
   include_dirs:
     - "src/lib/SexyAppFramework"
+    - "src/lib"
     - "src/Popcap/Lawn"
     - "src"
 
