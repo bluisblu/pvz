@@ -2,3 +2,9 @@ Diagnostics:
   Suppress:
     - member_function_call_bad_type
     - ovl_no_viable_member_function_in_call
+---
+CompileFlags:
+  Add:
+    - "-Isrc"
+    - "-Isrc/Popcap"
+    - "-Isrc/Popcap/Lawn"
