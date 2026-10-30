@@ -19,6 +19,7 @@
 #include "GridItem.h"
 #include "LawnApp.h"
 #include "Plant.h"
+#include "SeedPacket.h"
 #include "Zombie.h"
 
 class Challenge;
@@ -246,7 +247,7 @@ class Board : /* 0x0000 */ public Sexy::Widget, /* 0x0088 */ public Sexy::Button
     /* 0x0138 */ CursorObject *mCursorObject;
     /* 0x013c */ /* CursorPreview * */ void *mCursorPreview;
     /* 0x0140 */ /* MessageWidget * */ void *mAdvice;
-    /* 0x0144 */ /* SeedBank * */ void *mSeedBank;
+    /* 0x0144 */ SeedBank *mSeedBank;
     /* 0x0148 */ /* GameButton * */ void *mMenuButton;
     /* 0x014c */ /* GameButton * */ void *mStoreButton;
     /* 0x0150 */ bool mIgnoreMouseUp;
