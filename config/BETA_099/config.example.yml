@@ -1,51 +1,41 @@
 # Build configuration for BETA_099.
 #
 # Single source of truth for compiler/linker flags, include paths, and
-# obj->source mapping. configure.py has no game- or compiler-specific
+# TU grouping (splits.txt). configure.py has no game- or compiler-specific
 # hardcoding, so forking this project for a different target should only
 # require copying this file and editing it.
 
-# --- Delink (PE splitter) ---------------------------------------------------
+# --- Delink (binary splitter) ---------------------------------------------------
 delink:
   repo: "HaydnTrigg/delink"
-  version: "v0.14.0"
+  version: "v0.15.0"
   asset_name: "delink-{os}-{arch}{ext}" # {os}/{arch}/{ext} filled in by configure.py
 
-# --- Source binaries used as the split target -------------------------------
+
+# --- Split target --------------------------------------------------------
+# symbols.txt:  `name = section:0xADDR; // type:function|object size:0xSIZE`
+# splits.txt:   `Sections:` block, then per-source-file `section start:0x.. end:0x..`
+#               ranges. File keys are real source paths relative to src/
+#               (e.g. Popcap/Lawn/Zombie.cpp) and ARE the TU names -- there is
+#               no separate obj->source mapping any more.
+# Both are real ninja inputs: edit either and `ninja` re-splits. Seeded from
+# the 0.9.9 .map by scripts/map_to_symbols_splits.py.
 target:
-  exe: "orig/{version}/PlantsVsZombies.exe"
-  pdb: "orig/{version}/PlantsVsZombies.pdb"
+  binary: "orig/{version}/PlantsVsZombies.exe"
+  symbols: "config/{version}/symbols.txt"
+  splits: "config/{version}/splits.txt"
 
-# --- Object -> source path remapping ----------------------------------------
-# delink dumps each TU as a flat "<NNNN>_<Name>.obj" with no directory
-# structure. `manual` maps each flat obj basename (no extension) to its
-# real source path relative to src/ (also no extension):
-#
-#   manual:
-#     "0001_Zombie": "Popcap/Lawn/Zombie"
-#
-# A future `rules:` list could pattern-match these in bulk once naming
-# conventions are established; `manual` always wins over any rule.
-paths:
-  manual:
-    "__shared_data": "__shared_data"
-    "0001_Zombie": "Popcap/Lawn/Zombie"
-    "0002_ZenGarden": "Popcap/Lawn/ZenGarden"
-    "0003_UserDialog": "Popcap/Lawn/UserDialog"
-    "0004_TypingCheck": "Popcap/Lawn/TypingCheck"
-    "0005_Trail": "Popcap/Lawn/TodLib/Trail"
+  # Fields symbols.txt/splits.txt can't carry; forwarded as CLI flags to
+  # scripts/symbols_splits_to_json.py.
+  ida:
+    arch: "x86"
+    procname: "x86"
+    bits: 32
+    endian: "little"
+    filetype: "PE"
+    image_base: "0x00400000"
+    input_file: "PlantsVsZombies.exe"
 
-  # rules: []   # reserved for future pattern-based remapping
-
-# --- Compiler toolchain ------------------------------------------------
-# configure.py bootstraps MSVC8/VC80 automatically (no VS install needed,
-# on any OS): it downloads widberg/msvc8.0 -- the same portable extraction
-# decomp.me's own MSVC8 image uses -- into build/tools/msvc8.0/ on first
-# run. On non-Windows hosts it also bootstraps wibo (decompals/wibo) and
-# prefixes cl.exe/link.exe with it. Set the `env` var below to a directory
-# with your own Bin/Include(/Lib) to skip the download.
-#
-# Based on the Dockerfile at https://github.com/decompme/compilers/ for MSVC 8.0
 compiler:
   id: msvc8
   toolchain:
@@ -98,8 +88,8 @@ compiler:
 # "matching") or build/<version>/obj (original delinked, "nonmatching")
 # per `status:` below; anything unlisted defaults to nonmatching.
 #
-# Link order = paths.manual order (mirrors delink's NNNN_ ordering). MSVC
-# symbol resolution/codegen can depend on it, so don't reorder paths.manual
+# Link order = idapro.json key order (mirrors splits.txt address order). MSVC
+# symbol resolution/codegen can depend on it, so don't reorder splits.txt
 # expecting link order to be independent of it.
 link:
   # Relinking is off for now: delink v0.14.0 doesn't yet recover every
@@ -167,14 +157,15 @@ link:
     /MAP /OPT:REF /OPT:NOICF /INCREMENTAL:NO /FORCE:MULTIPLE
 
   # --- Matching status ---------------------------------------------------
-  # Keyed by the same flat obj basename as paths.manual. `__shared_data` is
+  # Keyed by TU name (a splits.txt file key, extension included).
+  # `__shared_data.obj` is
   # delink's catch-all for read-only/static data with no single owning TU
   # (merged vtables, string literals, etc.) -- there's no .cpp to match it
   # against, so leave it out of `matching` and let it stay nonmatching.
 #  status:
 #    matching:
-#      - "0028_Plant"
-#      - "0039_GameObject"
+#      - "Popcap/Lawn/Plant.cpp"
+#      - "Popcap/Lawn/GameObject.cpp"
 
 # --- objdiff -------------------------------------------------------------
 objdiff:

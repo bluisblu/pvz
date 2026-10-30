@@ -3,74 +3,32 @@
 
 delink:
   repo: "HaydnTrigg/delink"
-  version: "v0.14.0"
+  version: "v0.15.0"
   asset_name: "delink-{os}-{arch}{ext}"
 
+# --- Split target --------------------------------------------------------
+# symbols.txt:  `name = section:0xADDR; // type:function|object size:0xSIZE`
+# splits.txt:   `Sections:` block, then per-source-file `section start:0x.. end:0x..`
+#               ranges. File keys are real source paths relative to src/
+#               (e.g. Popcap/Lawn/Zombie.cpp) and ARE the TU names -- there is
+#               no separate obj->source mapping any more.
+# Both are real ninja inputs: edit either and `ninja` re-splits. Seeded from
+# the 0.9.9 .map by scripts/map_to_symbols_splits.py.
 target:
-  exe: "orig/{version}/PlantsVsZombies.exe"
-  pdb: "orig/{version}/PlantsVsZombies.pdb"
+  binary: "orig/{version}/PlantsVsZombies.exe"
+  symbols: "config/{version}/symbols.txt"
+  splits: "config/{version}/splits.txt"
 
-paths:
-  manual:
-    "__shared_data": "__shared_data"
-    "0001_Zombie": "Popcap/Lawn/Zombie"
-    "0002_ZenGarden": "Popcap/Lawn/ZenGarden"
-    "0003_UserDialog": "Popcap/Lawn/UserDialog"
-    "0004_TypingCheck": "Popcap/Lawn/TypingCheck"
-    "0005_Trail": "Popcap/Lawn/TodLib/Trail"
-    "0006_ToolTipWidget": "Popcap/Lawn/ToolTipWidget"
-    "0007_TodStringFile": "Popcap/Lawn/TodLib/TodStringFile"
-    "0008_TodParticle": "Popcap/Lawn/TodLib/TodParticle"
-    "0009_TodFoley": "Popcap/Lawn/TodLib/TodFoley"
-    "0010_TodDebug": "Popcap/Lawn/TodLib/TodDebug"
-    "0011_TodCommon": "Popcap/Lawn/TodLib/TodCommon"
-    "0012_Tod_SWTri": "Popcap/Lawn/TodLib/Tod_SWTri"
-    "0013_TitleScreen": "Popcap/Lawn/TitleScreen"
-    "0014_StoreScreen": "Popcap/Lawn/StoreScreen"
-    "0015_StackWalk": "Popcap/Lawn/TodLib/StackWalk"
-    "0016_SeedPacket": "Popcap/Lawn/SeedPacket"
-    "0017_SeedChooserScreen": "Popcap/Lawn/SeedChooserScreen"
-    "0018_SaveGame": "Popcap/Lawn/SaveGame"
-    "0019_Res": "Popcap/Lawn/Res"
-    "0020_Reanimator": "Popcap/Lawn/TodLib/Reanimator"
-    "0021_ReanimAtlas": "Popcap/Lawn/TodLib/ReanimAtlas"
-    "0022_ReanimationLawn": "Popcap/Lawn/ReanimationLawn"
-    "0023_Projectile": "Popcap/Lawn/Projectile"
-    "0024_ProfileMgr": "Popcap/Lawn/ProfileMgr"
-    "0026_PoolEffect": "Popcap/Lawn/PoolEffect"
-    "0027_PlayerInfo": "Popcap/Lawn/PlayerInfo"
-    "0028_Plant": "Popcap/Lawn/Plant"
-    "0029_NewUserDialog": "Popcap/Lawn/NewUserDialog"
-    "0030_NewOptionsDialog": "Popcap/Lawn/NewOptionsDialog"
-    "0031_Music": "Popcap/Lawn/Music"
-    "0032_MessageWidget": "Popcap/Lawn/MessageWidget"
-    "0033_LawnMower": "Popcap/Lawn/LawnMower"
-    "0034_LawnDialog": "Popcap/Lawn/LawnDialog"
-    "0035_LawnCommon": "Popcap/Lawn/LawnCommon"
-    "0036_LawnApp": "Popcap/Lawn/LawnApp"
-    "0037_GridItem": "Popcap/Lawn/GridItem"
-    "0038_GameSelector": "Popcap/Lawn/GameSelector"
-    "0039_GameObject": "Popcap/Lawn/GameObject"
-    "0040_GameButton": "Popcap/Lawn/GameButton"
-    "0041_FilterEffect": "Popcap/Lawn/TodLib/FilterEffect"
-    "0042_EffectSystem": "Popcap/Lawn/TodLib/EffectSystem"
-    "0043_Definition": "Popcap/Lawn/TodLib/Definition"
-    "0044_DataWriter": "Popcap/Lawn/DataWriter"
-    "0045_DataSync": "Popcap/Lawn/DataSync"
-    "0046_DataReader": "Popcap/Lawn/DataReader"
-    "0047_CutScene": "Popcap/Lawn/CutScene"
-    "0048_CursorPreview": "Popcap/Lawn/CursorPreview"
-    "0049_CursorObject": "Popcap/Lawn/CursorObject"
-    "0050_CreditScreen": "Popcap/Lawn/CreditScreen"
-    "0051_ContinueDialog": "Popcap/Lawn/ContinueDialog"
-    "0052_Coin": "Popcap/Lawn/Coin"
-    "0053_CheatDialog": "Popcap/Lawn/CheatDialog"
-    "0054_ChallengeScreen": "Popcap/Lawn/ChallengeScreen"
-    "0055_Challenge": "Popcap/Lawn/Challenge"
-    "0056_Board": "Popcap/Lawn/Board"
-    "0057_AwardScreen": "Popcap/Lawn/AwardScreen"
-    "0058_Attachment": "Popcap/Lawn/TodLib/Attachment"
-    "0059_Almanac": "Popcap/Lawn/Almanac"
+  # Fields symbols.txt/splits.txt can't carry; forwarded as CLI flags to
+  # scripts/symbols_splits_to_json.py.
+  ida:
+    arch: "x86"
+    procname: "x86"
+    bits: 32
+    endian: "little"
+    filetype: "PE"
+    image_base: "0x00400000"
+    input_file: "PlantsVsZombies.exe"
 
 compiler:
   id: msvc8
@@ -128,7 +86,7 @@ link:
 
   # status:
   #   matching:
-  #     - "0028_Plant"
+  #     - "Popcap/Lawn/Plant.cpp"
 
 objdiff:
   min_version: "2.0.0-beta.5"

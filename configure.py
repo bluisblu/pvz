@@ -1,7 +1,7 @@
 #!/usr/bin/env python3
 """
 Generic configure script for a decomp-toolkit-style workflow:
-delink (PE split) -> ninja build -> objdiff.json.
+symbols.txt + splits.txt -> delink ida-split -> ninja build -> objdiff.json.
 
 This script is intentionally free of game/compiler-specific hardcoding.
 All of that lives in config/<version>/config.yml, copied from
@@ -28,7 +28,6 @@ try:
 except ImportError:
     sys.exit("[-] Missing dependency 'pyyaml'. Install it with: pip install pyyaml")
 
-DEFAULT_VERSION = "BETA_099"
 
 
 # ---------------------------------------------------------------------------
@@ -110,163 +109,167 @@ def bootstrap_delink(delink_cfg: Dict[str, Any], tools_dir: Path) -> Path:
     return delink_path
 
 
-def run_delink(
-    delink_exe: Path, version: str, target_cfg: Dict[str, Any], base_build_dir: Path
-):
-    exe_target = Path(target_cfg["exe"].format(version=version))
-    pdb_target = Path(target_cfg["pdb"].format(version=version))
-    out_obj_dir = base_build_dir / version / "obj"
+def resolve_symbols_splits_paths(
+    version: str, target_cfg: Dict[str, Any]
+) -> Tuple[Path, Path, Path]:
+    """(binary, symbols.txt, splits.txt) for this version, from `target:`."""
+    binary = Path(target_cfg["binary"].format(version=version))
+    symbols = Path(target_cfg["symbols"].format(version=version))
+    splits = Path(target_cfg["splits"].format(version=version))
+    return binary, symbols, splits
 
-    if not exe_target.exists() or not pdb_target.exists():
+
+def build_convert_flags(ida_cfg: Dict[str, Any]) -> List[str]:
+    """CLI flags forwarded to symbols_splits_to_json.py, sourced from the
+    `target.ida:` block in config.yml (symbols.txt/splits.txt can't carry
+    arch/bits/endian/filetype/image base themselves)."""
+    flags: List[str] = []
+    for key, flag in (
+        ("arch", "--arch"),
+        ("procname", "--procname"),
+        ("bits", "--bits"),
+        ("endian", "--endian"),
+        ("filetype", "--filetype"),
+        ("image_base", "--image-base"),
+        ("input_file", "--input-file"),
+    ):
+        if key in ida_cfg:
+            flags += [flag, str(ida_cfg[key])]
+    return flags
+
+
+def run_convert_and_split(
+    delink_exe: Path,
+    version: str,
+    target_cfg: Dict[str, Any],
+    base_build_dir: Path,
+):
+    """symbols.txt + splits.txt -> symbols.delink.json + idapro.json ->
+    `delink ida-split`. Run once up front so the TU list (idapro.json) exists
+    on a clean checkout; the same chain is also wired into build.ninja so
+    editing symbols.txt/splits.txt and running `ninja` re-splits."""
+    binary, symbols_txt, splits_txt = resolve_symbols_splits_paths(version, target_cfg)
+    build_dir = base_build_dir / version
+    out_obj_dir = build_dir / "obj"
+    delink_json = build_dir / "symbols.delink.json"
+    idapro_json = build_dir / "idapro.json"
+
+    missing = [p for p in (binary, symbols_txt, splits_txt) if not p.exists()]
+    if missing:
         print(
-            f"[-] Warning: Base binaries missing "
-            f"({exe_target}, {pdb_target}). Skipping PE split phase."
+            f"[-] Warning: missing {', '.join(str(p) for p in missing)}. "
+            f"Skipping split phase."
         )
         return
 
-    print(f"[*] Splitting PE target for version {version}...")
-    out_obj_dir.mkdir(parents=True, exist_ok=True)
+    build_dir.mkdir(parents=True, exist_ok=True)
+    convert_script = Path(__file__).parent / "scripts" / "symbols_splits_to_json.py"
 
-    cmd = [
+    print(f"[*] Converting {symbols_txt} + {splits_txt} -> {delink_json}...")
+    convert_cmd = [
+        sys.executable,
+        str(convert_script),
+        str(symbols_txt),
+        str(splits_txt),
+        str(delink_json),
+        "--idapro-out",
+        str(idapro_json),
+    ] + build_convert_flags(target_cfg.get("ida", {}))
+    result = subprocess.run(convert_cmd, capture_output=True, text=True)
+    if result.returncode != 0:
+        sys.exit(f"[-] symbols_splits_to_json.py failed:\n{result.stderr}")
+
+    print(f"[*] Splitting {binary.name} via delink ida-split for {version}...")
+    out_obj_dir.mkdir(parents=True, exist_ok=True)
+    split_cmd = [
         str(delink_exe),
-        "pe-split",
+        "ida-split",
         "--outdir",
         str(out_obj_dir),
-        str(exe_target),
-        "--pdb",
-        str(pdb_target),
+        "--idapro",
+        str(idapro_json),
+        "--coff",
+        str(delink_json),
+        str(binary),
     ]
-
-    result = subprocess.run(cmd, capture_output=True, text=True)
+    result = subprocess.run(split_cmd, capture_output=True, text=True)
     if result.returncode != 0:
-        sys.exit(f"[-] delink split failed:\n{result.stderr}")
-    print("[+] PE split successful.")
+        sys.exit(f"[-] delink ida-split failed:\n{result.stderr}")
+    (out_obj_dir / ".split-stamp").touch()
+    print("[+] ida-split successful.")
 
 
 # ---------------------------------------------------------------------------
-# Path config (obj -> source file mapping)
+# Translation units (from idapro.json)
 # ---------------------------------------------------------------------------
 #
-# The mapping lives entirely in config.yml under `paths:`. Right now that's
-# just `paths.manual`, a flat obj-basename -> source-path (no extensions)
-# dict. `resolve_path_mapping` is written so a future `paths.rules` list
-# (regex-based, auto-deriving mappings in bulk) can be layered in without
-# changing its signature or any call site: rules would populate the dict
-# first, then `manual` entries get applied on top so they always win.
+# A TU is an idapro.json key, i.e. a splits.txt file path with extension,
+# e.g. "Popcap/Lawn/Zombie.cpp". delink writes each object to
+# build/<version>/obj/<tu> verbatim (extension unchanged, so the delinked
+# COFF for Zombie.cpp is obj/Popcap/Lawn/Zombie.cpp); a freshly compiled one
+# lives at build/<version>/src/<tu with .obj>. There is no obj->source
+# mapping in config.yml any more: renaming a TU means editing splits.txt.
+#
+# A TU only gets a compile edge if src/<tu> exists, so lib/* and unmapped/*
+# TUs (no source yet) are objdiff target-only units.
 
 
-def resolve_path_mapping(paths_cfg: Dict[str, Any]) -> Dict[str, str]:
-    mapping: Dict[str, str] = {}
-
-    # Future: for rule in paths_cfg.get("rules", []): mapping.update(apply_rule(rule, ...))
-
-    manual = paths_cfg.get("manual", {})
-    mapping.update(manual)
-
-    return mapping
+def list_translation_units(idapro_json: Path) -> List[str]:
+    if not idapro_json.exists():
+        return []
+    with open(idapro_json, encoding="utf-8") as f:
+        return list(json.load(f).keys())
 
 
-def restructure_delinked_objects(
-    version: str, mapping: Dict[str, str], base_build_dir: Path
-):
-    out_obj_dir = base_build_dir / version / "obj"
-    if not out_obj_dir.exists() or not mapping:
-        return
-
-    print("[*] Restructuring delinked objects to mirror source paths...")
-    for obj_base, src_rel in mapping.items():
-        flat_obj_path = out_obj_dir / f"{obj_base}.obj"
-
-        if flat_obj_path.exists():
-            structured_obj_path = out_obj_dir / Path(src_rel).with_suffix(".obj")
-            structured_obj_path.parent.mkdir(parents=True, exist_ok=True)
-            flat_obj_path.replace(structured_obj_path)
-
-
-def check_inlined_functions_manifest(version: str, base_build_dir: Path) -> int:
-    """delink emits obj/inlined_functions.txt: a list of mangled symbols it
-    expects to appear duplicated across multiple TUs (COMDAT
-    IMAGE_COMDAT_SELECT_ANY -- template instantiations, /Ob-inlined
-    functions, etc). These are NOT genuine ODR violations; they're the
-    reason link.status.status.extra_flags below carries /FORCE:MULTIPLE.
-    This just surfaces the manifest's presence/size so it isn't silently
-    missed, since its contents are the authoritative explanation for most
-    LNK2005 warnings this project's link step will produce.
-    """
-    manifest = base_build_dir / version / "obj" / "inlined_functions.txt"
-    if not manifest.exists():
-        print(
-            "[-] Warning: obj/inlined_functions.txt not found -- delink usually "
-            "emits this alongside the split objects. Without it, LNK2005s "
-            "from /FORCE:MULTIPLE can't be cross-checked against delink's own "
-            "list of expected COMDAT duplicates."
-        )
-        return 0
-
-    with open(manifest, "r", encoding="utf-8", errors="replace") as f:
-        count = sum(1 for line in f if line.strip())
-    print(
-        f"[*] Found obj/inlined_functions.txt ({count} symbols delink expects "
-        f"to be duplicated across TUs -- safe to ignore in LNK2005 output)."
-    )
-    return count
+def has_source(tu: str) -> bool:
+    return (Path("src") / tu).exists()
 
 
 # ---------------------------------------------------------------------------
 # Matching status (drives which obj gets linked per TU)
 # ---------------------------------------------------------------------------
 #
-# Every obj_base in `mapping` is either:
-#   - "matching":    build/<version>/src/<src_rel>.obj  (freshly compiled)
-#   - "nonmatching": build/<version>/obj/<src_rel>.obj   (original delinked obj)
-#
-# Status is config-driven (link.status.matching, a list of obj_base names)
-# rather than inferred by e.g. checking which files exist on disk, so that
-# a TU that happens to compile but hasn't been reviewed/confirmed matching
-# yet doesn't silently get linked as "matching". __shared_data is never
-# matchable -- there's no source file backing it -- so it's rejected here
-# with a clear error rather than silently doing the wrong thing if someone
-# lists it by mistake.
+# "matching":    build/<version>/src/<tu>.obj  (freshly compiled)
+# "nonmatching": build/<version>/obj/<tu>      (original delinked obj)
+# Config-driven (link.status.matching: list of TU names) rather than inferred
+# from what compiles. __shared_data.obj is always linked, never matchable.
 
 
-def resolve_matching_status(
-    mapping: Dict[str, str], link_cfg: Dict[str, Any]
-) -> Dict[str, bool]:
+def resolve_matching_status(tus: List[str], link_cfg: Dict[str, Any]) -> Dict[str, bool]:
     matching_list = link_cfg.get("status", {}).get("matching", [])
-
-    unknown = [name for name in matching_list if name not in mapping]
+    unknown = [n for n in matching_list if n not in tus]
     if unknown:
         sys.exit(
-            f"[-] link.status.matching references unmapped obj(s): {unknown}. "
-            f"Add them to paths.manual first."
+            f"[-] link.status.matching references TU(s) not in idapro.json: "
+            f"{unknown}. Names must match a splits.txt file key exactly, "
+            f"extension included (e.g. 'Popcap/Lawn/Plant.cpp')."
         )
-
-    if "__shared_data" in matching_list:
-        sys.exit(
-            "[-] '__shared_data' cannot be marked matching: it is delink's "
-            "catch-all bucket for data that doesn't belong to a single "
-            "source file, so there is no .cpp for it to match against. "
-            "Remove it from link.status.matching."
-        )
-
     matching_set = set(matching_list)
-    return {obj_base: (obj_base in matching_set) for obj_base in mapping}
+    return {tu: (tu in matching_set) for tu in tus}
 
 
 def resolve_object_path(
-    obj_base: str,
-    src_rel: str,
-    is_matching: bool,
-    version: str,
-    base_build_dir: Path,
+    tu: str, is_matching: bool, version: str, base_build_dir: Path
 ) -> Path:
-    """Resolve the .obj to actually link for this TU, given its status."""
     build_dir = base_build_dir / version
-    src_no_ext = Path(src_rel)
-
     if is_matching:
-        return build_dir / "src" / src_no_ext.with_suffix(".obj")
-    return build_dir / "obj" / src_no_ext.with_suffix(".obj")
+        return build_dir / "src" / Path(tu).with_suffix(".obj")
+    return build_dir / "obj" / tu
+
+
+def resolve_per_file_flags(cfg: Dict[str, str], tu: str) -> str:
+    """Directory keys (trailing '/') apply to everything under them, longest
+    prefix first; an exact-file key (with or without extension) is appended
+    after."""
+    tu = tu.replace("\\", "/")
+    parts: List[str] = []
+    dirs = sorted((k for k in cfg if k.endswith("/") and tu.startswith(k)), key=len)
+    parts += [cfg[k] for k in dirs]
+    for k in (tu, str(Path(tu).with_suffix("")).replace("\\", "/")):
+        if k in cfg:
+            parts.append(cfg[k])
+            break
+    return " ".join(p.strip() for p in parts)
 
 
 # ---------------------------------------------------------------------------
@@ -583,12 +586,14 @@ def build_tool_prefix(wibo_path: Optional[Path]) -> str:
 
 def generate_ninja_build(
     version: str,
-    mapping: Dict[str, str],
+    tus: List[str],
     base_build_dir: Path,
     compiler_cfg: Dict[str, Any],
     toolchain_root: Path,
     wibo_path: Optional[Path],
     extra_includes: list,
+    delink_exe: Path,
+    target_cfg: Dict[str, Any],
     link_cfg: Optional[Dict[str, Any]] = None,
     matching_status: Optional[Dict[str, bool]] = None,
     link_lib_dirs: Optional[list] = None,
@@ -604,6 +609,13 @@ def generate_ninja_build(
     cl_exe = (toolchain_root / "Bin" / "cl.exe").resolve()
     link_exe = (toolchain_root / "Bin" / "link.exe").resolve()
     tool_prefix = build_tool_prefix(wibo_path)
+
+    binary, symbols_txt, splits_txt = resolve_symbols_splits_paths(version, target_cfg)
+    delink_json = build_dir / "symbols.delink.json"
+    idapro_json = build_dir / "idapro.json"
+    convert_script = (Path(__file__).parent / "scripts" / "symbols_splits_to_json.py").resolve()
+    split_stamp = build_dir / "obj" / ".split-stamp"
+    convert_flags = " ".join(build_convert_flags(target_cfg.get("ida", {})))
 
     pch_cfg: Optional[Dict[str, Any]] = compiler_cfg.get("pch")
     pch_file = pch_obj = precompile_cpp = None
@@ -626,12 +638,37 @@ def generate_ninja_build(
 
         f.write(f"base_flags = {base_flags}\n\n")
 
-        # No cmd.exe / vcvarsall.bat here: the bootstrapped MSVC8 toolchain
-        # is portable and self-contained, so cl.exe/link.exe are invoked
-        # directly by absolute path with every include/lib path passed in
-        # explicitly. On non-Windows, `wibo` runs them without needing
-        # Wine. This is what makes `python configure.py && ninja` work
-        # unmodified on Windows, Linux, and macOS alike.
+        # --- Split step ----------------------------------------------------
+        # symbols.txt + splits.txt -> JSON -> delink ida-split. ida-split's
+        # output set (one obj per splits.txt file) isn't known ahead of time,
+        # so the split is tracked through a stamp file that everything
+        # consuming the delinked objs depends on.
+        f.write("rule convert_json\n")
+        f.write(
+            f'  command = "{sys.executable}" "{convert_script}" $symbols $splits '
+            f"$out --idapro-out $idapro_out {convert_flags}\n"
+        )
+        f.write("  description = CONVERT $out\n\n")
+        f.write(f"build {delink_json} | {idapro_json}: convert_json {symbols_txt} {splits_txt}\n")
+        f.write(f"  symbols = {symbols_txt}\n  splits = {splits_txt}\n")
+        f.write(f"  idapro_out = {idapro_json}\n\n")
+
+        run_split = (Path(__file__).parent / "scripts" / "run_split.py").resolve()
+        f.write("rule ida_split\n")
+        f.write(
+            f'  command = "{sys.executable}" "{run_split}" $out '
+            f'"{delink_exe.resolve()}" ida-split --outdir $outdir '
+            f"--idapro $idapro --coff $in $binary\n"
+        )
+        f.write("  description = IDA-SPLIT $in\n\n")
+        f.write(f"build {split_stamp}: ida_split {delink_json} | {idapro_json} {binary}\n")
+        f.write(f"  outdir = {build_dir / 'obj'}\n")
+        f.write(f"  idapro = {idapro_json}\n")
+        f.write(f"  binary = {binary}\n\n")
+
+        # No cmd.exe / vcvarsall.bat: the bootstrapped MSVC8 toolchain is
+        # portable, so cl.exe/link.exe are invoked directly by absolute path.
+        # On non-Windows, `wibo` runs them without needing Wine.
         f.write("rule cxx\n")
         f.write(
             f'  command = {tool_prefix}"{cl_exe}" /c $in /Fo$out '
@@ -653,13 +690,13 @@ def generate_ninja_build(
 
         per_file_flags_cfg = compiler_cfg.get("per_file_flags", {})
 
-        for obj_base, src_rel in mapping.items():
-            src_file = (Path("src") / src_rel).with_suffix(".cpp")
-            out_obj = build_dir / "src" / Path(src_rel).with_suffix(".obj")
+        for tu in tus:
+            if not has_source(tu):
+                continue
+            src_file = Path("src") / tu
+            out_obj = build_dir / "src" / Path(tu).with_suffix(".obj")
 
-            rel_source_str = src_rel.replace("\\", "/")
-            per_file_flags = per_file_flags_cfg.get(rel_source_str, "")
-
+            per_file_flags = resolve_per_file_flags(per_file_flags_cfg, tu)
             if per_file_flags and pch_file is not None:
                 per_file_flags = per_file_flags.format(
                     pch_path=f'"{pch_file.resolve()}"'
@@ -674,14 +711,10 @@ def generate_ninja_build(
                 f.write(f"  per_file_flags = {per_file_flags}\n")
 
         # --- Link step ---------------------------------------------------
-        # Only emitted if link config + matching status were resolved.
-        # Object selection per TU follows matching_status: matching TUs
-        # pull from build/<version>/src (compiled just above, so they are
-        # already ninja build edges above and get rebuilt/relinked when
-        # their source changes); nonmatching TUs pull the untouched
-        # delinked obj straight from build/<version>/obj, which nothing in
-        # this ninja file produces, so ninja won't try to rebuild them --
-        # they're just inputs to the link line.
+        # Matching TUs link from build/<version>/src; nonmatching ones link
+        # the delinked obj, which the split stamp (re)produces, so they get
+        # an order-only-ish implicit dep on it. __shared_data.obj (delink's
+        # catch-all for data/bss) is always linked.
         if link_cfg is not None and matching_status is not None:
             link_flags = build_link_flags(link_cfg, link_lib_dirs or [])
             output_exe = build_dir / link_cfg.get("output", "output.exe")
@@ -695,20 +728,20 @@ def generate_ninja_build(
             f.write("  description = LINK $out\n\n")
 
             link_inputs = []
-            explicit_deps = []
-            for obj_base, src_rel in mapping.items():
-                is_matching = matching_status.get(obj_base, False)
-                obj_path = resolve_object_path(
-                    obj_base, src_rel, is_matching, version, base_build_dir
+            for tu in tus:
+                link_inputs.append(
+                    str(
+                        resolve_object_path(
+                            tu, matching_status.get(tu, False), version, base_build_dir
+                        )
+                    )
                 )
-                link_inputs.append(str(obj_path))
-                if is_matching:
-                    # These are the objs this same ninja file compiles above,
-                    # so make the dependency explicit for correct rebuilds.
-                    explicit_deps.append(str(obj_path))
+            link_inputs.append(str(build_dir / "obj" / "__shared_data.obj"))
 
-            inputs_str = " ".join(link_inputs)
-            f.write(f"build {output_exe} | {map_file}: link {inputs_str}\n")
+            f.write(
+                f"build {output_exe} | {map_file}: link {' '.join(link_inputs)} "
+                f"| {split_stamp}\n"
+            )
 
 
 # ---------------------------------------------------------------------------
@@ -718,7 +751,7 @@ def generate_ninja_build(
 
 def generate_objdiff_config(
     version: str,
-    mapping: Dict[str, str],
+    tus: List[str],
     base_build_dir: Path,
     compiler_cfg: Dict[str, Any],
     toolchain_root: Path,
@@ -736,29 +769,42 @@ def generate_objdiff_config(
     pch_cfg: Optional[Dict[str, Any]] = compiler_cfg.get("pch")
     pch_file = build_dir / "src" / pch_cfg["output"] if pch_cfg else None
     per_file_flags_cfg = compiler_cfg.get("per_file_flags", {})
-
     unit_prefix = objdiff_cfg.get("unit_prefix", "main")
+    categories = objdiff_cfg.get("progress_categories", [])
 
     units = []
-    for obj_base, src_rel in mapping.items():
-        src_path_obj = Path(src_rel)
-        src_no_ext = src_path_obj.with_suffix("")
+    n_src = 0
+    for tu in tus:
+        tu_path = Path(tu)
+        unit_name = f"{unit_prefix}/{tu_path.with_suffix('')}".replace("\\", "/")
+        target_path = build_dir / "obj" / tu
 
-        target_path = build_dir / "obj" / src_path_obj.with_suffix(".obj")
-        base_path = build_dir / "src" / src_path_obj.with_suffix(".obj")
-        ctx_path = build_dir / "src" / src_path_obj.with_suffix(".ctx")
+        if not has_source(tu):
+            units.append(
+                {
+                    "name": unit_name,
+                    "target_path": str(target_path).replace("\\", "/"),
+                    "base_path": None,
+                    "metadata": {
+                        "complete": False,
+                        "reverse_fn_order": False,
+                        "progress_categories": categories,
+                        "auto_generated": False,
+                    },
+                }
+            )
+            continue
 
-        rel_source_str = src_rel.replace("\\", "/")
-        per_file_flags = per_file_flags_cfg.get(rel_source_str, "")
+        n_src += 1
+        base_path = build_dir / "src" / tu_path.with_suffix(".obj")
+        ctx_path = build_dir / "src" / tu_path.with_suffix(".ctx")
+
+        per_file_flags = resolve_per_file_flags(per_file_flags_cfg, tu)
         if per_file_flags and pch_file is not None:
             per_file_flags = per_file_flags.format(
                 pch_path=str(pch_file).replace("\\", "/")
             )
-            combined_flags = f"{base_flags} {per_file_flags}"
-        else:
-            combined_flags = base_flags
-
-        unit_name = f"{unit_prefix}/{src_no_ext}".replace("\\", "/")
+        combined_flags = f"{base_flags} {per_file_flags}".strip()
 
         units.append(
             {
@@ -775,46 +821,17 @@ def generate_objdiff_config(
                 "metadata": {
                     "complete": False,
                     "reverse_fn_order": False,
-                    "source_path": f"src/{src_rel}.cpp".replace("\\", "/"),
-                    "progress_categories": objdiff_cfg.get("progress_categories", []),
+                    "source_path": f"src/{tu}".replace("\\", "/"),
+                    "progress_categories": categories,
                     "auto_generated": False,
                 },
             }
         )
 
-    # add unmapped TUs so coverage isn't just the mapped subset.
-    obj_dir = build_dir / "obj"
-    if obj_dir.is_dir():
-        mapped_obj_bases = set(mapping.keys())
-        unmapped_objs = sorted(
-            p for p in obj_dir.glob("*.obj") if p.stem not in mapped_obj_bases
-        )
-        for obj_path in unmapped_objs:
-            obj_base = obj_path.stem
-            unit_name = f"{unit_prefix}/unmapped/{obj_base}"
-
-            units.append(
-                {
-                    "name": unit_name,
-                    "target_path": str(obj_path).replace("\\", "/"),
-                    "base_path": None,
-                    "metadata": {
-                        "complete": False,
-                        "reverse_fn_order": False,
-                        "progress_categories": objdiff_cfg.get(
-                            "progress_categories", []
-                        ),
-                        "auto_generated": False,
-                    },
-                }
-            )
-
-        if unmapped_objs:
-            print(
-                f"[*] {len(unmapped_objs)} delinked obj(s) have no source "
-                f"mapping yet -- added as unclaimed units so the report "
-                f"covers the full binary."
-            )
+    print(
+        f"[*] {n_src} TU(s) with source, {len(units) - n_src} target-only "
+        f"(lib/unmapped -- no source yet)."
+    )
 
     config_data = {
         "min_version": objdiff_cfg.get("min_version", "2.0.0-beta.5"),
@@ -835,7 +852,7 @@ def generate_objdiff_config(
 
 def main():
     config_root = Path("config")
-    available_versions = discover_versions(config_root) or [DEFAULT_VERSION]
+    available_versions = discover_versions(config_root)
 
     parser = argparse.ArgumentParser(
         description="Configure implementation for PE-based decompilation workflows."
@@ -843,9 +860,22 @@ def main():
     parser.add_argument(
         "-v",
         "--version",
-        choices=available_versions,
-        default=available_versions[0],
+        choices=available_versions or None,
+        default=available_versions[0] if available_versions else None,
         help="Target game version",
+    )
+    parser.add_argument(
+        "--analyze",
+        metavar="VERSION",
+        help="(Re)generate config/VERSION/{symbols,splits}.txt from orig/VERSION/ "
+        "(.exe required; .map/.pdb optional) and exit. Creates config/VERSION/"
+        "config.yml if the version is new. Existing files are kept as *.bak.",
+    )
+    parser.add_argument(
+        "--template",
+        metavar="VERSION",
+        help="With --analyze on a new version: clone config.yml from this existing "
+        "version instead of using the built-in generic template.",
     )
     parser.add_argument(
         "--build-dir",
@@ -855,83 +885,82 @@ def main():
     )
     args = parser.parse_args()
 
+    if args.analyze:
+        sys.path.insert(0, str(Path(__file__).parent / "scripts"))
+        from analyze import analyze_version
+
+        analyze_version(args.analyze, config_root, Path("orig"), Path("src"), template=args.template)
+        return
+
+    if not args.version:
+        sys.exit("[-] No versions found under config/. Put the binary in orig/<NAME>/ and run: python configure.py --analyze <NAME>")
     cfg = load_config(config_root, args.version)
 
     tools_dir = args.build_dir / "tools"
     delink_exe = bootstrap_delink(cfg["delink"], tools_dir)
 
-    # 1. Split PE targets
-    run_delink(delink_exe, args.version, cfg["target"], args.build_dir)
+    # 1. symbols.txt + splits.txt -> JSON -> ida-split
+    run_convert_and_split(delink_exe, args.version, cfg["target"], args.build_dir)
 
-    # 2. Resolve obj -> source path mappings from config.yml
-    mapping = resolve_path_mapping(cfg.get("paths", {}))
+    # 2. TUs come straight from idapro.json (splits.txt's file keys)
+    idapro_json = args.build_dir / args.version / "idapro.json"
+    tus = list_translation_units(idapro_json)
 
-    if mapping:
-        # 3. Structure object placement
-        restructure_delinked_objects(args.version, mapping, args.build_dir)
+    if not tus:
+        print("[-] No TUs found (idapro.json missing/empty) -- nothing to configure.")
+        return
 
-        # 4. Bootstrap/resolve the compiler toolchain. On a clean clone
-        # this downloads a portable MSVC8 (+ wibo, on non-Windows) into
-        # build/tools/ the first time this runs; no Visual Studio install
-        # required on any OS.
-        compiler_cfg = cfg["compiler"]
-        toolchain_root, wibo_path, extra_includes = get_compiler_environment(
-            compiler_cfg, tools_dir
-        )
+    # 3. Toolchain. On a clean clone this downloads a portable MSVC8 (+ wibo
+    # on non-Windows) into build/tools/; no Visual Studio install needed.
+    compiler_cfg = cfg["compiler"]
+    toolchain_root, wibo_path, extra_includes = get_compiler_environment(
+        compiler_cfg, tools_dir
+    )
 
-        # 4b. Resolve link config + per-TU matching status, if present.
-        # Relinking is optional: forks/configs without a `link:` block (or
-        # with `link.enabled: false`, e.g. while relinking is known-broken
-        # upstream) just get compile-only ninja files, same as before this
-        # feature existed.
-        link_cfg = cfg.get("link")
-        if link_cfg is not None and not link_cfg.get("enabled", True):
-            print(
-                "[*] Relinking disabled (link.enabled: false in config.yml) "
-                "-- generating compile-only ninja/objdiff configs."
-            )
-            link_cfg = None
-        matching_status = None
-        link_lib_dirs = None
-        if link_cfg is not None:
-            check_inlined_functions_manifest(args.version, args.build_dir)
-            matching_status = resolve_matching_status(mapping, link_cfg)
-            link_lib_dirs = resolve_link_lib_dirs(link_cfg, toolchain_root)
-            verify_link_libs(link_cfg, link_lib_dirs)
-
-            n_matching = sum(matching_status.values())
-            n_total = len(matching_status)
-            print(
-                f"[*] Matching status: {n_matching}/{n_total} TUs marked matching "
-                f"(rest linked from original delinked objs)."
-            )
-
-        # 5. Build build scripts and layouts
-        generate_ninja_build(
-            args.version,
-            mapping,
-            args.build_dir,
-            compiler_cfg,
-            toolchain_root,
-            wibo_path,
-            extra_includes,
-            link_cfg=link_cfg,
-            matching_status=matching_status,
-            link_lib_dirs=link_lib_dirs,
-        )
-        generate_objdiff_config(
-            args.version,
-            mapping,
-            args.build_dir,
-            compiler_cfg,
-            toolchain_root,
-            cfg.get("objdiff", {}),
-            extra_includes,
-        )
-    else:
+    # 3b. Optional relink config + per-TU matching status.
+    link_cfg = cfg.get("link")
+    if link_cfg is not None and not link_cfg.get("enabled", True):
         print(
-            "[-] Build configurations omitted because path configuration maps were empty."
+            "[*] Relinking disabled (link.enabled: false in config.yml) "
+            "-- generating compile-only ninja/objdiff configs."
         )
+        link_cfg = None
+    matching_status = None
+    link_lib_dirs = None
+    if link_cfg is not None:
+        matching_status = resolve_matching_status(tus, link_cfg)
+        link_lib_dirs = resolve_link_lib_dirs(link_cfg, toolchain_root)
+        verify_link_libs(link_cfg, link_lib_dirs)
+        n_matching = sum(matching_status.values())
+        print(
+            f"[*] Matching status: {n_matching}/{len(matching_status)} TUs marked "
+            f"matching (rest linked from original delinked objs)."
+        )
+
+    # 4. Build scripts
+    generate_ninja_build(
+        args.version,
+        tus,
+        args.build_dir,
+        compiler_cfg,
+        toolchain_root,
+        wibo_path,
+        extra_includes,
+        delink_exe,
+        cfg["target"],
+        link_cfg=link_cfg,
+        matching_status=matching_status,
+        link_lib_dirs=link_lib_dirs,
+    )
+    generate_objdiff_config(
+        args.version,
+        tus,
+        args.build_dir,
+        compiler_cfg,
+        toolchain_root,
+        cfg.get("objdiff", {}),
+        extra_includes,
+    )
 
 
 if __name__ == "__main__":
