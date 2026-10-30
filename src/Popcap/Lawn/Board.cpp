@@ -37,13 +37,21 @@ bool Board::IsFlagWave(int theWaveNumber)
         return false;
     }
 
-    int waves;
-    if (!mApp->IsFirstTimeAdventureMode() || (waves = mNumWaves, waves > 10))
+    bool aFirstAdv = mApp->IsFirstTimeAdventureMode();
+    int aNumWaves1;
+    int aNumWaves2;
+
+    if (aFirstAdv)
     {
-        waves = 10;
-        // mNumWaves = waves;
+        // what the fuck why is this needed to match
+        aNumWaves1 = mNumWaves;
+        aNumWaves2 = mNumWaves;
     }
-    return theWaveNumber % waves == waves + -1;
+
+    if (!aFirstAdv || aNumWaves1 >= 10)
+        aNumWaves2 = 10;
+
+    return theWaveNumber % aNumWaves2 == aNumWaves2 - 1;
 }
 
 int Board::GetLevelRandSeed()
@@ -79,29 +87,24 @@ bool Board::IsPlantInCursor()
 
 SeedType Board::GetSeedTypeInCursor()
 {
-    SeedType result;             // eax
-    CursorObject *mCursorObject; // esi
-    CursorType mCursorType;      // eax
-
     if (mCursorObject->mCursorType == CURSOR_TYPE_WHEEELBARROW &&
         mApp->mZenGarden->GetPottedPlantInWheelbarrow())
     {
         return mApp->mZenGarden->GetPottedPlantInWheelbarrow()->mSeedType;
     }
-    mCursorObject = mCursorObject;
-    mCursorType   = mCursorObject->mCursorType;
-    if (mCursorType != CURSOR_TYPE_PLANT_FROM_BANK &&
-        mCursorType != CURSOR_TYPE_PLANT_FROM_USABLE_COIN &&
-        mCursorType != CURSOR_TYPE_PLANT_FROM_GLOVE &&
-        mCursorType != CURSOR_TYPE_PLANT_FROM_DUPLICATOR &&
-        mCursorType != CURSOR_TYPE_PLANT_FROM_WHEEL_BARROW)
+
+    if (mCursorObject->mCursorType != CURSOR_TYPE_PLANT_FROM_BANK &&
+        mCursorObject->mCursorType != CURSOR_TYPE_PLANT_FROM_USABLE_COIN &&
+        mCursorObject->mCursorType != CURSOR_TYPE_PLANT_FROM_GLOVE &&
+        mCursorObject->mCursorType != CURSOR_TYPE_PLANT_FROM_DUPLICATOR &&
+        mCursorObject->mCursorType != CURSOR_TYPE_PLANT_FROM_WHEEL_BARROW)
     {
         return SEED_NONE;
     }
-    result = mCursorObject->mType;
-    if (result == SEED_IMITATER)
+
+    if (mCursorObject->mType == SEED_IMITATER)
         return mCursorObject->mImitaterType;
-    return result;
+    return mCursorObject->mType;
 }
 
 bool Board::IsPoolSquare(int theGridX, int theGridY)
@@ -142,31 +145,44 @@ bool Board::CanAddBobSled()
 
 bool Board::CanInteractWithBoardButtons()
 {
-    CursorType mCursorType; // eax
-    bool result;            // al
+    bool result;
 
-    if (!mPaused && mApp->GetDialogCount() <= 0 &&
-        (mCursorType = mCursorObject->mCursorType, mCursorType != CURSOR_TYPE_PLANT_FROM_BANK) &&
-        mCursorType != CURSOR_TYPE_PLANT_FROM_USABLE_COIN &&
-        mCursorType != CURSOR_TYPE_PLANT_FROM_GLOVE &&
-        mCursorType != CURSOR_TYPE_PLANT_FROM_DUPLICATOR &&
-        mCursorType != CURSOR_TYPE_PLANT_FROM_WHEEL_BARROW && mCursorType != CURSOR_TYPE_SHOVEL &&
-        mCursorType != CURSOR_TYPE_WATERING_CAN && mCursorType != CURSOR_TYPE_FERTILIZER &&
-        mCursorType != CURSOR_TYPE_BUG_SPRAY && mCursorType != CURSOR_TYPE_PHONOGRAPH &&
-        mCursorType != CURSOR_TYPE_CHOCOLATE && mCursorType != CURSOR_TYPE_GLOVE &&
-        mCursorType != CURSOR_TYPE_MONEY_SIGN && mCursorType != CURSOR_TYPE_WHEEELBARROW &&
-        mCursorType != CURSOR_TYPE_TREE_FOOD && mBoardFadeOutCounter < 0 &&
-        mChallenge->mChallengeState != STATECHALLENGE_ZEN_FADING &&
-        mApp->mCrazyDaveState == CRAZY_DAVE_OFF)
+    if (!mPaused && mApp->GetDialogCount() <= 0)
     {
-        return true;
+        if (mCursorObject->mCursorType != CURSOR_TYPE_PLANT_FROM_BANK &&
+            mCursorObject->mCursorType != CURSOR_TYPE_PLANT_FROM_USABLE_COIN &&
+            mCursorObject->mCursorType != CURSOR_TYPE_PLANT_FROM_GLOVE &&
+            mCursorObject->mCursorType != CURSOR_TYPE_PLANT_FROM_DUPLICATOR &&
+            mCursorObject->mCursorType != CURSOR_TYPE_PLANT_FROM_WHEEL_BARROW &&
+            mCursorObject->mCursorType != CURSOR_TYPE_SHOVEL &&
+            mCursorObject->mCursorType != CURSOR_TYPE_WATERING_CAN &&
+            mCursorObject->mCursorType != CURSOR_TYPE_FERTILIZER &&
+            mCursorObject->mCursorType != CURSOR_TYPE_BUG_SPRAY &&
+            mCursorObject->mCursorType != CURSOR_TYPE_PHONOGRAPH &&
+            mCursorObject->mCursorType != CURSOR_TYPE_CHOCOLATE &&
+            mCursorObject->mCursorType != CURSOR_TYPE_GLOVE &&
+            mCursorObject->mCursorType != CURSOR_TYPE_MONEY_SIGN &&
+            mCursorObject->mCursorType != CURSOR_TYPE_WHEEELBARROW &&
+            mCursorObject->mCursorType != CURSOR_TYPE_TREE_FOOD && mBoardFadeOutCounter < 0 &&
+            mChallenge->mChallengeState != STATECHALLENGE_ZEN_FADING &&
+            mApp->mCrazyDaveState == CRAZY_DAVE_OFF)
+        {
+            return true;
+        }
+        else
+        {
+            return false;
+        }
     }
-    return false;
+    else
+    {
+        return false;
+    }
 }
 
 void Board::MouseMove(int x, int y)
 {
-    MouseDrag(x, y);
+    Sexy::Widget::MouseUp(x, y);
     mChallenge->MouseMove(x, y);
 }
 
@@ -498,35 +514,29 @@ bool Board::StageHasFog()
 
 int Board::GetSeedPacketPositionX(int theIndex)
 {
-    int mNumPackets; // edi
-
-    // TODO: Implement SeedBank
-    // mNumPackets = mSeedBank->mNumPackets;
     if (mApp->IsSlotMachineLevel())
-        return 59 * theIndex + 247;
-    if (Board::HasConveyorBeltSeedBank())
-        return 50 * theIndex + 91;
-    if (mNumPackets < 8)
-        return 59 * theIndex + 85;
-    if (mNumPackets == 8)
-        return 54 * theIndex + 81;
-    if (mNumPackets == 9)
-        return 52 * theIndex + 80;
-    return 51 * theIndex + 79;
+        return theIndex * 59 + 247;
+    else if (Board::HasConveyorBeltSeedBank())
+        return theIndex * 50 + 91;
+    else if (mSeedBank->mNumPackets <= 7)
+        return theIndex * 59 + 85;
+    else if (mSeedBank->mNumPackets == 8)
+        return theIndex * 54 + 81;
+    else if (mSeedBank->mNumPackets == 9)
+        return theIndex * 52 + 80;
+    else
+        return theIndex * 51 + 79;
 }
 
 int Board::GetSeedBankExtraWidth()
 {
-    int mNumPackets; // eax
-
-    // mNumPackets = mSeedBank->mNumPackets;
-    if (mNumPackets <= 6)
+    if (mSeedBank->mNumPackets <= 6)
         return 0;
-    if (mNumPackets == 7)
+    if (mSeedBank->mNumPackets == 7)
         return 60;
-    if (mNumPackets == 8)
+    if (mSeedBank->mNumPackets == 8)
         return 76;
-    return mNumPackets != 9 ? 153 : 112;
+    return mSeedBank->mNumPackets != 9 ? 153 : 112;
 }
 
 int Board::PixelToGridX(int theX, int theY)
@@ -719,11 +729,13 @@ bool Board::PlantUsesAcceleratedPricing(SeedType theSeedType)
 
 void Board::InitZombieWavesForLevel(int aForLevel)
 {
-    if (mApp->IsWhackAZombieLevel()) {
+    if (mApp->IsWhackAZombieLevel())
+    {
         mChallenge->InitZombieWaves();
         return;
     }
-    if (mApp->IsWallnutBowlingLevel() && !mApp->IsFirstTimeAdventureMode()) {
+    if (mApp->IsWallnutBowlingLevel() && !mApp->IsFirstTimeAdventureMode())
+    {
         mChallenge->InitZombieWaves();
         return;
     }
