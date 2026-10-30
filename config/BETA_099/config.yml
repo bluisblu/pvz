@@ -44,7 +44,7 @@ compiler:
       subpath: "Include"
 
   include_dirs:
-    - "src/SexyAppFramework"
+    - "src/lib/SexyAppFramework"
     - "src/Popcap/Lawn"
     - "src"
 
