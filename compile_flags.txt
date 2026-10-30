@@ -1,0 +1,4 @@
+-xc++
+-Isrc
+-Isrc/Popcap
+-Isrc/Popcap/Lawn

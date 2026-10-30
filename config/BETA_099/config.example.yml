@@ -11,7 +11,6 @@ delink:
   version: "v0.15.0"
   asset_name: "delink-{os}-{arch}{ext}" # {os}/{arch}/{ext} filled in by configure.py
 
-
 # --- Split target --------------------------------------------------------
 # symbols.txt:  `name = section:0xADDR; // type:function|object size:0xSIZE`
 # splits.txt:   `Sections:` block, then per-source-file `section start:0x.. end:0x..`
